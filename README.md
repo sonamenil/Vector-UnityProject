@@ -4,6 +4,8 @@ The code is a combination of Ghidra decompilation and Vector 2's code, though th
 
 The project uses Unity version 6000.3.11f1.
 
+Resources are located on Vector_Data/StreamingAssets
+
 ## Features
 
 - Unhardcoded locations
@@ -16,7 +18,7 @@ The project uses Unity version 6000.3.11f1.
 ## Disclaimer
 
 I do not own ANY of the games code, all credit goes to Nekki for making this incredible game.
-This should not be redistributed comercially. I do not own any of the assets so i or anyone else has the right to sell them.
+This should not be redistributed comercially. I do not own any of the assets so neither I nor anyone else has the right to sell them.
 
 ## Vectorier
 
