@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5943487200613258568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3478319579657667483}
+  - component: {fileID: 2174404015452853878}
+  m_Layer: 0
+  m_Name: TriggerCS02PlayerPart2WithTruck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3478319579657667483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5943487200613258568}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5102362168037701202}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2174404015452853878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5943487200613258568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6daffe43340949ff5a3e4fe7ef5ef127, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Root::Xml2Prefab.Xml2PrefabObjectRunnerContainer
+  _name: TriggerCS02PlayerPart2WithTruck
+  _factor: 0
+  _index: 1
+  _local: 
+  _external: 
+  _runners:
+  - {fileID: 7254461323460321510}
+  _choice:
+    Name: 
+    Variant: 
+--- !u!1 &6978112726888562647
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5102362168037701202}
+  - component: {fileID: 7254461323460321510}
+  - component: {fileID: 8215515610129388063}
+  m_Layer: 0
+  m_Name: '[TriggerRunner]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5102362168037701202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6978112726888562647}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.0002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3478319579657667483}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7254461323460321510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6978112726888562647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7683cad0d947b87d5c7c19028b17284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Root::Xml2Prefab.Xml2PrefabTriggerContainer
+  _w: 200
+  _h: 210
+  _Node: <Trigger Name="TriggerCS02PlayerPart2WithTruck" X="0" Y="0" Width="200"
+    Height="210"><Content><Init><SetVariable Name="$Active" Value="1" /><SetVariable
+    Name="$AI" Value="0" /><SetVariable Name="$Node" Value="DetectorH" /><SetVariable
+    Name="AnimName" Value="CS02DownTownPlayerPart2WithTruck" /><SetVariable Name="AnimFrame"
+    Value="4" /><SetVariable Name="Reversed" Value="0" /><SetVariable Name="Flag1"
+    Value="0" /></Init><Template Name="ForcedAnimation" /></Content></Trigger>
+  _choice:
+    Name: 
+    Variant: 
+  DisabledByVariant: 0
+--- !u!114 &8215515610129388063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6978112726888562647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 465eb8f7f7a436265ad7a50cb2a7a83f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Root::Xml2Prefab.TriggerController
+  Container: {fileID: 7254461323460321510}
