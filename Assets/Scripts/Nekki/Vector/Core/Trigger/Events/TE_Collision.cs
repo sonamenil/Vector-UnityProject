@@ -1,0 +1,10 @@
+namespace Nekki.Vector.Core.Trigger.Events
+{
+	public class TE_Collision : TriggerEvent
+	{
+        public TE_Collision()
+        {
+            _Type = EventType.TET_COLISION;
+        }
+    }
+}
