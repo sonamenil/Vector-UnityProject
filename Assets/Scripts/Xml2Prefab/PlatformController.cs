@@ -44,11 +44,5 @@ namespace Xml2Prefab
             spriteRender.color = new Color(0, 0, 1, a);
         }
 
-        private void Update()
-		{
-            Container.ChangeHW(transform.localScale.y, transform.localScale.x);
-        }
-
-
 	}
 }

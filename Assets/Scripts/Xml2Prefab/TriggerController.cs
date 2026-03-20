@@ -61,11 +61,6 @@ namespace Xml2Prefab
             spriteRender.color = color;
         }
 
-        private void Update()
-		{
-            Container.ChangeHW(transform.localScale.y, transform.localScale.x);
-        }
-
         private void OnBecameVisible()
         {
             if (LevelMainController.current != null && LevelMainController.current.Location != null && !_IsVisible)

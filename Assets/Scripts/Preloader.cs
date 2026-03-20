@@ -82,8 +82,8 @@ public class Preloader : MonoBehaviour
             }
         }
         //Game.Instance.SnailSett.HunterMode = false;
-        //Game.Instance.Snail = true;
-        //Game.Instance.SnailSett.SnailLevel = "TEST";
+        // Game.Instance.Snail = true;
+        // Game.Instance.SnailSett.SnailLevel = "DOWNTOWN_STORY_01";
         //Game.Instance.SnailSett.ShowPlatforms = true;
         //Game.Instance.SnailSett.ShowAreas = true;
         //Game.Instance.SnailSett.ShowTriggers = true;

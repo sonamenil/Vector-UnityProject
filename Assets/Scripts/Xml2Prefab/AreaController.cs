@@ -42,10 +42,5 @@ namespace Xml2Prefab
             var a = (!Application.isPlaying || Game.Instance == null || Game.Instance.SnailSett.ShowAreas) ? 0.2f : 0f;
             spriteRender.color = new Color(1, 1, 0, a);
         }
-
-        private void Update()
-        {
-            Container.ChangeHW(transform.localScale.y, transform.localScale.x);
-        }
     }
 }
