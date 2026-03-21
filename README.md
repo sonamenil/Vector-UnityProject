@@ -15,11 +15,26 @@ Resources are located on Vector_Data/StreamingAssets
 - Controller support
 - And more
 
-## Disclaimer
+## Snail Runner
 
-I do not own ANY of the games code, all credit goes to Nekki for making this incredible game.
-This should not be redistributed comercially. I do not own any of the assets so neither I nor anyone else has the right to sell them.
+Launch the game with the command "-level LEVEL NAME" to go into Snail Runner. This will launch the game directly into the level with debug mode.
+In debug mode you can see FPS an the current player animation along with its frame. The level will also restart when you beat it.
+
+Other Snail Runner commands are:
+- "-noui": Disables debug UI.
+- "-huntermode": Plays the level in Hunter Mode instead of Classic Mode.
+- "-showtriggers": Makes triggers visible.
+- "-showplatforms": Makes platforms visible.
+- "-showareas": Makes areas visible.
+- "-showdetectors": Makes detectors in all human models visible.
+
+The level's XML file should be in xmlroot/levels in the resources directory for Snail Runner to launch it.
 
 ## Vectorier
 
 Please check out Vectorier editor for making custom levels for this and the original pc version.
+
+## Disclaimer
+
+I do not own ANY of the games code, all credit goes to Nekki for making this incredible game.
+This should not be redistributed comercially. I do not own any of the assets so neither I nor anyone else has the right to sell them.
