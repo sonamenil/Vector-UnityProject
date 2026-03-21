@@ -95,19 +95,21 @@ namespace Nekki.Vector.Core.Controllers
 		{
             if (isPhysics || line.Start.IsPhysics || line.End.IsPhysics)
 			{
-				IterativeNode(line, line.Start, isPhysics);
-				IterativeNode(line, line.End, isPhysics);
+                Vector3d p_vector = line.Iterative(line.Start.Start);
+                Vector3d p_vector2 = line.Iterative(line.End.Start);
+                IterativeNode(p_vector, line.Start, isPhysics);
+				IterativeNode(p_vector2, line.End, isPhysics);
 			}
 
         }
 
-		public void IterativeNode(ModelLine line, ModelNode node, bool isPhysics)
+		public void IterativeNode(Vector3d vector, ModelNode node, bool isPhysics)
 		{
             if (!node.IsType || node.IsFixed || (!isPhysics && !node.IsPhysics))
             {
 				return;
             }
-            node.PositionStart(line.Iterative(node.Start));
+            node.PositionStart(vector);
         }
 
 		public void NodeReset()
