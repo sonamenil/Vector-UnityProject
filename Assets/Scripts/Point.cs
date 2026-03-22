@@ -12,35 +12,17 @@ public class Point
 
     public float X
     {
-        get
-        {
-            return _X;
-        }
-        set
-        {
-            _X = value;
-        }
+        get => _X;
+        set => _X = value;
     }
 
     public float Y
     {
-        get
-        {
-            return _Y;
-        }
-        set
-        {
-            _Y = value;
-        }
+        get => _Y;
+        set => _Y = value;
     }
 
-    public string RangeString
-    {
-        get
-        {
-            return string.Format("[{0} {1}]", _X, _Y);
-        }
-    }
+    public string RangeString => string.Format("[{0} {1}]", _X, _Y);
 
     public Point(Point p_point)
     {

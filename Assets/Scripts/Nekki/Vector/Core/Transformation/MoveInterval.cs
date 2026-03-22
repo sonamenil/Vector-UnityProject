@@ -1,26 +1,25 @@
-using Nekki.Vector.Core.Location;
 using System;
 using System.Collections.Generic;
 using System.Xml;
-using UnityEngine;
+using Nekki.Vector.Core.Location;
 
 namespace Nekki.Vector.Core.Transformation
 {
     public class MoveInterval
     {
-        private int _Number = 0;
+        private int _Number;
 
-        private int _Frames = 0;
+        private int _Frames;
 
-        private float _Delay = 0;
+        private float _Delay;
 
-        private float _CurrentDelay = 0;
+        private float _CurrentDelay;
 
         private float _CurrentDelayFake;
 
         private List<Point> _Points = new List<Point>();
 
-        private int _CurrentFrame = 0;
+        private int _CurrentFrame;
 
         private int _CurrentFrameFake;
 
@@ -108,17 +107,17 @@ namespace Nekki.Vector.Core.Transformation
                 int num6 = 0;
                 for (num5 = 0; num5 < list.Count; num5++)
                 {
-                    var n = Math.Pow((double)(1 - num), (double)(list.Count + num6));
-                    var n1 = Math.Pow((double)num, (double)num5 + 1);
+                    var n = Math.Pow(1 - num, list.Count + num6);
+                    var n1 = Math.Pow(num, (double)num5 + 1);
                     var p = list[num5];
-                    n1 = n * (double)(list.Count + 1) * n1;
-                    num3 = num3 + n1 * (double)p.X;
-                    num4 = num4 + n1 * (double)p.Y;
+                    n1 = n * (list.Count + 1) * n1;
+                    num3 = num3 + n1 * p.X;
+                    num4 = num4 + n1 * p.Y;
                     num6--;
                 }
-                var n2 = Math.Pow((double)num, (double)(num5 + 1));
-                num3 = num3 + n2 * (double)point1.X;
-                num4 = num4 + n2 * (double)point1.Y;
+                var n2 = Math.Pow(num, num5 + 1);
+                num3 = num3 + n2 * point1.X;
+                num4 = num4 + n2 * point1.Y;
                 var p1 = new Point((float)num3, (float)num4);
                 _Points.Add(p1);
                 num = num + 1 / (float)_Frames;
@@ -185,9 +184,9 @@ namespace Nekki.Vector.Core.Transformation
         public static MoveInterval Create(XmlNode node)
         {
             var moveInterval = new MoveInterval();
-            moveInterval._Number = XmlUtils.ParseInt(node.Attributes["Number"]);
-            moveInterval._Frames = XmlUtils.ParseInt(node.Attributes["FramesToMove"]);
-            var delay = XmlUtils.ParseFloat(node.Attributes["Delay"]);
+            moveInterval._Number = node.Attributes["Number"].ParseInt();
+            moveInterval._Frames = node.Attributes["FramesToMove"].ParseInt();
+            var delay = node.Attributes["Delay"].ParseFloat();
             moveInterval._Delay = delay;
             moveInterval._CurrentDelay = delay;
             foreach (XmlNode node2 in node.ChildNodes)

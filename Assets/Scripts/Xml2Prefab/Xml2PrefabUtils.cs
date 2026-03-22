@@ -45,7 +45,7 @@ namespace Xml2Prefab
             userData.IsLost = XmlUtils.ParseBool(node.Attributes["Lose"]);
             userData.AI = int.Parse(node.Attributes["AI"].Value);
             userData.StartTime = XmlUtils.ParseFloat(node.Attributes["Time"]);
-            userData.LiveTime = XmlUtils.ParseFloat(node.Attributes["LifeTime"]);
+            userData.LiveTime = XmlUtils.ParseFloat(node.Attributes["LifeTime"], 2);
             if (userData.Skins.Count == 0)
             {
                 userData.Skins.Add("1");
