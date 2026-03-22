@@ -1,6 +1,6 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using DG.Tweening.Core;
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -60,20 +60,11 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
     [SerializeField]
     private bool _disabled;
 
-    public ScrollSnapItem CurrentItem
-    {
-        get
-        {
-            return _content.GetChild(_currentIndex).GetComponent<ScrollSnapItem>();
-        }
-    }
+    public ScrollSnapItem CurrentItem => _content.GetChild(_currentIndex).GetComponent<ScrollSnapItem>();
 
     public int CurrentIndex
     {
-        get
-        {
-            return _currentIndex;
-        }
+        get => _currentIndex;
         set
         {
             CurrentItem.Deselect();
@@ -132,7 +123,7 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
     {
         if (_mainTweener != null)
         {
-            TweenExtensions.Kill(_mainTweener);
+            _mainTweener.Kill();
         }
     }
 
@@ -148,7 +139,7 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
 
     private float GetCenterPos()
     {
-        return (_contentDeltaWidth * _scrollRect.horizontalNormalizedPosition + _scrollWidth * 0.5f) - _contentWidth * 0.5f;
+        return _contentDeltaWidth * _scrollRect.horizontalNormalizedPosition + _scrollWidth * 0.5f - _contentWidth * 0.5f;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -173,7 +164,7 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
         }
         else
         {
-            Snap((int)Mathf.Clamp(index, StartIndex, EndIndex), _duration, false);
+            Snap(Mathf.Clamp(index, StartIndex, EndIndex), _duration, false);
         }
     }
 
@@ -236,7 +227,7 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
     private void Snap(int index, float duration, bool instant)
     {
 
-        float val = (((index + 0.5f) * (_contentWidth + _spacing) - _scrollWidth * 0.5f) - _spacing * 0.5f) / _contentDeltaWidth;
+        float val = ((index + 0.5f) * (_contentWidth + _spacing) - _scrollWidth * 0.5f - _spacing * 0.5f) / _contentDeltaWidth;
 
         if (instant)
         {

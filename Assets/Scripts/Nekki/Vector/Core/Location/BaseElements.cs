@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using Nekki.Vector.Core.Location.Animation;
 using Nekki.Vector.Core.Location.LevelCreation;
 using UnityEngine;
@@ -89,17 +88,17 @@ namespace Nekki.Vector.Core.Location
         public void InitSerializedData()
         {
             _models.Clear();
-            _models.AddRange(_Visuals.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabVisualRunnerContainer>(); }));
-            _models.AddRange(_Platforms.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabPlatformContainer>(); }));
-            _models.AddRange(_Triggers.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabTriggerContainer>(); }));
-            _models.AddRange(_Areas.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabAreaContainer>(); }));
-            _models.AddRange(_Animations.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabAnimationContainer>(); }));
-            _models.AddRange(_Particles.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabParticleContainer>(); }));
-            _models.AddRange(_Trapezoids.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabTrapezoidContainer>(); }));
-            _models.AddRange(_Items.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabItemContainer>(); }));
-            _models.AddRange(_Cameras.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabCameraContainer>(); }));
-            _models.AddRange(_Spawns.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabSpawnContainer>(); }));
-            _models.AddRange(_Primitives.Select((runner) => { return runner.ComponentHolder.GetComponent<Xml2PrefabPrimitiveContainer>(); }));
+            _models.AddRange(_Visuals.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabVisualRunnerContainer>(); }));
+            _models.AddRange(_Platforms.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabPlatformContainer>(); }));
+            _models.AddRange(_Triggers.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabTriggerContainer>(); }));
+            _models.AddRange(_Areas.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabAreaContainer>(); }));
+            _models.AddRange(_Animations.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabAnimationContainer>(); }));
+            _models.AddRange(_Particles.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabParticleContainer>(); }));
+            _models.AddRange(_Trapezoids.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabTrapezoidContainer>(); }));
+            _models.AddRange(_Items.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabItemContainer>(); }));
+            _models.AddRange(_Cameras.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabCameraContainer>(); }));
+            _models.AddRange(_Spawns.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabSpawnContainer>(); }));
+            _models.AddRange(_Primitives.Select(runner => { return runner.ComponentHolder.GetComponent<Xml2PrefabPrimitiveContainer>(); }));
         }
 
         public void CopyFrom(BaseElements element)

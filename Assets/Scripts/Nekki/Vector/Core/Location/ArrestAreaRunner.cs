@@ -1,13 +1,13 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Camera;
 using Nekki.Vector.Core.Models;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Location
 {
     public class ArrestAreaRunner : AreaRunner
     {
-        private bool _IsArrest = false;
+        private bool _IsArrest;
 
         private ModelHuman _ActiveModel;
 

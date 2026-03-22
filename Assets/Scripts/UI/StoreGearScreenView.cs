@@ -1,6 +1,6 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace UI
 {
@@ -24,7 +24,7 @@ namespace UI
 		{
             BuyCoinsButton.gameObject.SetActive(false);
             _storeGearScreen = screen;
-			BackToLobbyButton.onClick.AddListener(new UnityEngine.Events.UnityAction(screen.BackToLobbyButton.PressedAction));
+			BackToLobbyButton.onClick.AddListener(new UnityAction(screen.BackToLobbyButton.PressedAction));
             BuyButton.onClick.AddListener(() =>
             {
                 var items = StoreManager.Instance.GetItems(StoreItemType.Gear);
@@ -35,7 +35,7 @@ namespace UI
                 }
             });
             
-            ScrollSnap.SnapEvent += (i) =>
+            ScrollSnap.SnapEvent += i =>
             {
 	            EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(i).GetComponent<HolderItem>().Button.gameObject);
             };
@@ -47,7 +47,7 @@ namespace UI
             {
                 for (int i = count; i > 0; i--)
                 {
-                    Object.Instantiate(Resources.Load<ScrollSnapItem>("HolderItemDummy"), ContentParent.transform);
+                    Instantiate(Resources.Load<ScrollSnapItem>("HolderItemDummy"), ContentParent.transform);
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace UI
             InsertDummies(10);
             ScrollSnap.StartIndex = 10;
             ScrollSnap.EndIndex = items.Count + 9;
-            StoreTricksScreenView.PutItemsIntoContent(ScrollSnap, items, StoreItemType.Gear, true, false);
+            StoreTricksScreenView.PutItemsIntoContent(ScrollSnap, items, StoreItemType.Gear, true);
             InsertDummies(10);
         }
 

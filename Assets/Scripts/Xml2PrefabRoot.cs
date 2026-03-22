@@ -1,14 +1,12 @@
-using Core._Common;
-using Nekki.Vector.Core.Location;
-using Nekki.Vector.Core.Location.LevelCreation;
-using Nekki.Vector.Core.Utilites;
-using Nekki.Vector.Core.Visual;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using Core._Common;
+using Nekki.Vector.Core.Location;
+using Nekki.Vector.Core.Location.LevelCreation;
+using Nekki.Vector.Core.Visual;
 using UnityEditor;
 using UnityEngine;
 using Xml2Prefab;
@@ -64,7 +62,7 @@ public class Xml2PrefabRoot
 
     private void Objects(string[] allFiles)
     {
-        allFiles = allFiles.Select(p => Path.GetFileName(p)).Where((s) => s.Contains("objects") && !s.Contains(".meta") && !_excludeFromBuildFiles.Contains(s)).ToArray();
+        allFiles = allFiles.Select(p => Path.GetFileName(p)).Where(s => s.Contains("objects") && !s.Contains(".meta") && !_excludeFromBuildFiles.Contains(s)).ToArray();
         foreach (string file in allFiles)
         {
             var document = XmlUtils.OpenXMLDocument(VectorPaths.XmlRoot, file);
@@ -74,7 +72,7 @@ public class Xml2PrefabRoot
 
     private void Buildings(string[] allFiles)
     {
-        allFiles = allFiles.Select(p => Path.GetFileName(p)).Where((s) => s.Contains("buildings") && !s.Contains(".meta") && !_excludeFromBuildFiles.Contains(s)).ToArray();
+        allFiles = allFiles.Select(p => Path.GetFileName(p)).Where(s => s.Contains("buildings") && !s.Contains(".meta") && !_excludeFromBuildFiles.Contains(s)).ToArray();
         foreach (string file in allFiles)
         {
             var document = XmlUtils.OpenXMLDocument(VectorPaths.XmlRoot, file);
@@ -88,7 +86,7 @@ public class Xml2PrefabRoot
         {
             Directory.CreateDirectory("Assets/Resources/" + VectorPaths.LevelsPrefab);
         }
-        var files = Directory.GetFiles("Assets/Resources/" + VectorPaths.XmlLevels).Select(p => Path.GetFileName(p)).Where((s) => !s.Contains("Trigger") && !s.Contains("buildings") && !s.Contains("objects") && !s.Contains(".meta") && !_excludeFromBuildFiles.Contains(s));
+        var files = Directory.GetFiles("Assets/Resources/" + VectorPaths.XmlLevels).Select(p => Path.GetFileName(p)).Where(s => !s.Contains("Trigger") && !s.Contains("buildings") && !s.Contains("objects") && !s.Contains(".meta") && !_excludeFromBuildFiles.Contains(s));
         foreach (var file in files)
         {
             var document = XmlUtils.OpenXMLDocument(VectorPaths.XmlLevels, file);
@@ -190,9 +188,9 @@ public class Xml2PrefabRoot
         }
         var sets = document["Root"]["Sets"].InnerXml;
         var models = ParseModels(document["Root"]);
-        var coins = XmlUtils.ParseInt(document["Root"]["Coins"].Attributes["Value"]);
+        var coins = document["Root"]["Coins"].Attributes["Value"].ParseInt();
         var music = document["Root"]["Music"].Attributes["Name"].Value;
-        List<ChoiceContainer> choiceContainers = choices.Select((x) => new ChoiceContainer(x.Value, x.Key)).ToList();
+        List<ChoiceContainer> choiceContainers = choices.Select(x => new ChoiceContainer(x.Value, x.Key)).ToList();
         levelobj.AddComponent<Xml2PrefabLevelContainer>().Init(sets, music, coins, "", choiceContainers, models, objectRunners, visualContainers);
 #if UNITY_EDITOR
         PrefabUtility.SaveAsPrefabAsset(levelobj, filepath);

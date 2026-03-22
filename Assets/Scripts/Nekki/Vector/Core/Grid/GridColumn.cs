@@ -12,8 +12,8 @@ namespace Nekki.Vector.Core.Grid
 		public void Add(QuadRunner p_quad)
 		{
 			Rectangle rectangle = p_quad.rectangle;
-			int num = ((rectangle.MinYInt < 0) ? (rectangle.MinYInt / Grid.CellHeight - 1) : (rectangle.MinYInt / Grid.CellHeight));
-			int num2 = ((rectangle.MaxYInt < 0) ? (rectangle.MaxYInt / Grid.CellHeight - 1) : (rectangle.MaxYInt / Grid.CellHeight));
+			int num = rectangle.MinYInt < 0 ? rectangle.MinYInt / Grid.CellHeight - 1 : rectangle.MinYInt / Grid.CellHeight;
+			int num2 = rectangle.MaxYInt < 0 ? rectangle.MaxYInt / Grid.CellHeight - 1 : rectangle.MaxYInt / Grid.CellHeight;
 			if (_Cells.Count == 0)
 			{
 				_StartYIndex = num;
@@ -46,8 +46,8 @@ namespace Nekki.Vector.Core.Grid
 		public void Remove(QuadRunner p_quad)
 		{
 			Rectangle rectangle = p_quad.rectangle;
-			int num = ((rectangle.MinYInt < 0) ? (rectangle.MinYInt / Grid.CellHeight - 1) : (rectangle.MinYInt / Grid.CellHeight));
-			int num2 = ((rectangle.MaxYInt < 0) ? (rectangle.MaxYInt / Grid.CellHeight - 1) : (rectangle.MaxYInt / Grid.CellHeight));
+			int num = rectangle.MinYInt < 0 ? rectangle.MinYInt / Grid.CellHeight - 1 : rectangle.MinYInt / Grid.CellHeight;
+			int num2 = rectangle.MaxYInt < 0 ? rectangle.MaxYInt / Grid.CellHeight - 1 : rectangle.MaxYInt / Grid.CellHeight;
 			int num3 = num - _StartYIndex;
 			int num4 = num2 - _StartYIndex;
 			int num5 = _Cells.Count - 1;
@@ -77,8 +77,8 @@ namespace Nekki.Vector.Core.Grid
 		{
 			if (_Cells.Count != 0)
 			{
-				int num = ((p_rect.MinYInt < 0) ? (p_rect.MinYInt / Grid.CellHeight - 1) : (p_rect.MinYInt / Grid.CellHeight));
-				int num2 = ((p_rect.MaxYInt < 0) ? (p_rect.MaxYInt / Grid.CellHeight - 1) : (p_rect.MaxYInt / Grid.CellHeight));
+				int num = p_rect.MinYInt < 0 ? p_rect.MinYInt / Grid.CellHeight - 1 : p_rect.MinYInt / Grid.CellHeight;
+				int num2 = p_rect.MaxYInt < 0 ? p_rect.MaxYInt / Grid.CellHeight - 1 : p_rect.MaxYInt / Grid.CellHeight;
 				int num3 = num - _StartYIndex;
 				int num4 = num2 - _StartYIndex;
 				int num5 = _Cells.Count - 1;

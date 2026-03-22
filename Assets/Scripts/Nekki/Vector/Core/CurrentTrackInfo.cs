@@ -10,14 +10,8 @@ namespace Nekki.Vector.Core
 
 		public string LocationFile
 		{
-			get
-			{
-				return _LocationFile;
-			}
-			set
-			{
-				_LocationFile = value;
-			}
+			get => _LocationFile;
+			set => _LocationFile = value;
 		}
 	}
 }

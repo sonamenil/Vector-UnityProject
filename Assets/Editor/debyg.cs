@@ -1,12 +1,7 @@
-﻿using Nekki.Vector.Core.Camera;
+﻿using System;
 using Nekki.Vector.Core.Location;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Xml2Prefab;
-using static PlasticPipe.Server.MonitorStats;
 
 public class debyg : MonoBehaviour
 {

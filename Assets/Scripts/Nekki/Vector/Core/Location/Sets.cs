@@ -1,12 +1,12 @@
-using Nekki.Vector.Core.Location.LevelCreation;
-using Nekki.Vector.Core.Visual;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
+using Core._Common;
+using Nekki.Vector.Core.Location.LevelCreation;
+using Nekki.Vector.Core.Visual;
 using UnityEngine;
 using Xml2Prefab;
-using System.Linq;
-using Core._Common;
 
 namespace Nekki.Vector.Core.Location
 {
@@ -125,7 +125,7 @@ namespace Nekki.Vector.Core.Location
         public void ParseLevel()
         {
             var root = _document["Root"];
-            TotalCoins = XmlUtils.ParseInt(root["Coins"].Attributes["Value"]);
+            TotalCoins = root["Coins"].Attributes["Value"].ParseInt();
             ParseModels(root);
             AddMusics(root["Music"]);
             CreateObjects();

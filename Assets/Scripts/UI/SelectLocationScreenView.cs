@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace UI
 {
@@ -27,33 +26,33 @@ namespace UI
         {
             BuyCoinsButton.gameObject.SetActive(false);
 
-            BackToChooseModeButton.onClick.AddListener(new UnityEngine.Events.UnityAction(screen.BackToChooseModeButton.PressedAction));
+            BackToChooseModeButton.onClick.AddListener(new UnityAction(screen.BackToChooseModeButton.PressedAction));
             ContinueButton.onClick.AddListener(() =>
             {
                 ScrollSnap._content.GetChild(ScrollSnap.CurrentIndex).GetComponent<LocationItem>().Button.onClick?.Invoke();
             });
-            SelectButton.onClick.AddListener(new UnityEngine.Events.UnityAction(screen.SelectButton.PressedAction));
-            BuyCoinsButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            SelectButton.onClick.AddListener(new UnityAction(screen.SelectButton.PressedAction));
+            BuyCoinsButton.onClick.AddListener(() =>
             {
                 Game.Instance.ScreenManager.Show<BuyCoinsScreen>(true, true);
                 SoundsManager.Instance.PlaySounds(SoundType.ui_click);
-            }));
-            LeftButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            });
+            LeftButton.onClick.AddListener(() =>
             {
                 if (ScrollSnap.StartIndex < ScrollSnap.CurrentIndex)
                 {
                     ScrollSnap.ScrollToLeft();
                 }
-            }));
-            RightButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            });
+            RightButton.onClick.AddListener(() =>
             {
                 if (ScrollSnap.CurrentIndex < ScrollSnap.EndIndex)
                 {
                     ScrollSnap.ScrollToRight();
                 }
-            }));
+            });
 
-            ScrollSnap.SnapEvent += (i) =>
+            ScrollSnap.SnapEvent += i =>
             {
                 EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(i).GetComponent<LocationItem>().Button.gameObject);
             };

@@ -1,7 +1,6 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Node;
 using Nekki.Vector.Core.Scripts.Geometry;
-using Nekki.Vector.Core.Scripts.Projection;
-using System.Collections.Generic;
 using UnityEngine;
 using Mesh = Nekki.Vector.Core.Scripts.Projection.Mesh;
 
@@ -29,59 +28,35 @@ namespace Nekki.Vector.Core.Models
 
 		public Color Color
 		{
-			get
-			{
-				return _Color;
-			}
-			set
-			{
-				_Color = value;
-			}
+			get => _Color;
+			set => _Color = value;
 		}
 
 		public string Name
 		{
-			get
-			{
-				return _Object.name;
-			}
-			set
-			{
-				_Object.name = value;
-			}
+			get => _Object.name;
+			set => _Object.name = value;
 		}
 
 		public GameObject Layer
 		{
-			get
-			{
-				return _Layer;
-			}
+			get => _Layer;
 			set
 			{
                 _Layer = value;
-                _Object.transform.SetParent((!(_Layer == null)) ? _Layer.transform : null, false);
+                _Object.transform.SetParent(!(_Layer == null) ? _Layer.transform : null, false);
             }
 		}
 
 		public bool DebugMode
 		{
-			get
-			{
-				return _debugMode;
-			}
-			set
-			{
-				_debugMode = value;
-			}
+			get => _debugMode;
+			set => _debugMode = value;
 		}
 
 		public bool IsEnabled
 		{
-			get
-			{
-				return _IsEnabled;
-			}
+			get => _IsEnabled;
 			set
 			{
 				_IsEnabled = value;

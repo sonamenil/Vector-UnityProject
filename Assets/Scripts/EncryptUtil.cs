@@ -6,10 +6,7 @@ public class EncryptUtil
 
 	public static bool EncryptUserData
 	{
-		get
-		{
-			return false;
-		}
+		get => false;
 		set
 		{
 		}

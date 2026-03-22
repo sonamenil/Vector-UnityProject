@@ -45,7 +45,7 @@ namespace Nekki.Vector.GUI.Scenes.Run
             int num = Time.frameCount - _LastFramesCount;
             float num2 = Time.realtimeSinceStartup - _LastTime;
             SetTime();
-            FPS = (float)num / num2;
+            FPS = num / num2;
             _Label.text = string.Format("FPS: {0:F1}", FPS);
         }
 

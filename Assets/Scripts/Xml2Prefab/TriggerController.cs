@@ -55,7 +55,7 @@ namespace Xml2Prefab
                 color = new Color(1, 0, 0, 0.2f);
             }
 
-            var a = (!Application.isPlaying || Game.Instance == null || Game.Instance.SnailSett.ShowTriggers) ? 0.2f : 0f;
+            var a = !Application.isPlaying || Game.Instance == null || Game.Instance.SnailSett.ShowTriggers ? 0.2f : 0f;
             color.a = a;
 
             spriteRender.color = color;

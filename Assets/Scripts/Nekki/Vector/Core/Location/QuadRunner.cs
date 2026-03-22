@@ -1,13 +1,8 @@
-using Nekki.Vector.Core.Detector;
-using Nekki.Vector.Core.Result;
-using Nekki.Vector.Core.SpatialPartitioning;
-using Nekki.Vector.Core.Utilites;
 using System;
 using System.Collections.Generic;
-using System.Numerics;
-using UnityEngine;
-using UnityEngine.Rendering;
-using static Nekki.Vector.Core.Node.NodeName;
+using Nekki.Vector.Core.Detector;
+using Nekki.Vector.Core.Result;
+using Math = Nekki.Vector.Core.Utilites.Math;
 
 namespace Nekki.Vector.Core.Location
 {
@@ -51,9 +46,9 @@ namespace Nekki.Vector.Core.Location
 
         protected List<Vector3d> _TempPoints = new List<Vector3d>();
 
-        protected Vector3f _Velocity = new Vector3f(0, 0, 0);
+        protected Vector3f _Velocity = new Vector3f();
 
-        private Rectangle _rectangle = new Rectangle(0, 0, 0, 0);
+        private Rectangle _rectangle = new Rectangle();
 
         public Action<QuadRunner> OnTransformationStart;
 
@@ -75,14 +70,8 @@ namespace Nekki.Vector.Core.Location
 
         public bool Sticky
         {
-            get
-            {
-                return _Sticky;
-            }
-            set
-            {
-                _Sticky = value;
-            }
+            get => _Sticky;
+            set => _Sticky = value;
         }
 
         public Vector3d Point1 => _Point1;
@@ -206,12 +195,12 @@ namespace Nekki.Vector.Core.Location
             crossList.Clear();
             CrossByEdge(p_end, p_start, crossList);
             int p_side = NearestEdge(vector3f2);
-            Vector3d vector3f3 = ((crossList.Count != 0) ? crossList[0].Point : Closest(vector3f2, p_side));
+            Vector3d vector3f3 = crossList.Count != 0 ? crossList[0].Point : Closest(vector3f2, p_side);
             Vector3d vector3f4 = Closest(vector3f, p_side);
             double num = Vector3d.Distance(vector3f4, vector3f3);
             double num2 = Vector3d.Distance(vector3f4, vector3f);
             double num3 = num2 * 0.20000000298023224;
-            return (!(num3 < num)) ? new Vector3dLine(vector3f3, vector3f3) : new Vector3dLine(vector3f4 + (vector3f3 - vector3f4).Normalize().Multiply(num3), vector3f3);
+            return !(num3 < num) ? new Vector3dLine(vector3f3, vector3f3) : new Vector3dLine(vector3f4 + (vector3f3 - vector3f4).Normalize().Multiply(num3), vector3f3);
         }
 
         public int NearestEdge(Vector3d vector)
@@ -260,11 +249,11 @@ namespace Nekki.Vector.Core.Location
             CrossByEdge(start.End, end.End, result.CrossList1);
             CrossByEdge(start.Start, end.Start, result.CrossList2);
             CrossByEdge(start.Start, start.End, result.CrossList3);
-            var startX = Utilites.Math.Round(start.Start.X, 1000);
-            var startY = Utilites.Math.Round(start.Start.Y, 1000);
+            var startX = Math.Round(start.Start.X, 1000);
+            var startY = Math.Round(start.Start.Y, 1000);
             bool hit = Hit(startX, startY, true);
-            var endX = Utilites.Math.Round(start.End.X, 1000);
-            var endY = Utilites.Math.Round(start.End.Y, 1000);
+            var endX = Math.Round(start.End.X, 1000);
+            var endY = Math.Round(start.End.Y, 1000);
             bool hit2 = Hit(endX, endY, true);
             //if (detector.Type == DetectorLine.DetectorType.Horizontal)
                 //Debug.Log($"Hit1: {hit} Hit2: {hit2} DetectorY: {(double)startY} RectangleY: {(float)_YQuad} HitY: {startY >= Utilites.Math.Round((double)rectangle.MinY, 1000)}");
@@ -298,7 +287,7 @@ namespace Nekki.Vector.Core.Location
             switch (detector.Type)
             {
                 case DetectorLine.DetectorType.Vertical:
-                    return (sign != 1) ? 1 : 3;
+                    return sign != 1 ? 1 : 3;
                 case DetectorLine.DetectorType.Horizontal:
                     return 0;
                 default:
@@ -314,7 +303,7 @@ namespace Nekki.Vector.Core.Location
                 case DetectorLine.DetectorType.Vertical:
                     {
                         Vector3d vector3f = null;
-                        vector3f = ((p_type != 5) ? p_detector.Start.End : p_detector.Start.Start);
+                        vector3f = p_type != 5 ? p_detector.Start.End : p_detector.Start.Start;
                         if (vector3f.X >= p_rect.MinX - 0.01f && vector3f.X <= p_rect.MinX + 0.01f)
                         {
                             return 3;
@@ -331,7 +320,7 @@ namespace Nekki.Vector.Core.Location
                         {
                             return 2;
                         }
-                        return (p_sign != 1) ? 1 : 3;
+                        return p_sign != 1 ? 1 : 3;
                     }
                 case DetectorLine.DetectorType.Horizontal:
                     return 0;
@@ -350,14 +339,14 @@ namespace Nekki.Vector.Core.Location
             switch (affiliationResult.Type)
             {
                 case 1:
-                    return (!IsCrossIndex(affiliationResult.CrossList1, affiliationResult.CrossList2)) ? Side(detector, sign) : MinCross(affiliationResult.CrossList1, end.Start).Index;
+                    return !IsCrossIndex(affiliationResult.CrossList1, affiliationResult.CrossList2) ? Side(detector, sign) : MinCross(affiliationResult.CrossList1, end.Start).Index;
                 case 2:
                     CrossByEdge(start.End, perpendicular.End, list);
-                    cross = ((list.Count != 0) ? MinCross(list, end.End) : MinCross(affiliationResult.CrossList1, end.End));
+                    cross = list.Count != 0 ? MinCross(list, end.End) : MinCross(affiliationResult.CrossList1, end.End);
                     return cross.Index;
                 case 3:
                     CrossByEdge(start.Start, perpendicular.Start, list);
-                    cross = ((list.Count != 0) ? MinCross(list, end.Start) : MinCross(affiliationResult.CrossList2, end.Start));
+                    cross = list.Count != 0 ? MinCross(list, end.Start) : MinCross(affiliationResult.CrossList2, end.Start);
                     return cross.Index;
                 case 4:
                     return Side(detector, sign);
@@ -455,13 +444,13 @@ namespace Nekki.Vector.Core.Location
                 switch (p_cornernum)
                 {
                     case 0:
-                        return (_TempPoints.Count <= 0) ? _Point1 : _TempPoints[0];
+                        return _TempPoints.Count <= 0 ? _Point1 : _TempPoints[0];
                     case 1:
-                        return (_TempPoints.Count <= 0) ? _Point2 : _TempPoints[1];
+                        return _TempPoints.Count <= 0 ? _Point2 : _TempPoints[1];
                     case 2:
-                        return (_TempPoints.Count <= 0) ? _Point3 : _TempPoints[2];
+                        return _TempPoints.Count <= 0 ? _Point3 : _TempPoints[2];
                     case 3:
-                        return (_TempPoints.Count <= 0) ? _Point4 : _TempPoints[3];
+                        return _TempPoints.Count <= 0 ? _Point4 : _TempPoints[3];
                 }
             }
             else
@@ -469,13 +458,13 @@ namespace Nekki.Vector.Core.Location
                 switch (p_cornernum)
                 {
                     case 0:
-                        return (_TempPoints.Count <= 0) ? _Point2 : _TempPoints[1];
+                        return _TempPoints.Count <= 0 ? _Point2 : _TempPoints[1];
                     case 1:
-                        return (_TempPoints.Count <= 0) ? _Point1 : _TempPoints[0];
+                        return _TempPoints.Count <= 0 ? _Point1 : _TempPoints[0];
                     case 2:
-                        return (_TempPoints.Count <= 0) ? _Point4 : _TempPoints[3];
+                        return _TempPoints.Count <= 0 ? _Point4 : _TempPoints[3];
                     case 3:
-                        return (_TempPoints.Count <= 0) ? _Point3 : _TempPoints[2];
+                        return _TempPoints.Count <= 0 ? _Point3 : _TempPoints[2];
                 }
             }
             return null;

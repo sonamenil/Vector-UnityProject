@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 namespace UI
 {
@@ -86,7 +85,7 @@ namespace UI
             if (userData.MainData.IsUnlock)
             {
                 var rewardData = LocationManager.Instance.GetRewards(currentStory.RewardTemplate);
-                var extension = RewardExtensions.GetReward(rewardData, stars, _starRecord);
+                var extension = rewardData.GetReward(stars, _starRecord);
                 if (_starRecord > 0)
                 {
                     for (int i = 0; i < _starRecord; i++)

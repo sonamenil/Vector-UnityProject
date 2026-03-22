@@ -7,6 +7,7 @@
 ///
 /// Remember that for radial and diamond gradients, colors are applied per-vertex so if you have multiple points on your gradient where the color changes and there aren't enough vertices, you won't see all of the colors.
 /// </summary>
+
 using System;
 using System.Collections.Generic;
 
@@ -27,19 +28,19 @@ namespace UnityEngine.UI.Extensions
 
         [SerializeField]
         [Range(-1, 1)]
-        float _offset = 0f;
+        float _offset;
 
         [SerializeField]
         [Range(0.1f, 10)]
         float _zoom = 1f;
 
         [SerializeField]
-        UnityEngine.Gradient _effectGradient = new UnityEngine.Gradient() { colorKeys = new GradientColorKey[] { new GradientColorKey(Color.black, 0), new GradientColorKey(Color.white, 1) } };
+        Gradient _effectGradient = new Gradient { colorKeys = new[] { new GradientColorKey(Color.black, 0), new GradientColorKey(Color.white, 1) } };
 
         #region Properties
         public Blend BlendMode
         {
-            get { return _blendMode; }
+            get => _blendMode;
             set
             {
                 _blendMode = value;
@@ -47,9 +48,9 @@ namespace UnityEngine.UI.Extensions
             }
         }
 
-        public UnityEngine.Gradient EffectGradient
+        public Gradient EffectGradient
         {
-            get { return _effectGradient; }
+            get => _effectGradient;
             set
             {
                 _effectGradient = value;
@@ -59,7 +60,7 @@ namespace UnityEngine.UI.Extensions
 
         public Type GradientType
         {
-            get { return _gradientType; }
+            get => _gradientType;
             set
             {
                 _gradientType = value;
@@ -69,7 +70,7 @@ namespace UnityEngine.UI.Extensions
 
         public bool ModifyVertices
         {
-            get { return _modifyVertices; }
+            get => _modifyVertices;
             set
             {
                 _modifyVertices = value;
@@ -79,7 +80,7 @@ namespace UnityEngine.UI.Extensions
 
         public float Offset
         {
-            get { return _offset; }
+            get => _offset;
             set
             {
                 _offset = Mathf.Clamp(value, -1f, 1f);
@@ -89,7 +90,7 @@ namespace UnityEngine.UI.Extensions
 
         public float Zoom
         {
-            get { return _zoom; }
+            get => _zoom;
             set
             {
                 _zoom = Mathf.Clamp(value, 0.1f, 10f);
@@ -126,8 +127,8 @@ namespace UnityEngine.UI.Extensions
                         }
 
                         float width = w == 0f ? 0f : 1f / w / Zoom;
-                        float zoomOffset = (1 - (1 / Zoom)) * 0.5f;
-                        float offset = (Offset * (1 - zoomOffset)) - zoomOffset;
+                        float zoomOffset = (1 - 1 / Zoom) * 0.5f;
+                        float offset = Offset * (1 - zoomOffset) - zoomOffset;
 
                         if (ModifyVertices)
                         {
@@ -205,7 +206,7 @@ namespace UnityEngine.UI.Extensions
                             for (int i = 0; i < steps; i++)
                             {
                                 UIVertex curVertex = new UIVertex();
-                                float angle = (float)i * 360f / (float)steps;
+                                float angle = i * 360f / steps;
                                 float cosX = Mathf.Cos(Mathf.Deg2Rad * angle);
                                 float cosY = Mathf.Sin(Mathf.Deg2Rad * angle);
 
@@ -430,7 +431,7 @@ namespace UnityEngine.UI.Extensions
             List<float> stops = new List<float>();
             var offset = Offset * (1 - zoomOffset);
             var startBoundary = zoomOffset - offset;
-            var endBoundary = (1 - zoomOffset) - offset;
+            var endBoundary = 1 - zoomOffset - offset;
 
             foreach (var color in EffectGradient.colorKeys)
             {
@@ -458,7 +459,7 @@ namespace UnityEngine.UI.Extensions
             stops.Sort();
             for (int i = 0; i < stops.Count; i++)
             {
-                stops[i] = (stops[i] * size) + min;
+                stops[i] = stops[i] * size + min;
 
                 if (i > 0 && Math.Abs(stops[i] - stops[i - 1]) < 2)
                 {
@@ -480,12 +481,12 @@ namespace UnityEngine.UI.Extensions
                 float uvx = vertex1.uv0.x - vertex2.uv0.x;
                 float uvy = vertex1.uv0.y - vertex2.uv0.y;
                 float ratio = sx / dx;
-                float splitY = vertex1.position.y - (dy * ratio);
+                float splitY = vertex1.position.y - dy * ratio;
 
                 UIVertex splitVertex = new UIVertex();
                 splitVertex.position = new Vector3(stop, splitY, vertex1.position.z);
                 splitVertex.normal = vertex1.normal;
-                splitVertex.uv0 = new Vector2(vertex1.uv0.x - (uvx * ratio), vertex1.uv0.y - (uvy * ratio));
+                splitVertex.uv0 = new Vector2(vertex1.uv0.x - uvx * ratio, vertex1.uv0.y - uvy * ratio);
                 splitVertex.color = Color.white;
                 return splitVertex;
             }
@@ -497,12 +498,12 @@ namespace UnityEngine.UI.Extensions
                 float uvx = vertex1.uv0.x - vertex2.uv0.x;
                 float uvy = vertex1.uv0.y - vertex2.uv0.y;
                 float ratio = sy / dy;
-                float splitX = vertex1.position.x - (dx * ratio);
+                float splitX = vertex1.position.x - dx * ratio;
 
                 UIVertex splitVertex = new UIVertex();
                 splitVertex.position = new Vector3(splitX, stop, vertex1.position.z);
                 splitVertex.normal = vertex1.normal;
-                splitVertex.uv0 = new Vector2(vertex1.uv0.x - (uvx * ratio), vertex1.uv0.y - (uvy * ratio));
+                splitVertex.uv0 = new Vector2(vertex1.uv0.x - uvx * ratio, vertex1.uv0.y - uvy * ratio);
                 splitVertex.color = Color.white;
                 return splitVertex;
             }

@@ -37,40 +37,16 @@ namespace Nekki.Vector.Core.Trigger
 
 		public static Dictionary<OperatorID, int> OPERATOR_PRIORITY = new Dictionary<OperatorID, int>();
 
-        public Variable Var
-        {
-            get
-            {
-                return _Var;
-            }
-        }
+        public Variable Var => _Var;
 
-        public OperatorID Operator
-        {
-            get
-            {
-                return _Operator;
-            }
-        }
+        public OperatorID Operator => _Operator;
 
-        public TypeToken Type
-        {
-            get
-            {
-                return _Type;
-            }
-        }
+        public TypeToken Type => _Type;
 
         public int OperatorPriority
         {
-            get
-            {
-                return OPERATOR_PRIORITY[_Operator] + _Priority * OPERATOR_PRIORITY[OperatorID.BRACK_L];
-            }
-            set
-            {
-                _Priority = value;
-            }
+            get => OPERATOR_PRIORITY[_Operator] + _Priority * OPERATOR_PRIORITY[OperatorID.BRACK_L];
+            set => _Priority = value;
         }
 
         public static ExprToken create(Variable p_var, TypeToken p_type, OperatorID p_operator = OperatorID.UNKONOWN)

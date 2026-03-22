@@ -1,5 +1,4 @@
 using System.Xml;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger.Actions
 {
@@ -13,13 +12,7 @@ namespace Nekki.Vector.Core.Trigger.Actions
 
         private int _CurrentFrame;
 
-        public override int Frames
-        {
-            get
-            {
-                return _ParentLoop.ParentTrigger.ParentElements.ParentObject.GetTransformationFrame(_NameVar.ValueString);
-            }
-        }
+        public override int Frames => _ParentLoop.ParentTrigger.ParentElements.ParentObject.GetTransformationFrame(_NameVar.ValueString);
 
         private TA_Transformation(TA_Transformation p_copyAction)
             : base(p_copyAction._ParentLoop)
@@ -68,7 +61,7 @@ namespace Nekki.Vector.Core.Trigger.Actions
 
         public override string ToString()
         {
-            return "Transformation Name=" + _NameVar.DebugStringValue + ((_PauseVar == null) ? string.Empty : " Stop:1") + " Frames=" + _Frame + " CurrentFrame=" + _CurrentFrame;
+            return "Transformation Name=" + _NameVar.DebugStringValue + (_PauseVar == null ? string.Empty : " Stop:1") + " Frames=" + _Frame + " CurrentFrame=" + _CurrentFrame;
         }
     }
 }

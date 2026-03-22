@@ -146,7 +146,7 @@ public class ExportSpritesToPNGsAndRemap : EditorWindow
 
                 // Encode and write PNG
                 byte[] png = newTex.EncodeToPNG();
-                Object.DestroyImmediate(newTex);
+                DestroyImmediate(newTex);
                 File.WriteAllBytes(pngPath, png);
 
                 // Import the PNG as a Single Sprite with matching settings
@@ -265,7 +265,7 @@ public class ExportSpritesToPNGsAndRemap : EditorWindow
             for (int i = 0; i < assetGuids.Length; i++)
             {
                 string path = AssetDatabase.GUIDToAssetPath(assetGuids[i]);
-                string ext = System.IO.Path.GetExtension(path).ToLowerInvariant();
+                string ext = Path.GetExtension(path).ToLowerInvariant();
 
                 // Skip scenes/prefabs here; handled in passes 2/3
                 if (ext == ".prefab" || ext == ".unity") continue;
@@ -364,11 +364,9 @@ public class ExportSpritesToPNGsAndRemap : EditorWindow
             // SerializedObject walk replaces both single refs and array/list elements
             var so = new SerializedObject(c);
             var it = so.GetIterator();
-            bool enter = true;
 
-            while (it.Next(enter))
+            while (it.Next(true))
             {
-                enter = true;
                 if (it.propertyType == SerializedPropertyType.ObjectReference)
                 {
                     var curr = it.objectReferenceValue;
@@ -395,11 +393,9 @@ public class ExportSpritesToPNGsAndRemap : EditorWindow
         bool changed = false;
         var so = new SerializedObject(obj);
         var prop = so.GetIterator();
-        bool enterChildren = true;
 
-        while (prop.Next(enterChildren))
+        while (prop.Next(true))
         {
-            enterChildren = true;
             if (prop.propertyType == SerializedPropertyType.ObjectReference)
             {
                 var curr = prop.objectReferenceValue;

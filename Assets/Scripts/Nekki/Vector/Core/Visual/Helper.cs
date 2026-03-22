@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Nekki.Vector.Core.Visual
@@ -12,14 +13,8 @@ namespace Nekki.Vector.Core.Visual
 
 		public static List<string> Paths
 		{
-			get
-			{
-				return _Paths;
-			}
-			set
-			{
-				throw new System.NotImplementedException();
-			}
+			get => _Paths;
+			set => throw new NotImplementedException();
 		}
 
 		public static void Init()

@@ -1,5 +1,4 @@
 using System.Xml;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger.Conditions
 {
@@ -21,9 +20,9 @@ namespace Nekki.Vector.Core.Trigger.Conditions
 
 		public override string ToString()
 		{
-            string text = "Greate: " + ((!_IsNot) ? "(" : "!(");
+            string text = "Greate: " + (!_IsNot ? "(" : "!(");
             string text2 = text;
-            return text2 + _Value1.ToString() + ">" + _Value2.ToString() + ")";
+            return text2 + _Value1 + ">" + _Value2 + ")";
         }
 	}
 }

@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+
 public abstract class AbstractManager<T> where T : AbstractManager<T>, new()
 {
 	private static T _instance;
@@ -12,7 +12,7 @@ public abstract class AbstractManager<T> where T : AbstractManager<T>, new()
 			{
 				return _instance;
 			}
-			Debug.LogError("[" + typeof(T).ToString() + "] Run Init before use");
+			Debug.LogError("[" + typeof(T) + "] Run Init before use");
 			return null;
 		}
 	}
@@ -28,7 +28,7 @@ public abstract class AbstractManager<T> where T : AbstractManager<T>, new()
 		}
 		else
 		{
-			Debug.LogError("[" + typeof(T).ToString() + "] Already inited!");
+			Debug.LogError("[" + typeof(T) + "] Already inited!");
 		}
 	}
 

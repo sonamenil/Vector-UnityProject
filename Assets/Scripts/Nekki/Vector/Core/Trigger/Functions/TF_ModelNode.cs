@@ -1,7 +1,6 @@
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Node;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger.Functions
 {

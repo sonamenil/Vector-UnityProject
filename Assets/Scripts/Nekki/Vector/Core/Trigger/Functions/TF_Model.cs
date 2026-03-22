@@ -28,21 +28,9 @@ namespace Nekki.Vector.Core.Trigger.Functions
             }
         }
 
-        public override float ValueFloat
-        {
-            get
-            {
-                return ValueInt;
-            }
-        }
+        public override float ValueFloat => ValueInt;
 
-        public override string ValueString
-        {
-            get
-            {
-                return ValueInt.ToString();
-            }
-        }
+        public override string ValueString => ValueInt.ToString();
 
         public override string DebugStringValue
         {
@@ -158,7 +146,7 @@ namespace Nekki.Vector.Core.Trigger.Functions
 		private int GetDirection()
 		{
             ModelNode modelNode = GetModel().GetNode("COM");
-            return ((modelNode.Start - modelNode.End).X > 0f) ? 1 : (-1);
+            return (modelNode.Start - modelNode.End).X > 0f ? 1 : -1;
         }
 
 		private int GetCondition()

@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace UI
 {
@@ -17,11 +16,11 @@ namespace UI
 
         private void Awake()
         {
-            _okButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() => onConfirm?.Invoke()));
-            _termsOfUseButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            _okButton.onClick.AddListener(() => onConfirm?.Invoke());
+            _termsOfUseButton.onClick.AddListener(() =>
             {
                 Application.OpenURL("https://nekki.com/en/legal/privacy/");
-            }));
+            });
 		}
 
 		private void OnDestroy()

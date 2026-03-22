@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Node;
-using System.Collections.Generic;
 
 namespace Nekki.Vector.Core.Controllers
 {
@@ -25,8 +25,7 @@ namespace Nekki.Vector.Core.Controllers
 		private List<ModelLine> _EdgesPhysic;
 
         private static float _Gravity = 0.4000000059604645f;
-
-
+        
         public ModelObject ModelObject => _ModelObject;
 
 		public bool IsPhysics => _IsPhysics;

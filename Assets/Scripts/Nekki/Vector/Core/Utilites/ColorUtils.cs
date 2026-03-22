@@ -24,7 +24,7 @@ namespace Nekki.Vector.Core.Utilites
             {
                 array[i] = Convert.ToByte(color.Substring(i * 2, 2), 16);
             }
-            return new Color((float)(int)array[0] / 255f, (float)(int)array[1] / 255f, (float)(int)array[2] / 255f, (float)(int)array[3] / 255f);
+            return new Color(array[0] / 255f, array[1] / 255f, array[2] / 255f, array[3] / 255f);
         }
 	}
 }

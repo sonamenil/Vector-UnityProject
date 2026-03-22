@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Linq;
-using Nekki.Vector.Core.Location;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -32,15 +32,15 @@ namespace UI
 		public override void Init(BuyItemPopup yesNoItemPopup)
 		{
 			_yesNoItemPopup = yesNoItemPopup;
-			BuyButton.onClick.AddListener(new UnityEngine.Events.UnityAction(_yesNoItemPopup.BuyButton.PressedAction));
-            CancelButton.onClick.AddListener(new UnityEngine.Events.UnityAction(_yesNoItemPopup.CancelButton.PressedAction));
-            BackgroundButton.onClick.AddListener(new UnityEngine.Events.UnityAction(_yesNoItemPopup.BackgroundButton.PressedAction));
+			BuyButton.onClick.AddListener(new UnityAction(_yesNoItemPopup.BuyButton.PressedAction));
+            CancelButton.onClick.AddListener(new UnityAction(_yesNoItemPopup.CancelButton.PressedAction));
+            BackgroundButton.onClick.AddListener(new UnityAction(_yesNoItemPopup.BackgroundButton.PressedAction));
 		}
 
         public override void PreShow(BuyItemPayloadData payload)
 		{
 			var items = StoreManager.Instance.GetItems(payload.ItemType);
-			var item = items.Single((i) => i.Id == payload.ItemId);
+			var item = items.Single(i => i.Id == payload.ItemId);
 			Caption.text = LocalizationManager.Instance.GetTranslationByID(item.Id);
 			Price.text = item.Price.ToString();
 			Icon.sprite = payload.Sprite;
@@ -61,13 +61,11 @@ namespace UI
 					Game.Instance.ScreenManager.Popup<BuyCoinsPopup, BuyCoinsPayloadData>(new BuyCoinsPayloadData(item.Price));
 					return;
 				}
-				else
-				{
-					playerData.MainData.AddCoins(-item.Price);
-					playerData.ShopData.Add(payload.ItemId, 1, true, false);
-					playerData.SaveUserDate();
-					SoundsManager.Instance.PlaySounds(SoundType.cash_register);
-				}
+
+				playerData.MainData.AddCoins(-item.Price);
+				playerData.ShopData.Add(payload.ItemId, 1, true, false);
+				playerData.SaveUserDate();
+				SoundsManager.Instance.PlaySounds(SoundType.cash_register);
 
 				if (payload.ItemType == StoreItemType.Gear)
 				{

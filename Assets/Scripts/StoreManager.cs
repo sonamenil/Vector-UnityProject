@@ -1,6 +1,6 @@
-using Core._Common;
 using System.Collections.Generic;
 using System.Xml;
+using Core._Common;
 
 public class StoreManager : AbstractManager<StoreManager>
 {

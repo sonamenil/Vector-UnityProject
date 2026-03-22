@@ -1,5 +1,5 @@
-using Nekki.Vector.Core.Location;
 using System.Collections.Generic;
+using Nekki.Vector.Core.Location;
 
 namespace Nekki.Vector.Core.Trigger.Events
 {

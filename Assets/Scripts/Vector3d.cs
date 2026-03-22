@@ -1,7 +1,4 @@
 using System;
-using System.Numerics;
-using UnityEngine;
-using static UnityEngine.UI.Extensions.Gradient2;
 using Vector3 = UnityEngine.Vector3;
 
 public class Vector3d
@@ -17,22 +14,13 @@ public class Vector3d
 
     public double X
     {
-        get
-        {
-            return _X;
-        }
-        set
-        {
-            _X = value;
-        }
+        get => _X;
+        set => _X = value;
     }
 
     public double FloorX
     {
-        get
-        {
-            return 0.0;
-        }
+        get => 0.0;
         set
         {
         }
@@ -40,22 +28,13 @@ public class Vector3d
 
     public double Y
     {
-        get
-        {
-            return _Y;
-        }
-        set
-        {
-            _Y = value;
-        }
+        get => _Y;
+        set => _Y = value;
     }
 
     public double FloorY
     {
-        get
-        {
-            return 0.0;
-        }
+        get => 0.0;
         set
         {
         }
@@ -63,22 +42,13 @@ public class Vector3d
 
     public double Z
     {
-        get
-        {
-            return _Z;
-        }
-        set
-        {
-            _Z = value;
-        }
+        get => _Z;
+        set => _Z = value;
     }
 
     public double FloorZ
     {
-        get
-        {
-            return 0.0;
-        }
+        get => 0.0;
         set
         {
         }
@@ -100,8 +70,8 @@ public class Vector3d
 
     public Vector3d(float X, float Y, float Z)
     {
-        _X = (double)X;
-        _Y = (double)Y;
+        _X = X;
+        _Y = Y;
         _Z = Z;
     }
 
@@ -114,8 +84,8 @@ public class Vector3d
 
     public Vector3d(float X, float Y)
     {
-        _X = (double)X;
-        _Y = (double)Y;
+        _X = X;
+        _Y = Y;
         _Z = 0;
     }
 
@@ -128,9 +98,9 @@ public class Vector3d
 
     public Vector3d(Vector3f vector)
     {
-        _X = (double)vector.X;
-        _Y = (double)vector.Y;
-        _Z = (double)vector.Z;
+        _X = vector.X;
+        _Y = vector.Y;
+        _Z = vector.Z;
     }
 
     public Vector3d(Vector3d vector)
@@ -140,11 +110,11 @@ public class Vector3d
         _Z = vector.Z;
     }
 
-    public Vector3d(UnityEngine.Vector3 vector)
+    public Vector3d(Vector3 vector)
     {
-        _X = (double)vector.x;
-        _Y = (double)vector.y;
-        _Z = (double)vector.z;
+        _X = vector.x;
+        _Y = vector.y;
+        _Z = vector.z;
     }
 
     public Vector3d()
@@ -156,7 +126,7 @@ public class Vector3d
 
     public static Vector3d operator +(Vector3d vector, float value)
     {
-        return new Vector3d(vector.X + (double)value, vector.Y + (double)value, vector.Z + (double)value);
+        return new Vector3d(vector.X + value, vector.Y + value, vector.Z + value);
     }
 
     public static Vector3d operator +(Vector3d vector, double value)
@@ -174,7 +144,7 @@ public class Vector3d
     }
     public static Vector3d operator -(Vector3d vector, float value)
     {
-        return new Vector3d(vector.X - (double)value, vector.Y - (double)value, vector.Z - (double)value);
+        return new Vector3d(vector.X - value, vector.Y - value, vector.Z - value);
     }
 
     public static Vector3d operator -(Vector3d vector, double value)
@@ -189,12 +159,12 @@ public class Vector3d
 
     public static Vector3d operator -(Vector3d Vector1, Vector3f Vector2)
     {
-        return new Vector3d(Vector1.X - (double)Vector2.X, Vector1.Y - (double)Vector2.Y, Vector1.Z - (double)Vector2.Z);
+        return new Vector3d(Vector1.X - Vector2.X, Vector1.Y - Vector2.Y, Vector1.Z - Vector2.Z);
     }
 
     public static Vector3d operator *(Vector3d vector, float value)
     {
-        return new Vector3d(vector.X * (double)value, vector.Y * (double)value, vector.Z * (double)value);
+        return new Vector3d(vector.X * value, vector.Y * value, vector.Z * value);
     }
 
     public static Vector3d operator *(Vector3d vector, double value)
@@ -209,7 +179,7 @@ public class Vector3d
 
     public static double operator *(Vector3d v1, Vector3f v2)
     {
-        return v1.X * (double)v2.X + v1.Y * (double)v2.Y + v1.Z * (double)v2.Z;
+        return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
     }
 
     public static implicit operator Vector3(Vector3d Vector)
@@ -234,9 +204,9 @@ public class Vector3d
 
     public Vector3d Add(float value)
     {
-        _X += (double)value;
-        _Y += (double)value;
-        _Z += (double)value;
+        _X += value;
+        _Y += value;
+        _Z += value;
         return this;
     }
 
@@ -250,9 +220,9 @@ public class Vector3d
 
     public Vector3d Add(float x, float y, float z)
     {
-        _X += (double)x;
-        _Y += (double)y;
-        _Z += (double)z;
+        _X += x;
+        _Y += y;
+        _Z += z;
         return this;
     }
 
@@ -266,9 +236,9 @@ public class Vector3d
 
     public Vector3d Add(Vector3f vector)
     {
-        _X += (double)vector.X;
-        _Y += (double)vector.Y;
-        _Z += (double)vector.Z;
+        _X += vector.X;
+        _Y += vector.Y;
+        _Z += vector.Z;
         return this;
     }
 
@@ -290,8 +260,8 @@ public class Vector3d
 
     public Vector3d Add(Point point)
     {
-        _X += (double)point.X;
-        _Y += (double)point.Y;
+        _X += point.X;
+        _Y += point.Y;
         return this;
     }
 
@@ -304,9 +274,9 @@ public class Vector3d
 
     public Vector3d Subtract(float val)
     {
-        _X -= (double)val;
-        _Y -= (double)val;
-        _Z -= (double)val;
+        _X -= val;
+        _Y -= val;
+        _Z -= val;
         return this;
     }
 
@@ -320,9 +290,9 @@ public class Vector3d
 
     public Vector3d Subtract(float x, float y, float z)
     {
-        _X -= (double)x;
-        _Y -= (double)y;
-        _Z -= (double)z;
+        _X -= x;
+        _Y -= y;
+        _Z -= z;
         return this;
     }
 
@@ -336,9 +306,9 @@ public class Vector3d
 
     public Vector3d Subtract(Vector3f vector)
     {
-        _X -= (double)vector.X;
-        _Y -= (double)vector.Y;
-        _Z -= (double)vector.Z;
+        _X -= vector.X;
+        _Y -= vector.Y;
+        _Z -= vector.Z;
         return this;
     }
 
@@ -352,8 +322,8 @@ public class Vector3d
 
     public Vector3d Subtract(Point point)
     {
-        _X -= (double)point.X;
-        _Y -= (double)point.Y;
+        _X -= point.X;
+        _Y -= point.Y;
         return this;
     }
 
@@ -366,9 +336,9 @@ public class Vector3d
 
     public Vector3d Multiply(float value)
     {
-        _X *= (double)value;
-        _Y *= (double)value;
-        _Z *= (double)value;
+        _X *= value;
+        _Y *= value;
+        _Z *= value;
         return this;
     }
 
@@ -382,9 +352,9 @@ public class Vector3d
 
     public Vector3d Multiply(float x, float y, float z)
     {
-        _X *= (double)x;
-        _Y *= (double)y;
-        _Z *= (double)z;
+        _X *= x;
+        _Y *= y;
+        _Z *= z;
         return this;
     }
 
@@ -403,7 +373,7 @@ public class Vector3d
 
     public Vector3d Cross(Vector3f vector)
     {
-        return new Vector3d(_Y * (double)vector.Z - _Z * (double)vector.Y, _Z * (double)vector.X - _X * (double)vector.Z, _X * (double)vector.Y - _Y - (double)vector.X);
+        return new Vector3d(_Y * vector.Z - _Z * vector.Y, _Z * vector.X - _X * vector.Z, _X * vector.Y - _Y - vector.X);
     }
 
     public static Vector3d Cross(Vector3d v1, Vector3d v2, Vector3d v3, Vector3d v4)
@@ -499,12 +469,18 @@ public class Vector3d
         return (v1 - v2).Cross(Forward).Normalize();
     }
 
-    public static double Factor(Vector3d impulse, Vector3d start, Vector3d end)
+    public static double Factor(Vector3d point, Vector3d start, Vector3d end)
     {
-        start.Z = 0f;
-        impulse.Z = 0f;
-        end.Z = 0f;
-        return Distance(start, end) / Distance(start, impulse);
+        var a = new Vector3d(start.X, start.Y, 0);
+        var b = new Vector3d(end.X, end.Y, 0);
+        var p = new Vector3d(point.X, point.Y, 0);
+
+        double length = Vector3d.Distance(a, b);
+        if (length <= 1e-6)
+            return 0.5;
+
+        double t = Vector3d.Distance(a, p) / length;
+        return System.Math.Max(0.0, System.Math.Min(1.0, t));
     }
 
     public Vector3d Clone()
@@ -537,9 +513,9 @@ public class Vector3d
 
     public Vector3d Set(Vector3 vector)
     {
-        _X = (double)vector.x;
-        _Y = (double)vector.y;
-        _Z = (double)vector.z;
+        _X = vector.x;
+        _Y = vector.y;
+        _Z = vector.z;
         return this;
     }
 

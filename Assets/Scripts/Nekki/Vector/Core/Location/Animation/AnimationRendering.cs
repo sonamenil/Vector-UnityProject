@@ -1,5 +1,4 @@
 using Nekki.Vector.Core.Scripts;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Location.Animation

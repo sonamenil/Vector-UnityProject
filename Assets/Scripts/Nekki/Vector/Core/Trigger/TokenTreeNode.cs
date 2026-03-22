@@ -12,7 +12,7 @@ namespace Nekki.Vector.Core.Trigger
 
 		public TokenTreeNode(ExprToken p_data, int p_level)
 		{
-            Left = (Right = null);
+            Left = Right = null;
             Data = p_data;
             Level = p_level;
         }

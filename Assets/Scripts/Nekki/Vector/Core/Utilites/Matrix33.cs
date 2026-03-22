@@ -20,13 +20,7 @@ namespace Nekki.Vector.Core.Utilites
 
         private float _A33;
 
-        public float D
-        {
-            get
-            {
-                return _A11 * _A22 * _A33 - _A11 * _A23 * _A32 - _A12 * _A21 * _A33 + _A12 * _A23 * _A31 + _A13 * _A21 * _A32 - _A13 * _A22 * _A31;
-            }
-        }
+        public float D => _A11 * _A22 * _A33 - _A11 * _A23 * _A32 - _A12 * _A21 * _A33 + _A12 * _A23 * _A31 + _A13 * _A21 * _A32 - _A13 * _A22 * _A31;
 
         public Matrix33(float A11 = 1f, float A12 = 0f, float A13 = 0f, float A21 = 0f, float A22 = 1f, float A23 = 0f, float A31 = 0f, float A32 = 0f, float A33 = 1f)
         {
@@ -48,7 +42,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Matrix33 GenerateInterpolationDeltaMatrix(Matrix33 matrix1, Matrix33 matrix2, int steps)
         {
-            Matrix33 matrix3 = new Matrix33(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f);
+            Matrix33 matrix3 = new Matrix33();
             return (matrix2 - matrix1) / steps;
         }
 
@@ -68,7 +62,7 @@ namespace Nekki.Vector.Core.Utilites
                 Matrix33 matrix = new Matrix33(d, a2, d4, a, d3, a4, d2, a3, d5);
                 return matrix / D;
             }
-            return new Matrix33(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f);
+            return new Matrix33();
         }
 
         public Matrix22 GetMatrix22()
@@ -78,7 +72,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Matrix33 operator +(Matrix33 matrix1, Matrix33 matrix2)
         {
-            Matrix33 matrix3 = new Matrix33(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f);
+            Matrix33 matrix3 = new Matrix33();
             matrix3._A11 = matrix1._A11 + matrix2._A11;
             matrix3._A12 = matrix1._A12 + matrix2._A12;
             matrix3._A13 = matrix1._A13 + matrix2._A13;
@@ -93,7 +87,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Matrix33 operator -(Matrix33 matrix1, Matrix33 matrix2)
         {
-            Matrix33 matrix3 = new Matrix33(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f);
+            Matrix33 matrix3 = new Matrix33();
             matrix3._A11 = matrix1._A11 - matrix2._A11;
             matrix3._A12 = matrix1._A12 - matrix2._A12;
             matrix3._A13 = matrix1._A13 - matrix2._A13;
@@ -108,7 +102,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Matrix33 operator /(Matrix33 matrix, float arg2)
         {
-            Matrix33 matrix2 = new Matrix33(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f);
+            Matrix33 matrix2 = new Matrix33();
             matrix2._A11 = matrix._A11 / arg2;
             matrix2._A12 = matrix._A12 / arg2;
             matrix2._A13 = matrix._A13 / arg2;
@@ -123,7 +117,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Matrix33 operator *(Matrix33 matrix, float arg2)
         {
-            Matrix33 matrix2 = new Matrix33(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f);
+            Matrix33 matrix2 = new Matrix33();
             matrix2._A11 = matrix._A11 * arg2;
             matrix2._A12 = matrix._A12 * arg2;
             matrix2._A13 = matrix._A13 * arg2;
@@ -138,7 +132,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Vector3f operator *(Vector3f vector, Matrix33 matrix)
         {
-            Vector3f vector3f = new Vector3f(0f, 0f, 0f);
+            Vector3f vector3f = new Vector3f();
             vector3f.X = matrix._A11 * vector.X + matrix._A21 * vector.Y + matrix._A31 * vector.Z;
             vector3f.Y = matrix._A12 * vector.X + matrix._A22 * vector.Y + matrix._A32 * vector.Z;
             vector3f.Z = matrix._A13 * vector.X + matrix._A23 * vector.Y + matrix._A33 * vector.Z;

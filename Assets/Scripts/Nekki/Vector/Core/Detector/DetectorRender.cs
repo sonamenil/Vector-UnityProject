@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static LevelMainController;
 
 namespace Nekki.Vector.Core.Detector
 {
@@ -20,35 +19,23 @@ namespace Nekki.Vector.Core.Detector
 
         public string Name
         {
-            get
-            {
-                return gObject.name;
-            }
-            set
-            {
-                gObject.name = value;
-            }
+            get => gObject.name;
+            set => gObject.name = value;
         }
 
         public GameObject Layer
         {
-            get
-            {
-                return _layer;
-            }
+            get => _layer;
             set
             {
                 _layer = value;
-                gObject.transform.SetParent((!(_layer != null)) ? null : _layer.transform, false);
+                gObject.transform.SetParent(!(_layer != null) ? null : _layer.transform, false);
             }
         }
 
         public bool IsDebug
         {
-            get
-            {
-                return false;
-            }
+            get => false;
             set
             {
             }
@@ -68,7 +55,7 @@ namespace Nekki.Vector.Core.Detector
         {
             Color = new Color(0, 0, 0, 1);
             gObject = new GameObject("Detector");
-            gObject.AddComponent<Nekki.Vector.Core.Scripts.Geometry.Edge>();
+            gObject.AddComponent<Scripts.Geometry.Edge>();
             gObject.SetActive(false);
         }
 
@@ -77,7 +64,7 @@ namespace Nekki.Vector.Core.Detector
             line.Stroke = 1.75f;
             line.Color = Color;
             GameObject gameObject = new GameObject("Line");
-            Nekki.Vector.Core.Scripts.Geometry.Edge edge = gameObject.AddComponent<Nekki.Vector.Core.Scripts.Geometry.Edge>();
+            Scripts.Geometry.Edge edge = gameObject.AddComponent<Scripts.Geometry.Edge>();
             edge.Base = line;
             edge.SortingOrder = 0;
             _lines.Add(gameObject);

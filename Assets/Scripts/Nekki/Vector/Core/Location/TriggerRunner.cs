@@ -1,10 +1,8 @@
-using Nekki.Vector.Core.Models;
-using Nekki.Vector.Core.Node;
-using Nekki.Vector.Core.Trigger;
-using Nekki.Vector.Core.Trigger.Events;
 using System.Collections.Generic;
 using System.Xml;
-using UnityEngine;
+using Nekki.Vector.Core.Models;
+using Nekki.Vector.Core.Trigger;
+using Nekki.Vector.Core.Trigger.Events;
 using Xml2Prefab;
 
 namespace Nekki.Vector.Core.Location
@@ -57,23 +55,11 @@ namespace Nekki.Vector.Core.Location
 
         public string CollisionNodeName
         {
-            get
-            {
-                return _CollisionNodeName;
-            }
-            set
-            {
-                _CollisionNodeName = value;
-            }
+            get => _CollisionNodeName;
+            set => _CollisionNodeName = value;
         }
 
-        public List<string> TriggerNodesName
-        {
-            get
-            {
-                return _NodesName;
-            }
-        }
+        public List<string> TriggerNodesName => _NodesName;
 
         public List<TriggerLine> Lines => _lines;
 
@@ -90,14 +76,14 @@ namespace Nekki.Vector.Core.Location
         public TriggerColisionType CollisionType => _CollisionType;
 
         public TriggerRunner(float p_x, float p_y, float p_width, float p_height, XmlNode p_node)
-            : base(p_x, p_y, p_width, p_height, sticky: false, 0, XmlUtils.ParseString(p_node.Attributes["Name"], string.Empty))
+            : base(p_x, p_y, p_width, p_height, sticky: false, 0, p_node.Attributes["Name"].ParseString(string.Empty))
         {
             _TypeClass = RunnerType.Trigger;
             _timer = new TriggerTimer(this);
             _w = p_width;
             _h = p_height;
             _xmlNode = p_node["Content"];
-            _statistic = XmlUtils.ParseString(p_node.Attributes["Statistic"]);
+            _statistic = p_node.Attributes["Statistic"].ParseString();
             _rawNode = p_node;
         }
 
@@ -191,14 +177,14 @@ namespace Nekki.Vector.Core.Location
                 {
                     continue;
                 }
-                string text = XmlUtils.ParseString(childNode.Attributes["Name"]);
-                string text2 = XmlUtils.ParseString(childNode.Attributes["Value"], string.Empty);
+                string text = childNode.Attributes["Name"].ParseString();
+                string text2 = childNode.Attributes["Value"].ParseString(string.Empty);
                 if (vars.ContainsKey("_" + text))
                 {
                     switch (vars["_" + text].Type)
                     {
                         case VariableTypeE.VT_INT:
-                            vars["_" + text].setValue(int.Parse(text2.ToString()));
+                            vars["_" + text].setValue(int.Parse(text2));
                             break;
                         case VariableTypeE.VT_DOUBLE:
                             vars["_" + text].setValue(float.Parse(text2));

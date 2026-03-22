@@ -13,95 +13,35 @@ public class Vector3f
 
     public float X
     {
-        get
-        {
-            return _X;
-        }
-        set
-        {
-            _X = value;
-        }
+        get => _X;
+        set => _X = value;
     }
 
     public float Y
     {
-        get
-        {
-            return _Y;
-        }
-        set
-        {
-            _Y = value;
-        }
+        get => _Y;
+        set => _Y = value;
     }
 
     public float Z
     {
-        get
-        {
-            return _Z;
-        }
-        set
-        {
-            _Z = value;
-        }
+        get => _Z;
+        set => _Z = value;
     }
 
-    public float Length
-    {
-        get
-        {
-            return Mathf.Sqrt(_X * _X + _Y * _Y + _Z * _Z);
-        }
-    }
+    public float Length => Mathf.Sqrt(_X * _X + _Y * _Y + _Z * _Z);
 
-    public float LengthXY
-    {
-        get
-        {
-            return Mathf.Sqrt(_X * _X + _Y * _Y);
-        }
-    }
+    public float LengthXY => Mathf.Sqrt(_X * _X + _Y * _Y);
 
-    public static Vector3f Right
-    {
-        get
-        {
-            return new Vector3f(1f, 0f, 0f);
-        }
-    }
+    public static Vector3f Right => new(1f);
 
-    public static Vector3f Up
-    {
-        get
-        {
-            return new Vector3f(0f, 1f, 0f);
-        }
-    }
+    public static Vector3f Up => new(0f, 1f);
 
-    public static Vector3f Forward
-    {
-        get
-        {
-            return new Vector3f(0f, 1f, 0f);
-        }
-    }
+    public static Vector3f Forward => new(0f, 1f);
 
-    public static Vector3f Zero
-    {
-        get
-        {
-            return new Vector3f(0f, 0f, 0f);
-        }
-    }
+    public static Vector3f Zero => new();
 
-    public static Vector3f One
-    {
-        get
-        {
-            return new Vector3f(1f, 1f, 1f);
-        }
-    }
+    public static Vector3f One => new(1f, 1f, 1f);
 
     public Vector3f(float p_x = 0f, float p_y = 0f, float p_z = 0f)
     {
@@ -230,11 +170,11 @@ public class Vector3f
         float num = (p_point2.Y - p_point1.Y) * (p_point3.X - p_point4.X) - (p_point3.Y - p_point4.Y) * (p_point2.X - p_point1.X);
         float num2 = (p_point2.Y - p_point1.Y) * (p_point3.X - p_point1.X) - (p_point3.Y - p_point1.Y) * (p_point2.X - p_point1.X);
         float num3 = (p_point3.Y - p_point1.Y) * (p_point3.X - p_point4.X) - (p_point3.Y - p_point4.Y) * (p_point3.X - p_point1.X);
-        if ((double)num == 0.0 && (double)num2 == 0.0 && (double)num3 == 0.0)
+        if (num == 0.0 && num2 == 0.0 && num3 == 0.0)
         {
             return null;
         }
-        if ((double)num == 0.0)
+        if (num == 0.0)
         {
             return null;
         }
@@ -244,7 +184,7 @@ public class Vector3f
         float p_y = p_point1.Y + (p_point2.Y - p_point1.Y) * num5;
         if (0f < num4 && num4 < 1f && 0f < num5 && num5 < 1f)
         {
-            return new Vector3f(p_x, p_y, 0f);
+            return new Vector3f(p_x, p_y);
         }
         return null;
     }
@@ -365,7 +305,7 @@ public class Vector3f
         {
             return null;
         }
-        Vector3f vector3f = new Vector3f(0f, 0f, 0f);
+        Vector3f vector3f = new Vector3f();
         try
         {
             vector3f._X = float.Parse(p_node.Attributes["X"].Value);

@@ -23,21 +23,21 @@ public class MessageOnScreen : MonoBehaviour
 
         _sequence = DOTween.Sequence();
 
-        var fade = DOTweenModuleUI.DOFade(_text, 1, 0.5f);
-        TweenSettingsExtensions.Append(_sequence, fade);
-        TweenSettingsExtensions.AppendInterval(_sequence, timeInFrame / 60);
+        var fade = _text.DOFade(1, 0.5f);
+        _sequence.Append(fade);
+        _sequence.AppendInterval(timeInFrame / 60);
 
-        var fade1 = DOTweenModuleUI.DOFade(_text, 0, 0.5f);
-        TweenSettingsExtensions.Append(_sequence, fade1);
+        var fade1 = _text.DOFade(0, 0.5f);
+        _sequence.Append(fade1);
 
         var action = new TweenCallback(() => _text.gameObject.SetActive(false));
-        TweenSettingsExtensions.OnKill(_sequence, action);
-        TweenExtensions.Play(_sequence);
+        _sequence.OnKill(action);
+        _sequence.Play();
     }
 
     private void Reset()
     {
-        TweenExtensions.Kill(_sequence, false);
+        _sequence.Kill();
         _text.gameObject.SetActive(false);
     }
 }

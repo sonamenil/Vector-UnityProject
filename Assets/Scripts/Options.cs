@@ -1,8 +1,7 @@
+using System;
 using Banzai.Json;
 using Newtonsoft.Json;
 using PlayerData;
-using System;
-using UnityEngine;
 
 public class Options : BaseUserHolder<Options>
 {
@@ -38,13 +37,10 @@ public class Options : BaseUserHolder<Options>
 
     public bool GameRated
     {
-        get
-        {
-            return _gameRated;
-        }
+        get => _gameRated;
         set
         {
-            if ((_gameRated != false) != value)
+            if (_gameRated != value)
             {
                 _gameRated = value;
                 SaveData();
@@ -54,13 +50,10 @@ public class Options : BaseUserHolder<Options>
 
     public bool ShowRateGameNextTime
     {
-        get
-        {
-            return _showRateGameNextTime;
-        }
+        get => _showRateGameNextTime;
         set
         {
-            if ((_showRateGameNextTime != false) != value)
+            if (_showRateGameNextTime != value)
             {
                 _showRateGameNextTime = value;
                 SaveData();
@@ -70,17 +63,17 @@ public class Options : BaseUserHolder<Options>
 
     public override void ParseData()
     {
-        SoundLevel = JsonUtils.GetFloat(_userjObject, "SoundLevel", 1);
-        MusicLevel = JsonUtils.GetFloat(_userjObject, "MusicLevel", 1);
-        LastUsedSetSoundValue = JsonUtils.GetFloat(_userjObject, "LastUsedSetSoundValue");
-        LastUsedSetMusicValue = JsonUtils.GetFloat(_userjObject, "LastUsedSetMusicValue");
-        Sound = JsonUtils.GetBool(_userjObject, "Sound", true);
-        Music = JsonUtils.GetBool(_userjObject, "Music", true);
-        GDPR = JsonUtils.GetBool(_userjObject, "GDPR", false);
-        Locale = JsonUtils.GetText(_userjObject, "Locale");
-        CurrentLocaleIndex = JsonUtils.GetInt(_userjObject, "CurrentLocaleIndex");
-        _gameRated = JsonUtils.GetBool(_userjObject, "GameRated", false);
-        _showRateGameNextTime = JsonUtils.GetBool(_userjObject, "ShowRateGameNextTime", false);
+        SoundLevel = _userjObject.GetFloat("SoundLevel", 1);
+        MusicLevel = _userjObject.GetFloat("MusicLevel", 1);
+        LastUsedSetSoundValue = _userjObject.GetFloat("LastUsedSetSoundValue");
+        LastUsedSetMusicValue = _userjObject.GetFloat("LastUsedSetMusicValue");
+        Sound = _userjObject.GetBool("Sound", true);
+        Music = _userjObject.GetBool("Music", true);
+        GDPR = _userjObject.GetBool("GDPR", false);
+        Locale = _userjObject.GetText("Locale");
+        CurrentLocaleIndex = _userjObject.GetInt("CurrentLocaleIndex");
+        _gameRated = _userjObject.GetBool("GameRated", false);
+        _showRateGameNextTime = _userjObject.GetBool("ShowRateGameNextTime", false);
     }
 
     public override void SaveData()
@@ -110,7 +103,7 @@ public class Options : BaseUserHolder<Options>
     public void ToggleMusic()
     {
         MusicLevel = 0;
-        if (Music == false)
+        if (!Music)
         {
             MusicLevel = LastUsedSetMusicValue;
         }
@@ -124,7 +117,7 @@ public class Options : BaseUserHolder<Options>
     public void ToggleSound()
     {
         SoundLevel = 0;
-        if (Sound == false)
+        if (!Sound)
         {
             SoundLevel = LastUsedSetSoundValue;
         }
@@ -138,7 +131,7 @@ public class Options : BaseUserHolder<Options>
     public void ToggleValue(ref bool status, ref float value, float userSetValue)
     {
         value = 0;
-        if (status == false)
+        if (!status)
         {
             value = userSetValue;
         }

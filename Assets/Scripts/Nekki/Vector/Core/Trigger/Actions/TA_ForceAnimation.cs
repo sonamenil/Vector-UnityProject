@@ -1,5 +1,5 @@
-using Nekki.Vector.Core.Models;
 using System.Xml;
+using Nekki.Vector.Core.Models;
 
 namespace Nekki.Vector.Core.Trigger.Actions
 {
@@ -25,10 +25,10 @@ namespace Nekki.Vector.Core.Trigger.Actions
 		public TA_ForceAnimation(XmlNode p_node, TriggerLoop p_parent)
 			: base(p_parent)
 		{
-            InitActionVar(p_parent.ParentTrigger, ref _FramesVar, XmlUtils.ParseString(p_node.Attributes["Frame"], "-1"));
-            InitActionVar(p_parent.ParentTrigger, ref _NameVar, XmlUtils.ParseString(p_node.Attributes["Name"]));
-            InitActionVar(p_parent.ParentTrigger, ref _ModelNameVar, XmlUtils.ParseString(p_node.Attributes["Model"]));
-            InitActionVar(p_parent.ParentTrigger, ref _DirectionVar, XmlUtils.ParseString(p_node.Attributes["Reversed"], "0"));
+            InitActionVar(p_parent.ParentTrigger, ref _FramesVar, p_node.Attributes["Frame"].ParseString("-1"));
+            InitActionVar(p_parent.ParentTrigger, ref _NameVar, p_node.Attributes["Name"].ParseString());
+            InitActionVar(p_parent.ParentTrigger, ref _ModelNameVar, p_node.Attributes["Model"].ParseString());
+            InitActionVar(p_parent.ParentTrigger, ref _DirectionVar, p_node.Attributes["Reversed"].ParseString("0"));
         }
 
 		public override void Activate(ref bool p_isRunNext)

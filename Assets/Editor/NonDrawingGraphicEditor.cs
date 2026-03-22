@@ -1,6 +1,4 @@
-﻿
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.UI;
 
 //Don't forget to put this file inside a 'Editor' folder
@@ -9,12 +7,12 @@ public class NonDrawingGraphicEditor : GraphicEditor
 {
     public override void OnInspectorGUI()
     {
-        base.serializedObject.Update();
+        serializedObject.Update();
         EditorGUI.BeginDisabledGroup(true);
-        EditorGUILayout.PropertyField(base.m_Script, new GUILayoutOption[0]);
+        EditorGUILayout.PropertyField(m_Script);
         EditorGUI.EndDisabledGroup();
         // skipping AppearanceControlsGUI
-        base.RaycastControlsGUI();
-        base.serializedObject.ApplyModifiedProperties();
+        RaycastControlsGUI();
+        serializedObject.ApplyModifiedProperties();
     }
 }

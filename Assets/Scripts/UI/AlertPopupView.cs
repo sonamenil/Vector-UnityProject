@@ -24,14 +24,14 @@ namespace UI
 
 		public override void Init(AlertPopup popup)
 		{
-			QuitButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+			QuitButton.onClick.AddListener(() =>
 			{
 				onResult?.Invoke(true);
-			}));
-            CancelButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+			});
+            CancelButton.onClick.AddListener(() =>
             {
-                onResult?.Invoke(false);
-            }));
+	            onResult?.Invoke(false);
+            });
         }
 
 		public override void PreShow(AlertPayloadData payload)

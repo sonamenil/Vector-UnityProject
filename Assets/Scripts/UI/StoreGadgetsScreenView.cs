@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using Utils;
 
 namespace UI
@@ -41,7 +40,7 @@ namespace UI
                 StoreTricksScreenView.Buy(items[ScrollSnap.CurrentIndex - 10], true, ScrollSnap.CurrentIndex - 10);
             });
 
-            EventUtil.AddListener(EventTypes.EQUIP_ITEM, (EventArgs args) =>
+            EventUtil.AddListener(EventTypes.EQUIP_ITEM, args =>
             {
                 if (GadgetIcon == null || GadgetIcon.gameObject == null)
                 {
@@ -50,7 +49,7 @@ namespace UI
                 GadgetIcon.gameObject.SetActive((bool)args.args[0]);
             });
             
-            ScrollSnap.SnapEvent += (i) =>
+            ScrollSnap.SnapEvent += i =>
             {
                 EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(i).GetComponent<HolderItem>().Button.gameObject);
             };

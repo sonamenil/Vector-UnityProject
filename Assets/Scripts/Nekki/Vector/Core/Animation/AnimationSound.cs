@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Nekki.Vector.Core.Animation
 {
@@ -13,7 +14,7 @@ namespace Nekki.Vector.Core.Animation
 
 		public void Play(float p_volume = 1f)
 		{
-			var num = UnityEngine.Random.Range(0, _names.Count);
+			var num = Random.Range(0, _names.Count);
 			SoundsManager.Instance.PlaySoundsOnce(_names[num], p_volume);
 		}
 	}

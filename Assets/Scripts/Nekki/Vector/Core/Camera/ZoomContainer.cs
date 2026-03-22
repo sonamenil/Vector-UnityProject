@@ -1,4 +1,4 @@
-using System;
+using Nekki.Vector.Core.Utilites;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Camera
@@ -26,14 +26,14 @@ namespace Nekki.Vector.Core.Camera
         {
             get
             {
-                float num = (float)(2 * _Frame) / _Time;
+                float num = 2 * _Frame / _Time;
                 num *= num;
                 float num2 = (_ZoomValue - _Scale) / 2f;
-                if ((float)_Frame < _Time / 2f)
+                if (_Frame < _Time / 2f)
                 {
                     return _Scale + num2 * num;
                 }
-                return _Scale + num2 * ((float)(8 * _Frame) / _Time - 2f - num);
+                return _Scale + num2 * (8 * _Frame / _Time - 2f - num);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Nekki.Vector.Core.Camera
         {
             _Frame = 0;
             _Scale = _ZoomValue;
-            _ZoomValue = Utilites.Math.Round(p_value / (p_value + _Factor * (1 - p_value)), 10);
+            _ZoomValue = Math.Round(p_value / (p_value + _Factor * (1 - p_value)), 10);
             if (!p_isStart)
             {
                 _IsZoom = true;

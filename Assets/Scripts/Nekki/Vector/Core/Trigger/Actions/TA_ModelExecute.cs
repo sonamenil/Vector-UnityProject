@@ -1,5 +1,6 @@
-using Nekki.Vector.Core.Location;
 using System.Xml;
+using Nekki.Vector.Core.Location;
+using Nekki.Vector.Core.Models;
 
 namespace Nekki.Vector.Core.Trigger.Actions
 {
@@ -26,14 +27,13 @@ namespace Nekki.Vector.Core.Trigger.Actions
 		public override void Activate(ref bool p_isRunNext)
 		{
             p_isRunNext = true;
-			string[] reactions = new string[]
-			{
+			string[] reactions = {
 				_AnimVar.ValueString,
 				_FrameVar.ValueInt.ToString()
 			};
 			foreach (var model in _ParentLoop.ParentTrigger.ParentElements.Primitives)
 			{
-				if (model.Type == Models.ModelType.PrimitiveAnimated)
+				if (model.Type == ModelType.PrimitiveAnimated)
 				{
 					((PrimitiveAnimatedRunner)model).PlayReaction(reactions);
 				}

@@ -20,9 +20,9 @@ namespace Nekki.Vector.Core.Trigger.Conditions
 
 		public override string ToString()
 		{
-            string text = "LessEqual: " + ((!_IsNot) ? "(" : "!(");
+            string text = "LessEqual: " + (!_IsNot ? "(" : "!(");
             string text2 = text;
-            return text2 + _Value1.ToString() + ">=" + _Value2.ToString() + ")";
+            return text2 + _Value1 + ">=" + _Value2 + ")";
         }
 	}
 }

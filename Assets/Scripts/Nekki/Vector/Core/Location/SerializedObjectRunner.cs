@@ -1,7 +1,7 @@
-using Nekki.Vector.Core.Location.LevelCreation;
-using Nekki.Vector.Core.Transformation;
 using System.Collections.Generic;
 using System.Xml;
+using Nekki.Vector.Core.Location.LevelCreation;
+using Nekki.Vector.Core.Transformation;
 using UnityEngine;
 using Xml2Prefab;
 
@@ -75,7 +75,7 @@ namespace Nekki.Vector.Core.Location
         {
             foreach (var runner in _Element.Runners)
             {
-                runner.InitRunner(Position, false);
+                runner.InitRunner(Position);
                 BuildTranformationTable(runner.TransformationData);
             }
         }

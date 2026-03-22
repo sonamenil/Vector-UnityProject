@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
+using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 namespace Nekki.Vector.GUI.InputControllers
 {
@@ -31,7 +32,7 @@ namespace Nekki.Vector.GUI.InputControllers
         public static void SetEnabledAll(bool value)
         {
             TouchController[] controllers =
-                UnityEngine.Object.FindObjectsByType<TouchController>(FindObjectsSortMode.None);
+                FindObjectsByType<TouchController>(FindObjectsSortMode.None);
 
             foreach (TouchController controller in controllers)
             {
@@ -89,12 +90,12 @@ namespace Nekki.Vector.GUI.InputControllers
 
                 switch (touch.phase)
                 {
-                    case UnityEngine.InputSystem.TouchPhase.Began:
+                    case TouchPhase.Began:
                         _touches[fingerId] = position;
                         break;
 
-                    case UnityEngine.InputSystem.TouchPhase.Moved:
-                    case UnityEngine.InputSystem.TouchPhase.Stationary:
+                    case TouchPhase.Moved:
+                    case TouchPhase.Stationary:
                         if (_touches.TryGetValue(fingerId, out Vector2 startPos))
                         {
                             float distance = Vector2.Distance(startPos, position);
@@ -107,8 +108,8 @@ namespace Nekki.Vector.GUI.InputControllers
                         }
                         break;
 
-                    case UnityEngine.InputSystem.TouchPhase.Ended:
-                    case UnityEngine.InputSystem.TouchPhase.Canceled:
+                    case TouchPhase.Ended:
+                    case TouchPhase.Canceled:
                         _touches.Remove(fingerId);
                         break;
                 }

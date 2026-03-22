@@ -1,20 +1,14 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Camera;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Utilites;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Visual
 {
 	public class VisualContainer
 	{
-        public float FrameScale
-        {
-            get
-            {
-                return _Scale * 2;
-            }
-        }
+        public float FrameScale => _Scale * 2;
 
         private float _Scale;
 
@@ -85,8 +79,8 @@ namespace Nekki.Vector.Core.Visual
                 return;
             }
             var vector = _Object.transform.position;
-            vector.x = p_point.x + -(p_point.x * (_Factor) * FrameScale);
-            vector.y = p_point.y + -(p_point.y * (_Factor) * FrameScale);
+            vector.x = p_point.x + -(p_point.x * _Factor * FrameScale);
+            vector.y = p_point.y + -(p_point.y * _Factor * FrameScale);
             _Object.transform.position = vector;
         }
 

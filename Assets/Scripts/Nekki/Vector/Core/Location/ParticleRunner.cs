@@ -1,6 +1,6 @@
+using Nekki.Vector.Core.Controllers;
 using Nekki.Vector.Core.Location.Animation;
 using Nekki.Vector.Core.Node;
-using Nekki.Vector.Core.Controllers;
 using UnityEngine;
 using Xml2Prefab;
 
@@ -19,7 +19,7 @@ namespace Nekki.Vector.Core.Location
 		private ModelNode _node;
 
 		public ParticleRunner(float p_x, float p_y, float p_width, float p_height, string p_name)
-			: base(p_name, p_x, p_y, p_width, p_height, true, 1)
+			: base(p_name, p_x, p_y, p_width, p_height, true)
 		{
 			_isRender = false;
 			_TypeClass = RunnerType.Particle;
@@ -54,7 +54,7 @@ namespace Nekki.Vector.Core.Location
 			_node = new ModelNode(new Vector3d());
 			_node.Attenuation = 0;
 			_node.Radius = 10;
-			_node.PositionStart((Position.X + _Width * 0.5), (Position.Y + _Height * 0.5), 0);
+			_node.PositionStart(Position.X + _Width * 0.5, Position.Y + _Height * 0.5, 0);
 			_node.EndAssignStart();
 			MoveParticle();
 			SetImpuls(p_node);
@@ -96,8 +96,8 @@ namespace Nekki.Vector.Core.Location
 			}
 			base.Render();
 			_node.TimeStep(ControllerPhysics.Gravity);
+            ControllerCollisions.PushingNode(_node, BaseSets.Current.Quads, 0.55);
 			MoveParticle();
-            ControllerCollisions.PushingNode(_node, Sets.Current.Quads);
             IsCollision();
 			return false;
 		}

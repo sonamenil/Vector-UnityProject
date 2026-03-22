@@ -1,8 +1,5 @@
-using Nekki.Vector.Core.Location;
-using System;
 using System.Collections.Generic;
 using System.Xml;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Transformation
 {
@@ -33,14 +30,14 @@ namespace Nekki.Vector.Core.Transformation
 
         public override void Parse(XmlNode node)
         {
-            _Frames = XmlUtils.ParseInt(node.Attributes["Frames"]);
-            float num = XmlUtils.ParseFloat(node.Attributes["Angle"]);
+            _Frames = node.Attributes["Frames"].ParseInt();
+            float num = node.Attributes["Angle"].ParseFloat();
             CalcLinear(num);
         }
 
         private void CalcLinear(float p_angel)
         {
-            float item = p_angel / (float)_Frames;
+            float item = p_angel / _Frames;
             for (int i = 0; i < _Frames; i++)
             {
                 _Angles.Add(item);

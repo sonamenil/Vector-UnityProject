@@ -3,7 +3,6 @@ using System.Xml;
 using Core._Common;
 using Nekki.Vector.Core.Camera;
 using Nekki.Vector.Core.Controllers;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Animation
 {
@@ -55,8 +54,8 @@ namespace Nekki.Vector.Core.Animation
             XmlNode xmlNode3 = xmlNode["Moves"];
             foreach (XmlNode childNode2 in xmlNode3.ChildNodes)
             {
-                AnimationInfo animationInfo = null;
-                animationInfo = ((childNode2.Attributes["Trick"] != null && XmlUtils.ParseInt(childNode2.Attributes["Trick"]) != 0) ? new AnimationTrickInfo(childNode2) : new AnimationInfo(childNode2));
+                AnimationInfo animationInfo;
+                animationInfo = childNode2.Attributes["Trick"] != null && childNode2.Attributes["Trick"].ParseInt() != 0 ? new AnimationTrickInfo(childNode2) : new AnimationInfo(childNode2);
                 foreach (XmlNode childNode3 in childNode2.ChildNodes)
                 {
                     if (childNode3.Name != "Interval")
@@ -128,14 +127,14 @@ namespace Nekki.Vector.Core.Animation
         private void ParseConfigs(XmlNode xmlNode)
         {
             XmlNode cameraNode = xmlNode["Camera"];
-            LocationCamera.MinZoom = XmlUtils.ParseFloat(cameraNode.Attributes["MinZoom"]);
-            LocationCamera.MaxZoom = XmlUtils.ParseFloat(cameraNode.Attributes["MaxZoom"]);
-            LocationCamera.CurrentZoom = XmlUtils.ParseFloat(cameraNode.Attributes["CurrZoom"]);
+            LocationCamera.MinZoom = cameraNode.Attributes["MinZoom"].ParseFloat();
+            LocationCamera.MaxZoom = cameraNode.Attributes["MaxZoom"].ParseFloat();
+            LocationCamera.CurrentZoom = cameraNode.Attributes["CurrZoom"].ParseFloat();
 
             XmlNode taserNode = xmlNode["Taser"];
-            ControllerCatching.DistanceFactor = XmlUtils.ParseFloat(taserNode.Attributes["Distance"]);
-            ControllerCatching.Timeout = XmlUtils.ParseFloat(taserNode.Attributes["Time"]);
-            ControllerCatching.HeightFactor = XmlUtils.ParseFloat(taserNode.Attributes["HeightFactor"]);
+            ControllerCatching.DistanceFactor = taserNode.Attributes["Distance"].ParseFloat();
+            ControllerCatching.Timeout = taserNode.Attributes["Time"].ParseFloat();
+            ControllerCatching.HeightFactor = taserNode.Attributes["HeightFactor"].ParseFloat();
         }
     }
 }

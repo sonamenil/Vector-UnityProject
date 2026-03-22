@@ -1,6 +1,5 @@
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace UI
 {
@@ -11,8 +10,6 @@ namespace UI
 		public UnityEngine.UI.Button NoButton;
 
 		public UnityEngine.UI.Button BackgroundButton;
-
-		public ComingSoonPopupView() : base() { }
 
 		public override void Init(ComingSoonPopup yesNoPopup)
 		{

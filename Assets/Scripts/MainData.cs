@@ -1,7 +1,6 @@
+using System;
 using Banzai.Json;
 using PlayerData;
-using System;
-using System.Runtime.CompilerServices;
 
 public class MainData : BaseUserHolder<MainData>
 {
@@ -17,10 +16,10 @@ public class MainData : BaseUserHolder<MainData>
 
 	public override void ParseData()
 	{
-        _coins = JsonUtils.GetInt(_userjObject, "Coins");
+        _coins = _userjObject.GetInt("Coins");
 		if (!_isUnlock)
 		{
-			_isUnlock = JsonUtils.GetBool(_userjObject, "Unlock", false);
+			_isUnlock = _userjObject.GetBool("Unlock", false);
 		}
 
     }

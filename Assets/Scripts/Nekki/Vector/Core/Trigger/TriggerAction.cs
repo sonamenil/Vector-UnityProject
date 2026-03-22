@@ -1,8 +1,8 @@
+using System.Collections.Generic;
+using System.Xml;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Trigger.Actions;
-using System.Collections.Generic;
-using System.Xml;
 
 namespace Nekki.Vector.Core.Trigger
 {
@@ -88,7 +88,7 @@ namespace Nekki.Vector.Core.Trigger
                 {
                     string value = childNode.Attributes["Template"].Value;
                     XmlNode templateActionsXML = TemplateModule.getTemplateActionsXML(value);
-                    string p_prefix2 = XmlUtils.ParseString(childNode.Attributes["Prefix"]);
+                    string p_prefix2 = childNode.Attributes["Prefix"].ParseString();
                     ParseActions(templateActionsXML, p_loop, p_actions, p_prefix2);
                     continue;
                 }

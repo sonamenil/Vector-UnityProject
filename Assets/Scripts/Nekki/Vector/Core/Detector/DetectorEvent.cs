@@ -1,7 +1,5 @@
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Node;
-using System.Runtime.InteropServices;
-using static Nekki.Vector.Core.Node.NodeName;
 
 namespace Nekki.Vector.Core.Detector
 {

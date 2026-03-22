@@ -4,8 +4,6 @@ using System.Xml;
 using Core._Common;
 using Nekki.Vector.Core.Detector;
 using Nekki.Vector.Core.Node;
-using Nekki.Vector.Core.Scripts;
-using UnityEditor;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Models
@@ -36,10 +34,7 @@ namespace Nekki.Vector.Core.Models
 
         public Model Parent
         {
-            get
-            {
-                return _Parent;
-            }
+            get => _Parent;
             set
             {
                 _Parent = value;
@@ -49,10 +44,7 @@ namespace Nekki.Vector.Core.Models
 
         public GameObject Layer
         {
-            get
-            {
-                return _Layer;
-            }
+            get => _Layer;
             set
             {
                 _Layer = value;
@@ -68,10 +60,7 @@ namespace Nekki.Vector.Core.Models
 
         public bool IsVisible
         {
-            get
-            {
-                return _isVisible;
-            }
+            get => _isVisible;
             set
             {
                 _isVisible = value;
@@ -81,22 +70,13 @@ namespace Nekki.Vector.Core.Models
 
         public bool DebugMode
         {
-            get
-            {
-                return _debugMode;
-            }
-            set
-            {
-                _debugMode = value;
-            }
+            get => _debugMode;
+            set => _debugMode = value;
         }
 
         public Color Color
         {
-            get
-            {
-                return _Color;
-            }
+            get => _Color;
             set
             {
                 _Color = value;
@@ -109,14 +89,8 @@ namespace Nekki.Vector.Core.Models
 
         public string Name
         {
-            get
-            {
-                return _Container.name;
-            }
-            set
-            {
-                _Container.name = "[Model] " + value;
-            }
+            get => _Container.name;
+            set => _Container.name = "[Model] " + value;
         }
 
         public List<ModelNode> CenterOfMass
@@ -309,7 +283,7 @@ namespace Nekki.Vector.Core.Models
                 ParseFile(s);
             }
             CameraNode = null;
-            PivotNode = GetNode("NPivot");
+            PivotNode = GetNode();
             DetectorHorizontalNode = GetNode("DetectorH");
             DetectorVerticalNode = GetNode("DetectorV");
             if (DetectorHorizontalNode == null)
@@ -361,7 +335,7 @@ namespace Nekki.Vector.Core.Models
         {
             RenderMacroNode();
             BoundingBox = new Rectangle(float.NaN, float.NaN, float.NaN, float.NaN);
-            ModelNode modelNode = null;
+            ModelNode modelNode;
             for (int i = 0; i < _NodesAll.Count; i++)
             {
                 modelNode = _NodesAll[i];
@@ -434,24 +408,24 @@ namespace Nekki.Vector.Core.Models
 
         private ModelNode ParseNode(XmlNode node)
         {
-            float p_x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            float num = XmlUtils.ParseFloat(node.Attributes["Y"]);
-            float p_z = XmlUtils.ParseFloat(node.Attributes["Z"]);
+            float p_x = node.Attributes["X"].ParseFloat();
+            float num = node.Attributes["Y"].ParseFloat();
+            float p_z = node.Attributes["Z"].ParseFloat();
             string value = node.Attributes["Type"].Value;
-            MacroNode p_macroNode = ((!(value == "MacroNode")) ? null : new MacroNode());
+            MacroNode p_macroNode = !(value == "MacroNode") ? null : new MacroNode();
             ModelNode modelNode = new ModelNode(new Vector3d(p_x, 0f - num, p_z), p_macroNode);
             modelNode.Name = node.Name;
             modelNode.Type = value;
-            modelNode.Weight = XmlUtils.ParseFloat(node.Attributes["Mass"]);
-            modelNode.IsFixed = XmlUtils.ParseBool(node.Attributes["Fixed"]);
-            modelNode.IsCollisible = XmlUtils.ParseBool(node.Attributes["Collisible"]);
-            modelNode.IsPhysics = XmlUtils.ParseBool(node.Attributes["Cloth"]);
-            modelNode.Attenuation = XmlUtils.ParseFloat(node.Attributes["Attenuation"]);
+            modelNode.Weight = node.Attributes["Mass"].ParseFloat();
+            modelNode.IsFixed = node.Attributes["Fixed"].ParseBool();
+            modelNode.IsCollisible = node.Attributes["Collisible"].ParseBool();
+            modelNode.IsPhysics = node.Attributes["Cloth"].ParseBool();
+            modelNode.Attenuation = node.Attributes["Attenuation"].ParseFloat();
             switch (modelNode.Type)
             {
                 case "CenterOfMass":
                     {
-                        int num2 = XmlUtils.ParseInt(node.Attributes["NodesCount"]);
+                        int num2 = node.Attributes["NodesCount"].ParseInt();
                         if (num2 != 0)
                         {
                             modelNode.MacroNode = new MacroNode();
@@ -465,14 +439,14 @@ namespace Nekki.Vector.Core.Models
                     }
                 case "MacroNode":
                     {
-                        int num2 = XmlUtils.ParseInt(node.Attributes["NodesCount"]);
+                        int num2 = node.Attributes["NodesCount"].ParseInt();
                         if (num2 != 0)
                         {
                             for (int i = 0; i < num2; i++)
                             {
                                 string value2 = node.Attributes["ChildNode" + (i + 1)].Value;
                                 modelNode.MacroNode.ChildNode.Add(GetNode(value2));
-                                modelNode.MacroNode.LCC.Add(XmlUtils.ParseDouble(node.Attributes["LCC" + (i + 1)]));
+                                modelNode.MacroNode.LCC.Add(node.Attributes["LCC" + (i + 1)].ParseDouble());
                             }
                         }
                         break;
@@ -519,8 +493,8 @@ namespace Nekki.Vector.Core.Models
             ModelLine modelLine = new ModelLine(GetNode(value), GetNode(value2));
             modelLine.Name = node.Name;
             modelLine.Type = node.Attributes["Type"].Value;
-            modelLine.Length = XmlUtils.ParseFloat(node.Attributes["Length"]);
-            modelLine.Collisible = XmlUtils.ParseBool(node.Attributes["Collisible"]);
+            modelLine.Length = node.Attributes["Length"].ParseFloat();
+            modelLine.Collisible = node.Attributes["Collisible"].ParseBool();
             return modelLine;
         }
 
@@ -542,9 +516,9 @@ namespace Nekki.Vector.Core.Models
             {
                 case "Capsule":
                     var modelLine = new ModelLine(GetEdge(node.Attributes["Edge"].Value));
-                    modelLine.Stroke = XmlUtils.ParseDouble(node.Attributes["Radius1"]);
-                    modelLine.Margin1 = XmlUtils.ParseDouble(node.Attributes["Margin1"]);
-                    modelLine.Margin2 = XmlUtils.ParseDouble(node.Attributes["Margin2"]);
+                    modelLine.Stroke = node.Attributes["Radius1"].ParseDouble();
+                    modelLine.Margin1 = node.Attributes["Margin1"].ParseDouble();
+                    modelLine.Margin2 = node.Attributes["Margin2"].ParseDouble();
                     modelLine.Type = "Capsule";
                     Capsules.Add(modelLine);
                     render.Add(modelLine);
@@ -564,7 +538,7 @@ namespace Nekki.Vector.Core.Models
         {
             if (node != null)
             {
-                Vector3f vector3f = new Vector3f(-1f, -1f, 0f);
+                Vector3f vector3f = new Vector3f(-1f, -1f);
                 node.Start.Set(PivotNode.Start + vector3f);
                 node.End.Set(PivotNode.End + vector3f);
             }
@@ -597,13 +571,13 @@ namespace Nekki.Vector.Core.Models
         private void CreateBothNodeList()
         {
             _BothNodeList = new List<int[]>();
-            ModelNode modelNode = null;
+            ModelNode modelNode;
             for (int i = 0; i < _NodesAll.Count; i++)
             {
                 modelNode = _NodesAll[i];
                 if (modelNode.BothIndex != 0 && !IsBothNodes(modelNode.Id, _BothNodeList))
                 {
-                    _BothNodeList.Add(new int[2]
+                    _BothNodeList.Add(new[]
                     {
                         modelNode.Id,
                         BothNode(modelNode, _NodesAll).Id
@@ -692,7 +666,7 @@ namespace Nekki.Vector.Core.Models
             ModelNode node = GetNode(name);
             if (node != null)
             {
-                return (!isCurrent) ? node.End : node.Start;
+                return !isCurrent ? node.End : node.Start;
             }
             return null;
         }

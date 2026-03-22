@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Animation;
 using Nekki.Vector.Core.Controllers;
-using System.Collections.Generic;
+using Nekki.Vector.Core.Models;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Location
@@ -15,10 +16,7 @@ namespace Nekki.Vector.Core.Location
 
         public override bool IsStrike
         {
-            get
-            {
-                return false;
-            }
+            get => false;
             set
             {
             }
@@ -27,7 +25,7 @@ namespace Nekki.Vector.Core.Location
         public PrimitiveAnimatedRunner(int type, string p_name, Color p_color, Vector3f p_deltaPosition, float p_impulse, List<string> p_sounds)
             : base(type, p_name, p_color, p_deltaPosition, p_impulse, p_sounds)
         {
-            Type = Models.ModelType.PrimitiveAnimated;
+            Type = ModelType.PrimitiveAnimated;
         }
 
         public override void Load()

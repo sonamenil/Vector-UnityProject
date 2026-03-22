@@ -16,7 +16,7 @@ namespace UI
 
 		public void OnToggle(bool isOn)
 		{
-			_toggle.interactable = _toggle.isOn == false;
+			_toggle.interactable = !_toggle.isOn;
 		}
 	}
 }

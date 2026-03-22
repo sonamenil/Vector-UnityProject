@@ -16,38 +16,20 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
         public Vector3dLine Base
         {
-            get
-            {
-                return _Base;
-            }
-            set
-            {
-                _Base = value;
-            }
+            get => _Base;
+            set => _Base = value;
         }
 
         public string SortingLayerName
         {
-            get
-            {
-                return _SortingLayerName;
-            }
-            set
-            {
-                _SortingLayerName = value;
-            }
+            get => _SortingLayerName;
+            set => _SortingLayerName = value;
         }
 
         public int SortingOrder
         {
-            get
-            {
-                return _SortingOrder;
-            }
-            set
-            {
-                _SortingOrder = value;
-            }
+            get => _SortingOrder;
+            set => _SortingOrder = value;
         }
 
         private void Start()
@@ -74,8 +56,8 @@ namespace Nekki.Vector.Core.Scripts.Geometry
             mesh.triangles = new int[6] { 0, 1, 2, 1, 3, 2 };
             Mesh mesh2 = mesh;
             mesh2.RecalculateBounds();
-            base.gameObject.AddComponent<MeshFilter>().mesh = mesh2;
-            MeshRenderer meshRenderer = base.gameObject.AddComponent<MeshRenderer>();
+            gameObject.AddComponent<MeshFilter>().mesh = mesh2;
+            MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
             meshRenderer.sortingLayerName = _SortingLayerName;
             meshRenderer.sortingOrder = _SortingOrder;
             _Material = meshRenderer.material;
@@ -93,10 +75,10 @@ namespace Nekki.Vector.Core.Scripts.Geometry
                 vector2.z = 0f;
                 Vector3 up = vector - vector2;
                 float magnitude = up.magnitude;
-                base.transform.up = up;
-                base.transform.localScale = new Vector3((float)_Base.Stroke, magnitude, 1f);
+                transform.up = up;
+                transform.localScale = new Vector3((float)_Base.Stroke, magnitude, 1f);
                 Vector3 localPosition = (vector + vector2) / 2f;
-                base.transform.localPosition = localPosition;
+                transform.localPosition = localPosition;
                 _Material.SetVector("_Color", _Base.Color);
             }
         }

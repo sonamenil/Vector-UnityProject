@@ -1,6 +1,5 @@
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Node;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Detector
@@ -19,14 +18,8 @@ namespace Nekki.Vector.Core.Detector
 
 		public GameObject Layer
 		{
-			get
-			{
-				return _layer;
-			}
-			set
-			{
-				_layer = value;
-			}
+			get => _layer;
+			set => _layer = value;
 		}
 
 		public ModelNode Node
@@ -36,14 +29,8 @@ namespace Nekki.Vector.Core.Detector
 
 		public QuadRunner Platform
 		{
-			get
-			{
-				return Node.Data;
-			}
-			set
-			{
-				Node.Data = value;
-			}
+			get => Node.Data;
+			set => Node.Data = value;
 		}
 
 		public string Name => Node.Name;
@@ -145,7 +132,7 @@ namespace Nekki.Vector.Core.Detector
 
 		public string GetStringType()
 		{
-            return (Type != 0) ? "H" : "V";
+            return Type != 0 ? "H" : "V";
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Nekki.Vector.Core.Trigger
             }
             else
             {
-                p_var = Variable.createVariable(p_name, string.Empty, p_parent);
+                p_var = createVariable(p_name, string.Empty, p_parent);
             }
         }
 	}

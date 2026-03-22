@@ -1,9 +1,7 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core;
-using Nekki.Vector.Core.Animation;
 using Nekki.Vector.Core.Gadgets;
 using Nekki.Vector.Core.Location;
-using Nekki.Vector.Core.Transformation;
-using System.Collections.Generic;
 using UnityEngine;
 using AnimationInfo = Nekki.Vector.Core.Animation.AnimationInfo;
 
@@ -69,13 +67,7 @@ public class ControllerStatistics
         }
 	}
 
-	public int deathBoneBreak
-	{
-		get
-		{
-			return _gameOvers[GameEndType.GE_DEATH];
-		}
-	}
+	public int deathBoneBreak => _gameOvers[GameEndType.GE_DEATH];
 
 	private int GetAnimationCountBySubtype(int subType)
 	{

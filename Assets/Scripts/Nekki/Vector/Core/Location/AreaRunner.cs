@@ -1,7 +1,7 @@
+using System.Xml;
 using Nekki.Vector.Core.Animation;
 using Nekki.Vector.Core.Controllers;
 using Nekki.Vector.Core.Models;
-using System.Xml;
 using Xml2Prefab;
 
 namespace Nekki.Vector.Core.Location
@@ -61,7 +61,7 @@ namespace Nekki.Vector.Core.Location
         {
             if (Animations.Animation.ContainsKey(_Name.Replace("Trigger", "")))
             {
-                Core.Animation.AnimationInfo animationInfo = Animations.Animation[Name.Replace("Trigger", "")];
+                AnimationInfo animationInfo = Animations.Animation[Name.Replace("Trigger", "")];
                 if (animationInfo.IsTrick)
                 {
                     AnimationTrickInfo.LoadAnimation(animationInfo as AnimationTrickInfo);

@@ -95,7 +95,7 @@ public class Game
 
             yield return ScreenManager.FadeInCoroutine();
 
-            yield return null; ;
+            yield return null;
 
             ScreenManager.Show<GameplayScreen>(false, false);
 
@@ -107,7 +107,7 @@ public class Game
 
             yield break;
         }
-        var payload = new VideoScreenPayloadData("intro.mp4", new Action(() =>
+        var payload = new VideoScreenPayloadData("intro.mp4", () =>
         {
             ScreenManager.Show<LobbyScreen>(true, false);
             SoundsManager.Instance.PlayBackground(MusicType.menu);
@@ -116,7 +116,7 @@ public class Game
             {
                 ShowRefreshApplication();
             }
-        }));
+        });
         ScreenManager.Show<VideoScreen, VideoScreenPayloadData>(payload, true, false);
         BackButtonManager.Instance.OnBackButton += OnBackButton;
         yield return false;
@@ -148,7 +148,7 @@ public class Game
         var title = LocalizationManager.Instance.GetTranslation("terms_of_use_title");
         var message = LocalizationManager.Instance.GetTranslation("buy_premium_desc");
         var ok = LocalizationManager.Instance.GetTranslation("ctrl_ok");
-        var onClick = new Action<bool>((result) =>
+        var onClick = new Action<bool>(result =>
         {
             if (result)
                 onPlay.Invoke();

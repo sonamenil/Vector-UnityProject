@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
 
 namespace UI
 {
@@ -17,17 +16,17 @@ namespace UI
 		public YesNoPopup(ScreenManager screenManager)
 			: base(screenManager)
 		{
-			YesButton.PressedAction = new Action(() => ScreenManager.ClosePopup());
-			NoButton.PressedAction = new Action(() =>
+			YesButton.PressedAction = () => ScreenManager.ClosePopup();
+			NoButton.PressedAction = () =>
 			{
 				YesButton.PressedAction = null;
 				ScreenManager.ClosePopup();
-			});
-            BackgroundButton.PressedAction = new Action(() =>
+			};
+            BackgroundButton.PressedAction = () =>
             {
-                YesButton.PressedAction = null;
-                ScreenManager.ClosePopup();
-            });
+	            YesButton.PressedAction = null;
+	            ScreenManager.ClosePopup();
+            };
         }
 
 		public void SetCaption(string caption)

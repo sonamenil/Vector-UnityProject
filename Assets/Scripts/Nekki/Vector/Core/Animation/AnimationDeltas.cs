@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Nekki.Vector.Core.Animation
 {
@@ -14,10 +13,10 @@ namespace Nekki.Vector.Core.Animation
 		{
 			foreach (XmlNode node in mainNode.ChildNodes)
 			{
-				if (GetDeltaTypeByString(XmlUtils.ParseString(node.Attributes["Type"], "")) == type)
+				if (GetDeltaTypeByString(node.Attributes["Type"].ParseString("")) == type)
 				{
-                    Point p_value = new Point(XmlUtils.ParseFloat(node.Attributes["Min"], float.NaN), XmlUtils.ParseFloat(node.Attributes["Max"], float.NaN));
-                    int p_corner = XmlUtils.ParseInt(node.Attributes["Corner"], -1);
+                    Point p_value = new Point(node.Attributes["Min"].ParseFloat(float.NaN), node.Attributes["Max"].ParseFloat(float.NaN));
+                    int p_corner = node.Attributes["Corner"].ParseInt(-1);
                     _deltas.Add(new AnimationDelta(GetDeltaNameByString(node.Name), type, p_value, p_corner));
                 }
 			}

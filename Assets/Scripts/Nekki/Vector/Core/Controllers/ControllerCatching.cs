@@ -1,8 +1,7 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Node;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Nekki.Vector.Core.Controllers
 {
@@ -80,7 +79,6 @@ namespace Nekki.Vector.Core.Controllers
                             if (_Targets[modelHuman] == 0)
                             {
                                 Catch(modelHuman);
-                                return;
                             }
 							return;
                         }
@@ -91,8 +89,7 @@ namespace Nekki.Vector.Core.Controllers
                         return;
                     }
                     Play();
-                    return;
-                }
+				}
 				else
 				{
 					if (!_Targets.ContainsKey(modelHuman))

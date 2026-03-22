@@ -1,12 +1,11 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Camera;
 using Nekki.Vector.Core.Models;
-using Nekki.Vector.Core.Grid;
 using Nekki.Vector.Core.Transformation;
 using Nekki.Vector.Core.Trigger;
 using Nekki.Vector.Core.Trigger.Events;
 using Nekki.Vector.Core.User;
 using Nekki.Vector.Core.Visual;
-using System.Collections.Generic;
 using UnityEngine;
 using Xml2Prefab;
 
@@ -47,10 +46,7 @@ namespace Nekki.Vector.Core.Location
 
         public bool DebugMode
         {
-            get
-            {
-                return _isDebugMode;
-            }
+            get => _isDebugMode;
             set
             {
                 _isDebugMode = value;
@@ -96,7 +92,7 @@ namespace Nekki.Vector.Core.Location
                 string file = filePath.Replace(".xml", "");
                 string prefab = prefabPath + "/" + file;
 
-                var obj = UnityEngine.Resources.Load<GameObject>(prefab);
+                var obj = Resources.Load<GameObject>(prefab);
                 obj = Object.Instantiate(obj);
                 obj.name = "Level_root_object";
                 obj.transform.localScale = Vector3.one;

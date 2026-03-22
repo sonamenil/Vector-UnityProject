@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Xml2Prefab
@@ -40,7 +39,7 @@ namespace Xml2Prefab
             }
             transform.localScale = new Vector3(Container.W, Container.H);
             
-            var a = (!Application.isPlaying || Game.Instance == null || Game.Instance.SnailSett.ShowPlatforms) ? 0.2f : 0f;
+            var a = !Application.isPlaying || Game.Instance == null || Game.Instance.SnailSett.ShowPlatforms ? 0.2f : 0f;
             spriteRender.color = new Color(0, 0, 1, a);
         }
 

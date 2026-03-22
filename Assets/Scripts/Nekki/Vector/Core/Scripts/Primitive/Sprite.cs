@@ -14,10 +14,7 @@ namespace Nekki.Vector.Core.Scripts.Primitive
 
 		public Color Color
 		{
-			get
-			{
-				return default(Color);
-			}
+			get => default;
 			set
 			{
 			}
@@ -25,10 +22,7 @@ namespace Nekki.Vector.Core.Scripts.Primitive
 
 		public Texture2D Texture
 		{
-			get
-			{
-				return null;
-			}
+			get => null;
 			set
 			{
 			}

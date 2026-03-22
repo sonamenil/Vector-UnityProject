@@ -1,8 +1,7 @@
-using Core._Common;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Xml;
+using Core._Common;
 using UnityEngine;
 
 public class LocalizationManager : AbstractManager<LocalizationManager>
@@ -30,8 +29,8 @@ public class LocalizationManager : AbstractManager<LocalizationManager>
         public LanguageData(XmlNode p_node)
         {
             name = p_node.Name;
-            index = XmlUtils.ParseString(p_node.Attributes["Index"]);
-            fontFile = XmlUtils.ParseString(p_node.Attributes["FontFile"]);
+            index = p_node.Attributes["Index"].ParseString();
+            fontFile = p_node.Attributes["FontFile"].ParseString();
         }
     }
 
@@ -108,8 +107,7 @@ public class LocalizationManager : AbstractManager<LocalizationManager>
             return translation;
         }
 
-        string[] values = new string[]
-        {
+        string[] values = {
             "%",
             CurrentLocale.index,
             "_",

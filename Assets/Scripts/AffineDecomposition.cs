@@ -15,29 +15,11 @@ public class AffineDecomposition
 
     public float Angle2;
 
-    public float ScaleMultyX
-    {
-        get
-        {
-            return ScaleX1 * ScaleX2;
-        }
-    }
+    public float ScaleMultyX => ScaleX1 * ScaleX2;
 
-    public float ScaleMultyY
-    {
-        get
-        {
-            return ScaleY1 * ScaleY2;
-        }
-    }
+    public float ScaleMultyY => ScaleY1 * ScaleY2;
 
-    public float AngleSum
-    {
-        get
-        {
-            return Angle1 + Angle2;
-        }
-    }
+    public float AngleSum => Angle1 + Angle2;
 
     public AffineDecomposition(Matrix4x4 p_matrix)
     {

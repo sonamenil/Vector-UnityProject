@@ -1,6 +1,4 @@
 using Nekki.Vector.Core.Location;
-using System.Runtime.InteropServices;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger
 {

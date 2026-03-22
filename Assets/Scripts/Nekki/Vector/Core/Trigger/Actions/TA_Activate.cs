@@ -1,6 +1,6 @@
+using System.Xml;
 using Nekki.Vector.Core.Location.LevelCreation;
 using Nekki.Vector.Core.Trigger.Events;
-using System.Xml;
 
 namespace Nekki.Vector.Core.Trigger.Actions
 {

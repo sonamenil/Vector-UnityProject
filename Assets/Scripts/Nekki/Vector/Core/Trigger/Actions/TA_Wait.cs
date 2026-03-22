@@ -8,13 +8,7 @@ namespace Nekki.Vector.Core.Trigger.Actions
 
 		private int _CurrentFrame;
 
-        public override int Frames
-        {
-            get
-            {
-                return _FrameVar.ValueInt;
-            }
-        }
+        public override int Frames => _FrameVar.ValueInt;
 
         private TA_Wait(TA_Wait p_copyAction)
 			: base(p_copyAction._ParentLoop)

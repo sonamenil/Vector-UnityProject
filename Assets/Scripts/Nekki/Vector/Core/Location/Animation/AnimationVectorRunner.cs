@@ -45,7 +45,7 @@ namespace Nekki.Vector.Core.Location.Animation
 			_Count = 0;
 			_UnityObject.transform.localPosition = new Vector3(_DefautPosition.X, _DefautPosition.Y, -1);
 			IsEnabled = false;
-			Stop(false);
+			Stop();
 			base.Reset();
 		}
 

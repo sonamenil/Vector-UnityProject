@@ -22,10 +22,7 @@ namespace Nekki.Vector.Core.Scripts
 
         public Color Color
         {
-            get
-            {
-                return _Color;
-            }
+            get => _Color;
             set
             {
                 _Color = value;
@@ -38,56 +35,32 @@ namespace Nekki.Vector.Core.Scripts
 
         public float Border
         {
-            get
-            {
-                return _Border;
-            }
-            set
-            {
-                _Border = value;
-            }
+            get => _Border;
+            set => _Border = value;
         }
 
         public Model Base
         {
-            get
-            {
-                return _Base;
-            }
-            set
-            {
-                _Base = value;
-            }
+            get => _Base;
+            set => _Base = value;
         }
 
         public string SortingLayerName
         {
-            get
-            {
-                return _SortingLayerName;
-            }
-            set
-            {
-                _SortingLayerName = value;
-            }
+            get => _SortingLayerName;
+            set => _SortingLayerName = value;
         }
 
         public int SortingOrder
         {
-            get
-            {
-                return _SortingOrder;
-            }
-            set
-            {
-                _SortingOrder = value;
-            }
+            get => _SortingOrder;
+            set => _SortingOrder = value;
         }
 
         private GameObject CreateLine()
         {
             GameObject gameObject = new GameObject("Line " + _Lines.Count);
-            gameObject.transform.parent = base.transform;
+            gameObject.transform.parent = transform;
             Mesh mesh = new Mesh();
             mesh.vertices = new Vector3[4]
             {

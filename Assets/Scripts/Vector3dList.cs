@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class Vector3dList
@@ -14,7 +15,7 @@ public class Vector3dList
         {
             if (_size <= index)
             {
-                throw new System.IndexOutOfRangeException();
+                throw new IndexOutOfRangeException();
             }
             return _list[index];
         }

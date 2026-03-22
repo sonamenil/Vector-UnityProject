@@ -37,7 +37,7 @@ namespace Utils
 		{
             if (dic.TryGetValue(eventType, out var listener))
             {
-                var eventArgs = (args == null)
+                var eventArgs = args == null
                     ? new EventArgs(eventType)
                     : new EventArgs(eventType, args);
 

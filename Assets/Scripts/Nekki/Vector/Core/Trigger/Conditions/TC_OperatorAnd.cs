@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Xml;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger.Conditions
 {
@@ -31,7 +30,7 @@ namespace Nekki.Vector.Core.Trigger.Conditions
             string text = "And: ";
             foreach (TriggerCondition condition in _Conditions)
             {
-                text = text + "\n    " + condition.ToString();
+                text = text + "\n    " + condition;
             }
             return text;
         }

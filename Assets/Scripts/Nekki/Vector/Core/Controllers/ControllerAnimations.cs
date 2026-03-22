@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
 using Nekki.Vector.Core.Animation;
 using Nekki.Vector.Core.Animation.Events;
 using Nekki.Vector.Core.Camera;
@@ -5,15 +8,7 @@ using Nekki.Vector.Core.Detector;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Node;
-using Nekki.Vector.Core.Result;
-using Nekki.Vector.Core.Transformation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static Nekki.Vector.Core.Trigger.Actions.TA_MessageOnScreen;
-using static UnityEngine.GraphicsBuffer;
 using AnimationInfo = Nekki.Vector.Core.Animation.AnimationInfo;
 using Collision = Nekki.Vector.Core.Result.Collision;
 
@@ -89,21 +84,9 @@ namespace Nekki.Vector.Core.Controllers
             private set;
         }
 
-        private List<AnimationInterval> Intervals
-        {
-            get
-            {
-                return Animation.Interval(CurrentFrame);
-            }
-        }
+        private List<AnimationInterval> Intervals => Animation.Interval(CurrentFrame);
 
-        private bool IsBuffer
-        {
-            get
-            {
-                return _Buffer != null && !_Buffer.IsBufferEmpty;
-            }
-        }
+        private bool IsBuffer => _Buffer != null && !_Buffer.IsBufferEmpty;
 
         public int CurrentFrame
         {
@@ -151,37 +134,13 @@ namespace Nekki.Vector.Core.Controllers
             }
         }
 
-        public float AutoPositionDetectorH
-        {
-            get
-            {
-                return Animation.AutoPositionDetectorH;
-            }
-        }
+        public float AutoPositionDetectorH => Animation.AutoPositionDetectorH;
 
-        public float AutoPositionDetectorV
-        {
-            get
-            {
-                return Animation.AutoPositionDetectorV;
-            }
-        }
+        public float AutoPositionDetectorV => Animation.AutoPositionDetectorV;
 
-        public float LandingPositionDetectorH
-        {
-            get
-            {
-                return Animation.LandingPositionDetectorH;
-            }
-        }
+        public float LandingPositionDetectorH => Animation.LandingPositionDetectorH;
 
-        public float LandingPositionDetectorV
-        {
-            get
-            {
-                return Animation.LandingPositionDetectorV;
-            }
-        }
+        public float LandingPositionDetectorV => Animation.LandingPositionDetectorV;
 
         public Rectangle BoundingBox
         {
@@ -197,7 +156,7 @@ namespace Nekki.Vector.Core.Controllers
                     animationInterval = Intervals[i];
                     if (!(animationInterval.BoundingBoxLeft == null))
                     {
-                        return (Sign != 1) ? animationInterval.BoundingBoxLeft : animationInterval.BoundingBoxRight;
+                        return Sign != 1 ? animationInterval.BoundingBoxLeft : animationInterval.BoundingBoxRight;
                     }
                 }
                 return _ModelObject.Rectangle;
@@ -221,13 +180,7 @@ namespace Nekki.Vector.Core.Controllers
             }
         }
 
-        private bool IsDelayReaction
-        {
-            get
-            {
-                return _Model is ModelHuman && ((ModelHuman)_Model).DelayReaction != null;
-            }
-        }
+        private bool IsDelayReaction => _Model is ModelHuman && ((ModelHuman)_Model).DelayReaction != null;
 
         private Point PlatformBound
         {
@@ -259,7 +212,7 @@ namespace Nekki.Vector.Core.Controllers
             _Frames.Reset();
             Animation = info;
             Name = info.Name;
-            _FirstFrame = ((firstFrame >= 0) ? firstFrame : info.FirstFrame);
+            _FirstFrame = firstFrame >= 0 ? firstFrame : info.FirstFrame;
             if (reverse)
             {
                 Sign *= -1;
@@ -424,7 +377,7 @@ namespace Nekki.Vector.Core.Controllers
             List<Vector3d> frame = _Frames.GetFrame(0);
             List<Vector3d> frame2 = _Frames.GetFrame(1);
             ModelNode modelNode = null;
-            float num = (float)(_PointFrame + 1) * 0.5f;
+            float num = (_PointFrame + 1) * 0.5f;
             int count = Mathf.Min(frame.Count, _ModelObject.NodesAll.Count);
             for (int i = 0; i < count; i++)
             {
@@ -439,7 +392,7 @@ namespace Nekki.Vector.Core.Controllers
 
         private void SetBufferFrame()
         {
-            _PointFrame = (int)((float)Math.Max(Animation.MidFrames, 1) * LevelMainController.current.slowModeFrames);
+            _PointFrame = (int)(Math.Max(Animation.MidFrames, 1) * LevelMainController.current.slowModeFrames);
             _Buffer.InitBuffer(_PointFrame + 1);
             List<Vector3d> activeFrame = _Frames.GetActiveFrame(0);
             List<Vector3d> activeFrame2 = _Frames.GetActiveFrame(1);
@@ -458,7 +411,7 @@ namespace Nekki.Vector.Core.Controllers
                     Vector3d.Middle(vector3f3, p_point2, vector3f2);
                     for (int j = 0; j <= _PointFrame; j++)
                     {
-                        double num = ((float)j + 1f) / ((float)_PointFrame + 1f);
+                        double num = (j + 1f) / (_PointFrame + 1f);
                         double num2 = (1f - num) * (1f - num);
                         double num3 = num * num;
                         double num4 = 2f * num * (1f - num);
@@ -510,7 +463,7 @@ namespace Nekki.Vector.Core.Controllers
                 double num = Math.Max(0f, val3);
                 if (_Model is ModelHuman && (_Model as ModelHuman).IsBot)
                 {
-                    num = ((!(num < 0.5f)) ? (num / 1.1f) : (num * 1.5f));
+                    num = !(num < 0.5f) ? num / 1.1f : num * 1.5f;
                 }
                 for (int i = 0; i < sounds.Count; i++)
                 {
@@ -548,7 +501,7 @@ namespace Nekki.Vector.Core.Controllers
                 VelocityFrames(speed);
                 VelocityBuffer(speed);
                 VelocityNodes(speed);
-                ((ModelHuman)_Model).VelocityQuads = (speed);
+                ((ModelHuman)_Model).VelocityQuads = speed;
             }
         }
 
@@ -722,7 +675,7 @@ namespace Nekki.Vector.Core.Controllers
                     }
                 }
             }
-            AnimationDeltaData p_delta = ((type != AnimationEventCollision.Type.Quad) ? null : new AnimationDeltaData(collisionResult.Platform, new Vector3d(collisionResult.Point), Sign));
+            AnimationDeltaData p_delta = type != AnimationEventCollision.Type.Quad ? null : new AnimationDeltaData(collisionResult.Platform, new Vector3d(collisionResult.Point), Sign);
             AnimationReaction animationReaction = Sort(_ForSort, p_delta, collisionResult.Platform);
             if (type == AnimationEventCollision.Type.Quad)
                 SetVelocityQuads(null, animationReaction != null, collisionResult.Platform);
@@ -814,7 +767,7 @@ namespace Nekki.Vector.Core.Controllers
             for (int i = 0; i < Intervals.Count; i++)
             {
                 animationInterval = Intervals[i];
-                List<AnimationEventDetector> list = ((!p_event.IsVertical) ? animationInterval.DetectorHEvents : animationInterval.DetectorVEvents);
+                List<AnimationEventDetector> list = !p_event.IsVertical ? animationInterval.DetectorHEvents : animationInterval.DetectorVEvents;
                 for (int j = 0; j < list.Count; j++)
                 {
                     animationEventDetector = list[j];
@@ -847,7 +800,7 @@ namespace Nekki.Vector.Core.Controllers
             Vector3d vector3f2 = new Vector3d(0f, 0f, 0f);
             if (LandingPositionDetectorH >= 0f && p_event.IsHorizontal)
             {
-                vector3f2.X = LandingPositionDetectorH * (float)Sign - 4f * vector3f.X;
+                vector3f2.X = LandingPositionDetectorH * Sign - 4f * vector3f.X;
             }
             if (LandingPositionDetectorV >= 0f && p_event.IsVertical)
             {
@@ -909,7 +862,7 @@ namespace Nekki.Vector.Core.Controllers
 
         public void CornerPoint(int p_cornernum, bool p_isDetectorV)
         {
-            DetectorLine detectorLine = ((!p_isDetectorV) ? _ModelObject.DetectorHorizontalLine : _ModelObject.DetectorVerticalLine);
+            DetectorLine detectorLine = !p_isDetectorV ? _ModelObject.DetectorHorizontalLine : _ModelObject.DetectorVerticalLine;
             QuadRunner data = detectorLine.Node.Data;
             if (data != null)
             {

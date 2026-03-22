@@ -1,7 +1,7 @@
-using Nekki.Vector.Core.Location.LevelCreation;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using Nekki.Vector.Core.Location.LevelCreation;
 using UnityEngine;
 using Xml2Prefab;
 
@@ -23,10 +23,10 @@ namespace Nekki.Vector.Core.Location
 
         public uint Parse(XmlNode node, XmlNode data, Dictionary<string, string> choices)
         {
-            _Name = XmlUtils.ParseString(node.Attributes["Name"], "");
-            _Position = new Point(XmlUtils.ParseFloat(node.Attributes["X"]), XmlUtils.ParseFloat(node.Attributes["Y"]));
+            _Name = node.Attributes["Name"].ParseString("");
+            _Position = new Point(node.Attributes["X"].ParseFloat(), node.Attributes["Y"].ParseFloat());
             _LocalPosition = new Point(_Position);
-            _Factor = XmlUtils.ParseFloat(node.Attributes["Factor"]);
+            _Factor = node.Attributes["Factor"].ParseFloat();
             if (node["Properties"] != null && node["Properties"]["Static"] != null && node["Properties"]["Static"]["Selection"] != null)
             {
                 var selectionNode = node["Properties"]["Static"]["Selection"];
@@ -81,7 +81,7 @@ namespace Nekki.Vector.Core.Location
                     return index;
                 }
             }
-            string name = XmlUtils.ParseString(mainNode.Attributes["Name"], string.Empty);
+            string name = mainNode.Attributes["Name"].ParseString(string.Empty);
             if (!Xml2PrefabRoot.UseOnlyXML)
             {
                 var obj = Xml2PrefabUtils.LoadPrefab(name);
@@ -133,7 +133,7 @@ namespace Nekki.Vector.Core.Location
 
         private void UpdatePrefabPosition(XmlNode node, Xml2PrefabObjectRunnerContainer model)
         {
-            model.transform.localPosition = new Vector3(XmlUtils.ParseFloat(node.Attributes["X"]), XmlUtils.ParseFloat(node.Attributes["Y"]));
+            model.transform.localPosition = new Vector3(node.Attributes["X"].ParseFloat(), node.Attributes["Y"].ParseFloat());
         }
 
         public void ParseMiscData(XmlNode Node)
@@ -162,18 +162,18 @@ namespace Nekki.Vector.Core.Location
         {
             _Element.InitSerializedData();
             List<Component> list = new List<Component>();
-            list.AddRange(_Childs.Select((runner) => { return runner.UnityObject.GetComponent<Xml2PrefabObjectRunnerContainer>(); }));
+            list.AddRange(_Childs.Select(runner => { return runner.UnityObject.GetComponent<Xml2PrefabObjectRunnerContainer>(); }));
             list.AddRange(_Element.Models);
             List<Component> runners = new List<Component>();
             foreach (var obj in LayerOrder)
             {
                 if (obj is BaseObjectRunner objectRunner)
                 {
-                    runners.Add(list.FirstOrDefault((x) => x.gameObject == objectRunner.UnityObject));
+                    runners.Add(list.FirstOrDefault(x => x.gameObject == objectRunner.UnityObject));
                 }
                 if (obj is Runner runner)
                 {
-                    runners.Add(list.FirstOrDefault((x) => x.gameObject == runner.ComponentHolder));
+                    runners.Add(list.FirstOrDefault(x => x.gameObject == runner.ComponentHolder));
                 }
             }
             var component = _UnityObject.AddComponent<Xml2PrefabObjectRunnerContainer>();

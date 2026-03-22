@@ -1,9 +1,9 @@
+using System.Collections.Generic;
+using System.Xml;
 using Nekki.Vector.Core.Location.Animation;
 using Nekki.Vector.Core.Location.LevelCreation;
 using Nekki.Vector.Core.User;
 using Nekki.Vector.Core.Visual;
-using System.Collections.Generic;
-using System.Xml;
 using Xml2Prefab;
 
 namespace Nekki.Vector.Core.Location

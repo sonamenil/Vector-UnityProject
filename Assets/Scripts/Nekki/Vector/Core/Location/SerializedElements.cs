@@ -1,19 +1,16 @@
-using Nekki.Vector.Core.Location.Animation;
-using Nekki.Vector.Core.Location.LevelCreation;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using Nekki.Vector.Core.Location.Animation;
+using Nekki.Vector.Core.Location.LevelCreation;
 using UnityEngine;
 using Xml2Prefab;
-using static Core._Common.Settings;
-using static Core._Common.Settings.Visual;
+using Type = System.Type;
 
 namespace Nekki.Vector.Core.Location
 {
     public class SerializedElements : BaseElements
     {
-        private readonly Dictionary<System.Type, Func<Component, uint, uint>> _actions = new Dictionary<System.Type, Func<Component, uint, uint>>();
+        private readonly Dictionary<Type, Func<Component, uint, uint>> _actions = new Dictionary<Type, Func<Component, uint, uint>>();
 
         private Dictionary<string, string> _choices = new Dictionary<string, string>();
 
@@ -328,7 +325,7 @@ namespace Nekki.Vector.Core.Location
             for (int i = 0; i < components.Count; i++)
             {
                 _actions.TryGetValue(components[i].GetType(), out var action);
-                var index = (uint)(action?.Invoke(components[i], num));
+                var index = (uint)action?.Invoke(components[i], num);
                 if (index != 0xffffffff)
                 {
                     num += index;
@@ -471,7 +468,7 @@ namespace Nekki.Vector.Core.Location
 
         private PrimitiveRunner CreatePrimitive(Xml2PrefabPrimitiveContainer model)
         {
-            var delta = new Vector3f(model.X, model.Y, 0);
+            var delta = new Vector3f(model.X, model.Y);
             var type = model.Type;
             var name = model.ClassName;
             var impulse = model.Impulse;

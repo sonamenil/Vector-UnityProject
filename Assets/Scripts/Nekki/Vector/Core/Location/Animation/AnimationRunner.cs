@@ -66,7 +66,7 @@ namespace Nekki.Vector.Core.Location.Animation
 
         public override void Reset()
         {
-            Stop(false);
+            Stop();
             base.Reset();
         }
 

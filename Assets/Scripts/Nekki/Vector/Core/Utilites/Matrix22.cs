@@ -27,7 +27,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Matrix22 operator +(Matrix22 matrix1, Matrix22 matrix2)
         {
-            Matrix22 matrix3 = new Matrix22(1f, 0f, 0f, 1f);
+            Matrix22 matrix3 = new Matrix22();
             matrix3._a = matrix1._a + matrix2._a;
             matrix3._b = matrix1._b + matrix2._b;
             matrix3._c = matrix1._c + matrix2._c;
@@ -37,7 +37,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Matrix22 operator -(Matrix22 matrix1, Matrix22 matrix2)
         {
-            Matrix22 matrix3 = new Matrix22(1f, 0f, 0f, 1f);
+            Matrix22 matrix3 = new Matrix22();
             matrix3._a = matrix1._a - matrix2._a;
             matrix3._b = matrix1._b - matrix2._b;
             matrix3._c = matrix1._c - matrix2._c;
@@ -47,7 +47,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Matrix22 operator /(Matrix22 matrix, float arg2)
         {
-            Matrix22 matrix2 = new Matrix22(1f, 0f, 0f, 1f);
+            Matrix22 matrix2 = new Matrix22();
             matrix2._a = matrix._a / arg2;
             matrix2._b = matrix._b / arg2;
             matrix2._c = matrix._c / arg2;
@@ -57,7 +57,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Matrix22 operator *(Matrix22 matrix, float arg2)
         {
-            Matrix22 matrix2 = new Matrix22(1f, 0f, 0f, 1f);
+            Matrix22 matrix2 = new Matrix22();
             matrix2._a = matrix._a * arg2;
             matrix2._b = matrix._b * arg2;
             matrix2._c = matrix._c * arg2;
@@ -67,7 +67,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Vector3f operator *(Vector3f vector, Matrix22 matrix)
         {
-            Vector3f vector3f = new Vector3f(0f, 0f, 0f);
+            Vector3f vector3f = new Vector3f();
             vector3f.X = matrix._a * vector.X + matrix._c * vector.Y;
             vector3f.Y = matrix._b * vector.X + matrix._d * vector.Y;
             return vector3f;
@@ -84,7 +84,7 @@ namespace Nekki.Vector.Core.Utilites
 
         public static Matrix22 GenerateInterpolationDeltaMatrix(Matrix22 matrix1, Matrix22 matrix2, int steps)
 		{
-            Matrix22 matrix3 = new Matrix22(1f, 0f, 0f, 1f);
+            Matrix22 matrix3 = new Matrix22();
             return (matrix2 - matrix1) / steps;
         }
 
@@ -95,7 +95,7 @@ namespace Nekki.Vector.Core.Utilites
                 Matrix22 matrix = new Matrix22(_d, 0f - _b, 0f - _c, _a);
                 return matrix * (1f / D);
             }
-            return new Matrix22(1f, 0f, 0f, 1f);
+            return new Matrix22();
         }
 	}
 }

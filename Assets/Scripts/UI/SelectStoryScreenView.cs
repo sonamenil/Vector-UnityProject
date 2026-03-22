@@ -1,7 +1,7 @@
-using Nekki.Vector.Core.Transformation;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -42,8 +42,8 @@ namespace UI
             BuyCoinsButton.gameObject.SetActive(false);
 
             _selectStoryScreen = screen;
-            BackToSelectLocationButton.onClick.AddListener(new UnityEngine.Events.UnityAction(screen.BackToSelectLocationButton.PressedAction));
-            StoryButton.onValueChanged.AddListener(new UnityEngine.Events.UnityAction<bool>((isSelected) =>
+            BackToSelectLocationButton.onClick.AddListener(new UnityAction(screen.BackToSelectLocationButton.PressedAction));
+            StoryButton.onValueChanged.AddListener(isSelected =>
             {
                 if (!isSelected || UserDataManager.RuntimeInfo.StoryType == StoryType.Story)
                 {
@@ -51,8 +51,8 @@ namespace UI
                 }
                 UserDataManager.RuntimeInfo.StoryType = StoryType.Story;
                 Game.Instance.ScreenManager.Refresh();
-            }));
-            BonusButton.onValueChanged.AddListener(new UnityEngine.Events.UnityAction<bool>((isSelected) =>
+            });
+            BonusButton.onValueChanged.AddListener(isSelected =>
             {
                 if (!isSelected || UserDataManager.RuntimeInfo.StoryType == StoryType.Bonus)
                 {
@@ -60,13 +60,13 @@ namespace UI
                 }
                 UserDataManager.RuntimeInfo.StoryType = StoryType.Bonus;
                 Game.Instance.ScreenManager.Refresh();
-            }));
-            BuyCoinsButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            });
+            BuyCoinsButton.onClick.AddListener(() =>
             {
                 Game.Instance.ScreenManager.Show<BuyCoinsScreen>(true, true);
                 SoundsManager.Instance.PlaySounds(SoundType.ui_click);
-            }));
-            PlayButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            });
+            PlayButton.onClick.AddListener(() =>
             {
                 var currentStories = UserDataManager.Instance.CurrentBalanceLocation.CurrentStoryModeStoryInfos;
                 var index = UserDataManager.RuntimeInfo.GetLastIndex();
@@ -74,8 +74,8 @@ namespace UI
                 var storyItem = ScrollSnap._content.GetChild(index + 10).GetComponent<StoryItem>();
                 Play(story, storyItem, UserDataManager.Instance, index);
                 SoundsManager.Instance.PlaySounds(SoundType.ui_click);
-            }));
-            ScrollSnap.SnapEvent += (i) =>
+            });
+            ScrollSnap.SnapEvent += i =>
             {
                 UserDataManager.RuntimeInfo.SetLastIndex(i - 10);
                 EventSystem.current.SetSelectedGameObject(_storiesItem[i - 10].Button.gameObject);
@@ -175,10 +175,10 @@ namespace UI
                 storyItem.Lock.SetActive(SelectLocationScreenView.IsItemLocked(playerData, storyInfo.UnlockInfo, storyInfo.Name, storyInfo));
                 storyItem.Button.onClick.RemoveAllListeners();
                 int index = i;
-                storyItem.Button.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+                storyItem.Button.onClick.AddListener(() =>
                 {
                     Play(storyInfo, storyItem, playerData, index);
-                }));
+                });
                 storyItem.StarsView.Set(playerData.GameStats.GetStarsCount(storyInfo.Name));
                 storyItem.Caption.text = LocalizationManager.Instance.GetTranslationByID(storyInfo.Name);
                 storyItem.HunterCaption.SetActive(UserDataManager.RuntimeInfo.IsHunterMode);
@@ -218,7 +218,7 @@ namespace UI
                 var caption = LocalizationManager.Instance.GetTranslationByID(UserDataManager.Instance.CurrentBalanceLocation.Name) + " (" + mode + ")";
                 var payload = new UnlockStoryPopupPayloadData(story.UnlockInfo.StarsLocationUnlockInfo.Stars, story.UnlockInfo.Price, LocalizationManager.Instance.GetTranslationByID(story.Name), caption, () =>
                 {
-                    playerData.ShopData.Add(story.Name, 1, false, true);
+                    playerData.ShopData.Add(story.Name, 1, false);
                 });
 
                 Game.Instance.ScreenManager.Popup<UnlockStoryPopup, UnlockStoryPopupPayloadData>(payload);

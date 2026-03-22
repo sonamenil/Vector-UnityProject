@@ -1,10 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using Banzai.Json;
 using Newtonsoft.Json;
 using PlayerData;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using UnityEngine;
 
 public class GameStats : BaseUserHolder<GameStats>
 {
@@ -17,7 +16,7 @@ public class GameStats : BaseUserHolder<GameStats>
     {
         if (_userjObject["TrackStats"] != null)
         {
-            var val = JsonUtils.AsString(_userjObject["TrackStats"]);
+            var val = _userjObject["TrackStats"].AsString();
             _trackStats = JsonConvert.DeserializeObject<Dictionary<string, Record>>(val);
         }
     }
@@ -123,9 +122,9 @@ public class GameStats : BaseUserHolder<GameStats>
         foreach (var item in _trackStats)
         {
             var info = LocationManager.Instance.GetStoryInfo(item.Key);
-            int val = RewardExtensions.GetReward(LocationManager.Instance.GetRewards(info.RewardTemplate), 0, 0);
+            int val = LocationManager.Instance.GetRewards(info.RewardTemplate).GetReward(0, 0);
 
-            UnityEngine.Debug.Log(string.Format("Compensation [{0}]", val));
+            Debug.Log(string.Format("Compensation [{0}]", val));
 
             return val;
         }

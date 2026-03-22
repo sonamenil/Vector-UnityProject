@@ -1,3 +1,4 @@
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -28,8 +29,8 @@ namespace UI
 			BuyButton.gameObject.SetActive(false);
 			GetFreeButton.gameObject.SetActive(false);
 			_yesNoItemPopup = yesNoItemPopup;
-			CancelButton.onClick.AddListener(new UnityEngine.Events.UnityAction(yesNoItemPopup.CancelButton.PressedAction));
-            BackgroundButton.onClick.AddListener(new UnityEngine.Events.UnityAction(yesNoItemPopup.BackgroundButton.PressedAction));
+			CancelButton.onClick.AddListener(new UnityAction(yesNoItemPopup.CancelButton.PressedAction));
+            BackgroundButton.onClick.AddListener(new UnityAction(yesNoItemPopup.BackgroundButton.PressedAction));
         }
 
         public override void PreShow(BuyCoinsPayloadData payload)

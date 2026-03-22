@@ -67,16 +67,16 @@ public class Stats : BaseUserHolder<Stats>
 
     public override void ParseData()
     {
-        TotalRunningDistance = JsonUtils.GetFloat(_userjObject, "TotalRunningDistance");
-        JumpsCount = JsonUtils.GetInt(_userjObject, "JumpsCount");
-        SlidesCount = JsonUtils.GetInt(_userjObject, "SlidesCount");
-        BonusCollected = JsonUtils.GetInt(_userjObject, "BonusCollected");
-        CoinsCollected = JsonUtils.GetInt(_userjObject, "CoinsCollected");
-        TricksPerformed = JsonUtils.GetInt(_userjObject, "TricksPerformed");
-        Death = JsonUtils.GetInt(_userjObject, "Death");
-        DeathByHunter = JsonUtils.GetInt(_userjObject, "DeathByHunter");
-        HuntersKilled = JsonUtils.GetInt(_userjObject, "HuntersKilled");
-        GlassBroken = JsonUtils.GetInt(_userjObject, "GlassBroken");
+        TotalRunningDistance = _userjObject.GetFloat("TotalRunningDistance");
+        JumpsCount = _userjObject.GetInt("JumpsCount");
+        SlidesCount = _userjObject.GetInt("SlidesCount");
+        BonusCollected = _userjObject.GetInt("BonusCollected");
+        CoinsCollected = _userjObject.GetInt("CoinsCollected");
+        TricksPerformed = _userjObject.GetInt("TricksPerformed");
+        Death = _userjObject.GetInt("Death");
+        DeathByHunter = _userjObject.GetInt("DeathByHunter");
+        HuntersKilled = _userjObject.GetInt("HuntersKilled");
+        GlassBroken = _userjObject.GetInt("GlassBroken");
     }
 
     public void SetInitialData(float totalRunningDistance, int jumpsCount, int slidesCount, int bonusCollected, int coinsCollected, int tricksPerformed, int death, int deathByHunter, int huntersKilled, int glassBroken)

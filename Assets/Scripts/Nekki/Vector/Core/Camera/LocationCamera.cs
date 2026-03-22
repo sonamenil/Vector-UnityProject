@@ -1,9 +1,7 @@
-using Nekki.Vector.Core.Location;
-using Nekki.Vector.Core.Node;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using Random = UnityEngine.Random;
+using Nekki.Vector.Core.Location;
+using Nekki.Vector.Core.Node;
 
 namespace Nekki.Vector.Core.Camera
 {
@@ -33,7 +31,7 @@ namespace Nekki.Vector.Core.Camera
 
 		private static LocationCamera _Current;
 
-		private System.Random _Random = new System.Random();
+		private Random _Random = new Random();
 
 		public static float MinZoom = 0.1f;
 
@@ -47,28 +45,16 @@ namespace Nekki.Vector.Core.Camera
 
 		public CameraNode Node
 		{
-			get
-			{
-				return _Node;
-			}
-			set
-			{
-				_Node = value;
-			}
+			get => _Node;
+			set => _Node = value;
 		}
 
 		public bool IsRender => _IsRender;
 
 		public bool IgnoreZoom
 		{
-			get
-			{
-				return _IgnoreZoom;
-			}
-			set
-			{
-				_IgnoreZoom = value;
-			}
+			get => _IgnoreZoom;
+			set => _IgnoreZoom = value;
 		}
 
 		public static LocationCamera Current => _Current;
@@ -171,7 +157,7 @@ namespace Nekki.Vector.Core.Camera
 
 		public void Zooming(float p_value = 1f, bool p_isStart = false)
 		{
-            if (_Zoom != p_value && _IgnoreZoom == false)
+            if (_Zoom != p_value && !_IgnoreZoom)
             {
                 if (p_value < MinZoom)
                 {

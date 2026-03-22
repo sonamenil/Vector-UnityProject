@@ -20,14 +20,8 @@ namespace Nekki.Vector.Core.Location
 
         public int score
         {
-            get
-            {
-                return _score;
-            }
-            set
-            {
-                _score = value;
-            }
+            get => _score;
+            set => _score = value;
         }
 
         public ItemScoreRunner(int type, string prefabName, int score, float x, float y)

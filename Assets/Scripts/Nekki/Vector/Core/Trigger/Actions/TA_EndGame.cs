@@ -1,6 +1,4 @@
-using Nekki.Vector.Core.Models;
 using System.Xml;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger.Actions
 {
@@ -42,13 +40,13 @@ namespace Nekki.Vector.Core.Trigger.Actions
             switch (_ResultVar.ValueString)
             {
                 case "Win":
-                    LevelMainController.current.Win(GetModel(valueString), (float)_TimeVar.ValueInt / 60f);
+                    LevelMainController.current.Win(GetModel(valueString), _TimeVar.ValueInt / 60f);
                     break;
                 case "Loss":
-                    LevelMainController.current.Loss(GetModel(valueString), (float)_TimeVar.ValueInt / 60f);
+                    LevelMainController.current.Loss(GetModel(valueString), _TimeVar.ValueInt / 60f);
                     break;
                 case "Death":
-                    LevelMainController.current.Death(GetModel(valueString), (float)_TimeVar.ValueInt / 60f);
+                    LevelMainController.current.Death(GetModel(valueString), _TimeVar.ValueInt / 60f);
                     break;
             }
         }

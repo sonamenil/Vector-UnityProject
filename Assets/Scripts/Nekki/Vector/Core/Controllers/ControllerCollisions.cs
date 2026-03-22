@@ -1,10 +1,8 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Node;
 using Nekki.Vector.Core.Result;
-using Nekki.Vector.Core.Scripts.Engine.Debug;
-using System.Collections.Generic;
-using UnityEngine;
 using Collision = Nekki.Vector.Core.Result.Collision;
 
 namespace Nekki.Vector.Core.Controllers
@@ -215,19 +213,46 @@ namespace Nekki.Vector.Core.Controllers
             }
         }
 
-        public static void PushingNode(ModelNode collisionNode, List<QuadRunner> platforms)
+        public static void PushingNode(ModelNode collisionNode, List<QuadRunner> platforms, double restitution)
         {
             foreach (var platform in platforms)
             {
                 var crossList = new List<Cross>();
-                Vector3dLine vector3fLine = platform.Friction(collisionNode.End, collisionNode.Start, crossList);
-                if (vector3fLine != null)
+                
+                Vector3d velocity = collisionNode.Start - collisionNode.End;
+                
+                Vector3dLine pushed = platform.Friction(collisionNode.End, collisionNode.Start, crossList);
+                if (pushed == null)
                 {
-                    vector3fLine.Start.Z = collisionNode.Start.Z;
-                    vector3fLine.End.Z = collisionNode.End.Z;
-                    collisionNode.PositionStart(vector3fLine.Start);
-                    collisionNode.PositionEnd(vector3fLine.End);
+                    continue;
                 }
+
+                pushed.Start.Z = collisionNode.Start.Z;
+                pushed.End.Z = collisionNode.End.Z;
+                
+                collisionNode.PositionStart(pushed.Start);
+                collisionNode.PositionEnd(pushed.End);
+                
+                int side = crossList.Count > 0
+                    ? crossList[0].Index
+                    : platform.NearestEdge(collisionNode.Start);
+                
+                switch (side)
+                {
+                    case 0:
+                    case 2:
+                        velocity.Y = -velocity.Y * restitution;
+                        break;
+
+                    case 1:
+                    case 3:
+                        velocity.X = -velocity.X * restitution;
+                        break;
+                }
+                
+                collisionNode.PositionEnd(collisionNode.Start - velocity);
+
+                break;
             }
         }
 

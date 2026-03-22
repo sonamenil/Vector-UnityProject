@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using Nekki.Vector.Core.Scripts;
 using UnityEngine;
@@ -107,11 +106,10 @@ public class TrickGO : MonoBehaviour
     {
         _animation.Init(_activateAnimation, _animationSprite);
         _animation.Iterations = 1;
-        _animation.OnIterationsEnd = new Action(() =>
+        _animation.OnIterationsEnd = () =>
         {
             _animation.gameObject.SetActive(false);
-        }
-        );
+        };
         _trickIcon.gameObject.SetActive(false);
 
     }

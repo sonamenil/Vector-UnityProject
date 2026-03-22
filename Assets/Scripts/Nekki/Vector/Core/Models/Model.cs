@@ -1,8 +1,7 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Controllers;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Node;
-using Nekki.Vector.Core.Result;
-using System.Collections.Generic;
 using UnityEngine;
 using Collision = Nekki.Vector.Core.Result.Collision;
 
@@ -30,46 +29,25 @@ namespace Nekki.Vector.Core.Models
 
         public virtual GameObject Layer
         {
-            get
-            {
-                return _ModelObject.Layer;
-            }
-            set
-            {
-                _ModelObject.Layer = value;
-            }
+            get => _ModelObject.Layer;
+            set => _ModelObject.Layer = value;
         }
 
         public virtual bool IsEnabled
         {
-            get
-            {
-                return _IsEnabled;
-            }
-            set
-            {
-                _IsEnabled = value;
-            }
+            get => _IsEnabled;
+            set => _IsEnabled = value;
         }
 
         public bool IsVisible
         {
-            get
-            {
-                return _ModelObject.IsVisible;
-            }
-            set
-            {
-                _ModelObject.IsVisible = value;
-            }
+            get => _ModelObject.IsVisible;
+            set => _ModelObject.IsVisible = value;
         }
 
         public string Name
         {
-            get
-            {
-                return _Name;
-            }
+            get => _Name;
             set
             {
                 _Name = value;
@@ -89,26 +67,14 @@ namespace Nekki.Vector.Core.Models
 
         public ModelType Type
         {
-            get
-            {
-                return _Type;
-            }
-            set
-            {
-                _Type = value;
-            }
+            get => _Type;
+            set => _Type = value;
         }
 
         public Color Color
         {
-            get
-            {
-                return _ModelObject.Color;
-            }
-            set
-            {
-                _ModelObject.Color = value;
-            }
+            get => _ModelObject.Color;
+            set => _ModelObject.Color = value;
         }
 
         public virtual Rectangle Rectangle => _ModelObject.Rectangle == null ? new Rectangle() : _ModelObject.Rectangle;
@@ -117,10 +83,7 @@ namespace Nekki.Vector.Core.Models
 
         public bool DebugMode
         {
-            set
-            {
-                _ModelObject.DebugMode = value;
-            }
+            set => _ModelObject.DebugMode = value;
         }
 
         public Model(List<string> skins, ModelType type)
@@ -177,7 +140,7 @@ namespace Nekki.Vector.Core.Models
 
         public Vector3d Position(string name = "NPivot", bool isCurrent = true)
         {
-            return (_ModelObject != null) ? _ModelObject.Position(name, isCurrent) : null;
+            return _ModelObject != null ? _ModelObject.Position(name, isCurrent) : null;
         }
 
         public ModelNode GetNode(string nodeName = "NPivot")

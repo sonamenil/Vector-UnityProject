@@ -37,7 +37,7 @@ namespace UI
         private void UpdateCanvasScaler()
         {
             CanvasScaler scaler = GetComponent<CanvasScaler>();
-            scaler.matchWidthOrHeight = (Camera.main.aspect < _maxAspect) ? 0f : 1f;
+            scaler.matchWidthOrHeight = Camera.main.aspect < _maxAspect ? 0f : 1f;
         }
 
         public void OffWalletAnimation()

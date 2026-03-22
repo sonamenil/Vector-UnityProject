@@ -1,6 +1,4 @@
-using Newtonsoft.Json.Linq;
 using UnityEngine;
-using UnityEngine.Purchasing;
 
 namespace Nekki.Vector.Core.Utilites
 {
@@ -20,15 +18,15 @@ namespace Nekki.Vector.Core.Utilites
 
 		public static float NormalizeAngle(float angle)
 		{
-            return angle % 360f + (float)((angle < 0f) ? 360 : 0);
+            return angle % 360f + (angle < 0f ? 360 : 0);
         }
 
         public static bool LineRectIntersection(Vector2 lineStartPoint, Vector2 lineEndPoint, Rect rectangle, ref Vector2 result)
 		{
-            Vector2 vector = ((!(lineStartPoint.x <= lineEndPoint.x)) ? lineEndPoint : lineStartPoint);
-            Vector2 vector2 = ((!(lineStartPoint.x <= lineEndPoint.x)) ? lineStartPoint : lineEndPoint);
-            Vector2 vector3 = ((!(lineStartPoint.y <= lineEndPoint.y)) ? lineEndPoint : lineStartPoint);
-            Vector2 vector4 = ((!(lineStartPoint.y <= lineEndPoint.y)) ? lineStartPoint : lineEndPoint);
+            Vector2 vector = !(lineStartPoint.x <= lineEndPoint.x) ? lineEndPoint : lineStartPoint;
+            Vector2 vector2 = !(lineStartPoint.x <= lineEndPoint.x) ? lineStartPoint : lineEndPoint;
+            Vector2 vector3 = !(lineStartPoint.y <= lineEndPoint.y) ? lineEndPoint : lineStartPoint;
+            Vector2 vector4 = !(lineStartPoint.y <= lineEndPoint.y) ? lineStartPoint : lineEndPoint;
             float xMax = rectangle.xMax;
             float xMin = rectangle.xMin;
             float yMax = rectangle.yMax;

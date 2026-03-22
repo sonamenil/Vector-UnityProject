@@ -6,13 +6,7 @@ public class StarsLocationUnlockInfo
 
 	public LocationLocator LocationLocator;
 
-	public static StarsLocationUnlockInfo Default
-	{
-		get
-		{
-			return new StarsLocationUnlockInfo(0, "DOWNTOWN_STORY_01", null);
-		}
-	}
+	public static StarsLocationUnlockInfo Default => new(0, "DOWNTOWN_STORY_01", null);
 
 	public StarsLocationUnlockInfo(int stars, string storyId, LocationLocator locationLocator)
 	{

@@ -27,26 +27,14 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
         public string SortingLayerName
         {
-            get
-            {
-                return _SortingLayerName;
-            }
-            set
-            {
-                _SortingLayerName = value;
-            }
+            get => _SortingLayerName;
+            set => _SortingLayerName = value;
         }
 
         public int SortingOrder
         {
-            get
-            {
-                return _SortingOrder;
-            }
-            set
-            {
-                _SortingOrder = value;
-            }
+            get => _SortingOrder;
+            set => _SortingOrder = value;
         }
 
         private static Material SharedQuadMaterial

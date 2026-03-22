@@ -1,7 +1,7 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Node;
 using Nekki.Vector.Core.Scripts;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Controllers
@@ -53,7 +53,7 @@ namespace Nekki.Vector.Core.Controllers
 
         private void CreateAntibotEffect()
         {
-            _antibotEffect = CreateGO("AntibotEffect", "LevelContent/TextureAtlas/antibot_v2", false);
+            _antibotEffect = CreateGO("AntibotEffect", "LevelContent/TextureAtlas/antibot_v2");
             _antibotEffect.FPS = 100;
             _antibotEffect.Iterations = 1;
             _antibotEffect.OnIterationsEnd = () =>
@@ -78,7 +78,7 @@ namespace Nekki.Vector.Core.Controllers
 
         private void CreateTaserExplosionEffect()
         {
-            _taserExplosionEffect = CreateGO("Taser Explosion", "LevelContent/TextureAtlas/Explosive", false);
+            _taserExplosionEffect = CreateGO("Taser Explosion", "LevelContent/TextureAtlas/Explosive");
             _taserExplosionEffect.transform.localScale = new Vector3(2, 2, 2);
             _taserExplosionEffect.FPS = 100;
             _taserExplosionEffect.Iterations = 1;
@@ -103,8 +103,8 @@ namespace Nekki.Vector.Core.Controllers
 
         private void CreateTaserEffect()
         {
-            _taserEffect.Add((_modelHuman.GetNode("NKnuckles_1"), CreateGO("Taser 1", "LevelContent/TextureAtlas/Hands", false)));
-            _taserEffect.Add((_modelHuman.GetNode("NKnuckles_2"), CreateGO("Taser 2", "LevelContent/TextureAtlas/Hands", false)));
+            _taserEffect.Add((_modelHuman.GetNode("NKnuckles_1"), CreateGO("Taser 1", "LevelContent/TextureAtlas/Hands")));
+            _taserEffect.Add((_modelHuman.GetNode("NKnuckles_2"), CreateGO("Taser 2", "LevelContent/TextureAtlas/Hands")));
         }
 
         public void RunTaserEffect()
@@ -141,8 +141,7 @@ namespace Nekki.Vector.Core.Controllers
 
         public void RunParalyzeEffect()
         {
-            string[] nodes = new string[]
-            {
+            string[] nodes = {
                 "NNeck",
                 "NPivot",
                 "NKnee_1",

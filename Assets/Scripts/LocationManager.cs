@@ -1,8 +1,7 @@
-using Core._Common;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Xml;
+using Core._Common;
 
 public class LocationManager : AbstractManager<LocationManager>
 {
@@ -38,7 +37,7 @@ public class LocationManager : AbstractManager<LocationManager>
 				Dictionary<int, int> dicto = new Dictionary<int, int>();
 				foreach (XmlNode stars in node)
 				{
-					dicto.Add(XmlUtils.ParseInt(stars.Attributes["Count"]), XmlUtils.ParseInt(stars.Attributes["Coins"]));
+					dicto.Add(stars.Attributes["Count"].ParseInt(), stars.Attributes["Coins"].ParseInt());
 				}
 				_rewards[name] = dicto;
 			}
@@ -50,7 +49,7 @@ public class LocationManager : AbstractManager<LocationManager>
 		foreach (XmlNode node in doc["LocationList"]["Locations"])
 		{
 			string name = node.Attributes["Name"].Value;
-			int unlockPrice = XmlUtils.ParseInt(node.Attributes["UnlockPrice"]);
+			int unlockPrice = node.Attributes["UnlockPrice"].ParseInt();
 			var info = ParseLocationId(name);
 			UnlockInfo condition = null;
 			if (node["Conditions"] != null)
@@ -70,7 +69,7 @@ public class LocationManager : AbstractManager<LocationManager>
 				foreach (XmlNode story in group)
 				{
 					string storyName = story.Attributes["Name"].Value;
-					int storyPrice = XmlUtils.ParseInt(story.Attributes["UnlockPrice"]);
+					int storyPrice = story.Attributes["UnlockPrice"].ParseInt();
 					UnlockInfo storyCondition = null;
                     if (story["Conditions"] != null)
                     {
@@ -86,8 +85,8 @@ public class LocationManager : AbstractManager<LocationManager>
                     }
 					string rewardTemplate = story["Reward"].Attributes["Template"].Value;
 
-					var cutsceneStart = XmlUtils.ParseString(story.Attributes["VideoStart"]);
-                    var cutsceneEnd = XmlUtils.ParseString(story.Attributes["VideoEnd"]);
+					var cutsceneStart = story.Attributes["VideoStart"].ParseString();
+                    var cutsceneEnd = story.Attributes["VideoEnd"].ParseString();
 
 
                     var storyInfo = new StoryInfo(storyName, type, trickIDs, storyCondition, rewardTemplate, cutsceneStart, cutsceneEnd);

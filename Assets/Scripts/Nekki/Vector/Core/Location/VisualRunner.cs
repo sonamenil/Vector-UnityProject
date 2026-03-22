@@ -1,7 +1,6 @@
 using System.IO;
 using System.Xml;
 using Nekki.Vector.Core.Scripts;
-using Nekki.Vector.Core.Scripts.Primitive;
 using Nekki.Vector.Core.Utilites;
 using UnityEngine;
 using Xml2Prefab;
@@ -46,8 +45,7 @@ namespace Nekki.Vector.Core.Location
 
         public const int Dynamic = 3;
 
-        private static string[] animations = new string[]
-        {
+        private static string[] animations = {
             "bird_v0",
             "bird_v2",
             "bird_v3",
@@ -65,10 +63,7 @@ namespace Nekki.Vector.Core.Location
 
         public override GameObject Layer
         {
-            get
-            {
-                return _Layer;
-            }
+            get => _Layer;
             set
             {
                 _Layer = value;
@@ -84,14 +79,8 @@ namespace Nekki.Vector.Core.Location
 
         public Color Color
         {
-            get
-            {
-                return _Color;
-            }
-            set
-            {
-                _Color = value;
-            }
+            get => _Color;
+            set => _Color = value;
         }
 
         public Rectangle Rectangle => new Rectangle(Position.X, Position.Y, _ImageWidth, _ImageHeight);

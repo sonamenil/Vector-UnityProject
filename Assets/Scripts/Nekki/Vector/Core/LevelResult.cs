@@ -1,4 +1,3 @@
-using Nekki.Vector.Core.Location;
 using System;
 
 namespace Nekki.Vector.Core
@@ -49,12 +48,12 @@ namespace Nekki.Vector.Core
             private set;
         }
 
-        public LevelResult(Nekki.Vector.Core.Location.Location location, uint frameCount)
+        public LevelResult(Location.Location location, uint frameCount)
         {
             if (location != null)
             {
                 var model = location.GetUserModel();
-                timeSpan = System.TimeSpan.FromMilliseconds(frameCount * 16.666666);
+                timeSpan = TimeSpan.FromMilliseconds(frameCount * 16.666666);
                 pointsMax = location.Sets.totalPoints;
                 pointsCollected = model.CollectedPoints;
                 bonusMax = location.Sets.totalBonus;
@@ -65,7 +64,7 @@ namespace Nekki.Vector.Core
             }
         }
 
-        public LevelResult(Nekki.Vector.Core.Location.Location location, int cheatStars)
+        public LevelResult(Location.Location location, int cheatStars)
         {
             if (location != null)
             {

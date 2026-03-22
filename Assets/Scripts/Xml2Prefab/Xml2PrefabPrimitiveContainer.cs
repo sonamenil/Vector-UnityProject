@@ -45,14 +45,8 @@ namespace Xml2Prefab
 
 		public ChoiceContainer Choice
 		{
-			get
-			{
-				return _choice;
-			}
-			set
-			{
-				_choice = value;
-			}
+			get => _choice;
+			set => _choice = value;
 		}
 
 		public void Init(string className, int type, float x, float y, float impulse, List<string> sounds, string transforms, ChoiceContainer choice)

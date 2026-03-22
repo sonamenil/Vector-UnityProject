@@ -1,7 +1,6 @@
+using System.Xml;
 using Nekki.Vector.Core.Camera;
 using Nekki.Vector.Core.Models;
-using System.Xml;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger.Actions
 {
@@ -93,7 +92,7 @@ namespace Nekki.Vector.Core.Trigger.Actions
                 switch (_ZoomVar.Type)
                 {
                     case VariableTypeE.VT_INT:
-                        LocationCamera.Current.Zooming((float)_ZoomVar.ValueInt * currentZoom);
+                        LocationCamera.Current.Zooming(_ZoomVar.ValueInt * currentZoom);
                         break;
                     case VariableTypeE.VT_DOUBLE:
                         LocationCamera.Current.Zooming(_ZoomVar.ValueFloat * currentZoom);

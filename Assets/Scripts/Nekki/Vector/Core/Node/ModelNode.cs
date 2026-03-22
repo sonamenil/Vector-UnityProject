@@ -19,10 +19,7 @@ namespace Nekki.Vector.Core.Node
 
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get => _name;
             set
             {
                 _name = value;
@@ -51,13 +48,7 @@ namespace Nekki.Vector.Core.Node
             set;
         }
 
-        public bool IsNodeFixed
-        {
-            get
-            {
-                return !IsFixed && IsType;
-            }
-        }
+        public bool IsNodeFixed => !IsFixed && IsType;
 
         public int Radius
         {
@@ -71,13 +62,7 @@ namespace Nekki.Vector.Core.Node
             set;
         }
 
-        public bool IsNodePhysics
-        {
-            get
-            {
-                return IsPhysics && IsType;
-            }
-        }
+        public bool IsNodePhysics => IsPhysics && IsType;
 
         public double Weight
         {
@@ -123,14 +108,8 @@ namespace Nekki.Vector.Core.Node
 
         public QuadRunner Data
         {
-            get
-            {
-                return _Data;
-            }
-            set
-            {
-                _Data = value;
-            }
+            get => _Data;
+            set => _Data = value;
         }
 
         public ModelNode(Vector3d position, MacroNode macroNode = null) : base(position, position)

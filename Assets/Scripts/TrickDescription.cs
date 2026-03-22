@@ -38,7 +38,7 @@ public class TrickDescription : MonoBehaviour
 		if (_mainSequence == null)
 		{
 			_mainSequence = Show(text, _cachedRectTransform, _defaultPosition, false, textToShow);
-			TweenSettingsExtensions.OnKill(_mainSequence, new TweenCallback(() => _mainSequence = null));
+			_mainSequence.OnKill(() => _mainSequence = null);
 			return;
 		}
         text = Instantiate(text, _cachedRectTransform.parent);
@@ -53,13 +53,13 @@ public class TrickDescription : MonoBehaviour
 		rTransform.anchoredPosition = defPos;
 		var s = DOTween.Sequence();
 		s.AppendInterval(0.4f);
-		var t = DOTweenModuleUI.DOFade(text, 0, 1.3000001f);
+		var t = text.DOFade(0, 1.3000001f);
 		s.Append(t);
 		var s1 = DOTween.Sequence();
-		var t1 = DOTweenModuleUI.DOAnchorPosY(rTransform, defPos.y + 150, 1.7f, false);
+		var t1 = rTransform.DOAnchorPosY(defPos.y + 150, 1.7f);
 		s1.Append(t1);
 		s1.Join(s);
-		s1.AppendCallback(new TweenCallback(() => text.gameObject.SetActive(false)));
+		s1.AppendCallback(() => text.gameObject.SetActive(false));
 		s1.Play();
 		return s1;
 	}

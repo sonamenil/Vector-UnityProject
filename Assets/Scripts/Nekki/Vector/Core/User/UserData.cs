@@ -1,5 +1,5 @@
-using Nekki.Vector.Core.Animation;
 using System.Collections.Generic;
+using Nekki.Vector.Core.Animation;
 using UnityEngine;
 using AnimationInfo = Nekki.Vector.Core.Animation.AnimationInfo;
 
@@ -53,220 +53,112 @@ namespace Nekki.Vector.Core.User
 
 		public Color Color
 		{
-			get
-			{
-				return _Color;
-			}
-			set
-			{
-				_Color = value;
-			}
+			get => _Color;
+			set => _Color = value;
 		}
 
 		public string Name
 		{
-			get
-			{
-				return _Name;
-			}
-			set
-			{
-				_Name = value;
-			}
+			get => _Name;
+			set => _Name = value;
 		}
 
 		public List<string> Skins
 		{
-			get
-			{
-				return _Skins;
-			}
-			set
-			{
-				_Skins = value;
-			}
+			get => _Skins;
+			set => _Skins = value;
 		}
 
 		public List<string> Stocks
 		{
-			get
-			{
-				return _Stocks;
-			}
-			set
-			{
-				_Stocks = value;
-			}
+			get => _Stocks;
+			set => _Stocks = value;
 		}
 
 		public bool IsSelf
 		{
-			get
-			{
-				return _IsSelf;
-			}
-			set
-			{
-				_IsSelf = value;
-			}
+			get => _IsSelf;
+			set => _IsSelf = value;
 		}
 
-		public bool IsBot => _IsSelf == false;
+		public bool IsBot => !_IsSelf;
 
 		public List<string> Arrests
 		{
-			get
-			{
-				return _Arrests;
-			}
-			set
-			{
-				_Arrests = value;
-			}
+			get => _Arrests;
+			set => _Arrests = value;
 		}
 
 		public List<string> Murders
 		{
-			get
-			{
-				return _Murders;
-			}
-			set
-			{
-				_Murders = value;
-			}
+			get => _Murders;
+			set => _Murders = value;
 		}
 
 		public List<string> Respawns
 		{
-			get
-			{
-				return _Respawns;
-			}
-			set
-			{
-				_Respawns = value;
-			}
+			get => _Respawns;
+			set => _Respawns = value;
 		}
 
 		public List<string> Births
 		{
-			get
-			{
-				return _Births;
-			}
-			set
-			{
-				_Births = value;
-			}
+			get => _Births;
+			set => _Births = value;
 		}
 
 		public string BirthSpawn
 		{
-			get
-			{
-				return _BirthSpawn;
-			}
-			set
-			{
-				_BirthSpawn = value;
-			}
+			get => _BirthSpawn;
+			set => _BirthSpawn = value;
 		}
 
 		public int AI
 		{
-			get
-			{
-				return _AI;
-			}
-			set
-			{
-				_AI = value;
-			}
+			get => _AI;
+			set => _AI = value;
 		}
 
 		public bool IsTrick
 		{
-			get
-			{
-				return _IsTrick;
-			}
-			set
-			{
-				_IsTrick = value;
-			}
+			get => _IsTrick;
+			set => _IsTrick = value;
 		}
 
 		public bool IsItem
 		{
-			get
-			{
-				return _IsItem;
-			}
-			set
-			{
-				_IsItem = value;
-			}
+			get => _IsItem;
+			set => _IsItem = value;
 		}
 
 		public bool IsVictory
 		{
-			get
-			{
-				return _IsVictory;
-			}
-			set
-			{
-				_IsVictory = value;
-			}
+			get => _IsVictory;
+			set => _IsVictory = value;
 		}
 
 		public bool IsLost
 		{
-			get
-			{
-				return _IsLost;
-			}
-			set
-			{
-				_IsLost = value;
-			}
+			get => _IsLost;
+			set => _IsLost = value;
 		}
 
 		public float StartTime
 		{
-			get
-			{
-				return _StartTime;
-			}
-			set
-			{
-				_StartTime = value;
-			}
+			get => _StartTime;
+			set => _StartTime = value;
 		}
 
 		public float LiveTime
 		{
-			get
-			{
-				return _LiveTime;
-			}
-			set
-			{
-				_LiveTime = value * 60;
-			}
+			get => _LiveTime;
+			set => _LiveTime = value * 60;
 		}
 
 		public bool isIcon
 		{
-			get
-			{
-				return _isIcon;
-			}
-			set
-			{
-				_isIcon = value;
-			}
+			get => _isIcon;
+			set => _isIcon = value;
 		}
 
 		public UserData(string userID)

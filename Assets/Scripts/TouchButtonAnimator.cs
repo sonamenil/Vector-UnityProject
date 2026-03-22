@@ -36,14 +36,8 @@ public class TouchButtonAnimator : TweenAnimator, IPointerDownHandler, IEventSys
 
     public bool Disabled
     {
-        get
-        {
-            return _disabled;
-        }
-        set
-        {
-            _disabled = value;
-        }
+        get => _disabled;
+        set => _disabled = value;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -70,19 +64,19 @@ public class TouchButtonAnimator : TweenAnimator, IPointerDownHandler, IEventSys
         InitSequence();
         if (_scaleTransform != null)
         {
-            var t = ShortcutExtensions.DOScale(_scaleTransform, _pressedScale, _transitionTime);
-            TweenSettingsExtensions.Insert(_sequence, 0, t);
+            var t = _scaleTransform.DOScale(_pressedScale, _transitionTime);
+            _sequence.Insert(0, t);
         }
         if (_alphaChangeImage == null)
         {
-            TweenExtensions.Play(_sequence);
+            _sequence.Play();
             return;
         }
         _alphaChangeImage.gameObject.SetActive(true);
         _alphaChangeImage.alpha = _normalAlpha;
-        var t2 = DOTweenModuleUI.DOFade(_alphaChangeImage, _pressedAlpha, _transitionTime);
-        TweenSettingsExtensions.Insert(_sequence, 0, t2);
-        TweenExtensions.Play(_sequence);
+        var t2 = _alphaChangeImage.DOFade(_pressedAlpha, _transitionTime);
+        _sequence.Insert(0, t2);
+        _sequence.Play();
     }
 
     public void NormalTransition()
@@ -90,22 +84,22 @@ public class TouchButtonAnimator : TweenAnimator, IPointerDownHandler, IEventSys
         InitSequence();
         if (_scaleTransform != null)
         {
-            var t = ShortcutExtensions.DOScale(_scaleTransform, _normalScale, _transitionTime);
-            TweenSettingsExtensions.Insert(_sequence, 0, t);
+            var t = _scaleTransform.DOScale(_normalScale, _transitionTime);
+            _sequence.Insert(0, t);
         }
         if (_alphaChangeImage != null)
         {
-            var t2 = DOTweenModuleUI.DOFade(_alphaChangeImage, _normalAlpha, _transitionTime);
-            TweenSettingsExtensions.Insert(_sequence, 0, t2);
+            var t2 = _alphaChangeImage.DOFade(_normalAlpha, _transitionTime);
+            _sequence.Insert(0, t2);
             if (_disableImageOnNormal)
             {
                 var callback = new TweenCallback(() => _alphaChangeImage.gameObject.SetActive(false));
-                TweenSettingsExtensions.OnComplete(t2, callback);
+                t2.OnComplete(callback);
             }
         }
         var callback2 = new TweenCallback(() => onClick.Invoke());
-        TweenSettingsExtensions.AppendCallback(_sequence, callback2);
-        TweenExtensions.Play(_sequence);
+        _sequence.AppendCallback(callback2);
+        _sequence.Play();
     }
 
     public void HighlightedTransition()

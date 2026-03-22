@@ -1,3 +1,4 @@
+using Nekki.Vector.Core.Utilites;
 using UnityEngine;
 
 public struct Vector3dStruct
@@ -12,22 +13,13 @@ public struct Vector3dStruct
 
     public double X
     {
-        get
-        {
-            return _X;
-        }
-        set
-        {
-            _X = value;
-        }
+        get => _X;
+        set => _X = value;
     }
 
     public double FloorX
     {
-        get
-        {
-            return 0.0;
-        }
+        get => 0.0;
         set
         {
         }
@@ -35,22 +27,13 @@ public struct Vector3dStruct
 
     public double Y
     {
-        get
-        {
-            return _Y;
-        }
-        set
-        {
-            _Y = value;
-        }
+        get => _Y;
+        set => _Y = value;
     }
 
     public double FloorY
     {
-        get
-        {
-            return 0.0;
-        }
+        get => 0.0;
         set
         {
         }
@@ -58,22 +41,13 @@ public struct Vector3dStruct
 
     public double Z
     {
-        get
-        {
-            return _Z;
-        }
-        set
-        {
-            _Z = value;
-        }
+        get => _Z;
+        set => _Z = value;
     }
 
     public double FloorZ
     {
-        get
-        {
-            return 0.0;
-        }
+        get => 0.0;
         set
         {
         }
@@ -222,9 +196,9 @@ public struct Vector3dStruct
 
 	public static Vector3dStruct Round(Vector3d vector, double pow)
 	{
-        vector.X = Nekki.Vector.Core.Utilites.Math.Round(vector.X, pow);
-        vector.Y = Nekki.Vector.Core.Utilites.Math.Round(vector.Y, pow);
-        vector.Z = Nekki.Vector.Core.Utilites.Math.Round(vector.Z, pow);
+        vector.X = Math.Round(vector.X, pow);
+        vector.Y = Math.Round(vector.Y, pow);
+        vector.Z = Math.Round(vector.Z, pow);
         return new Vector3dStruct(vector);
     }
 

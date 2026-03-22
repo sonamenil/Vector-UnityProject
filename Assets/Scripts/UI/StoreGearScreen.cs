@@ -19,7 +19,7 @@ namespace UI
 				ScreenManager.Show<StoreScreen>(true, false);
 				SoundsManager.Instance.PlaySounds(SoundType.ui_click);
 			};
-			BuyButton.PressedActionWithPayload = (gearId) =>
+			BuyButton.PressedActionWithPayload = gearId =>
 			{
 				ScreenManager.Popup<BuyItemPopup>();
 			};

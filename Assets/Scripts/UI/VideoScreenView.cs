@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine.Video;
 
 namespace UI
@@ -18,7 +16,7 @@ namespace UI
 
 		public override void Init(VideoScreen screen)
 		{
-			CloseButton.onClick.AddListener(new UnityAction(() => StopVideo(VideoPlayer)));
+			CloseButton.onClick.AddListener(() => StopVideo(VideoPlayer));
 		}
 
 		public override void PreShow(VideoScreenPayloadData payload)
@@ -35,7 +33,7 @@ namespace UI
             _lastPayload = payload;
             VideoPlayer.gameObject.SetActive(true);
             VideoPlayer.Prepare();
-            VideoPlayer.prepareCompleted += (vp) => vp.Play();
+            VideoPlayer.prepareCompleted += vp => vp.Play();
 			_lastPayload.IsPlaying = true;
             VideoPlayer.loopPointReached += OnFinished;
 		}

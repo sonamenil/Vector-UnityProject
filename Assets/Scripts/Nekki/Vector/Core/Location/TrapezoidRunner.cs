@@ -1,5 +1,4 @@
 using System;
-using UnityEngine.UIElements;
 using Xml2Prefab;
 
 namespace Nekki.Vector.Core.Location
@@ -58,7 +57,7 @@ namespace Nekki.Vector.Core.Location
 
         public override Point GetSize(int p_sign)
         {
-            return (p_sign <= 0) ? new Point(_WidthQuad, _HeightQuad_R) : new Point(_WidthQuad, _HeightQuad_L);
+            return p_sign <= 0 ? new Point(_WidthQuad, _HeightQuad_R) : new Point(_WidthQuad, _HeightQuad_L);
         }
 
         protected override void GenerateObject()
@@ -84,7 +83,7 @@ namespace Nekki.Vector.Core.Location
             double num4 = Vector3d8 * Vector3d9;
             double num5 = num * num2;
             double num6 = num3 * num4;
-            return equality ? (num5 <= 0.0 && num6 <= 0.0) : (num5 < 0.0 && num6 < 0.0);
+            return equality ? num5 <= 0.0 && num6 <= 0.0 : num5 < 0.0 && num6 < 0.0;
         }
 
         //public override bool Hit(double x, double y, bool equality)

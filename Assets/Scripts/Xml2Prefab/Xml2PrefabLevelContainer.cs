@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Xml2Prefab
 {

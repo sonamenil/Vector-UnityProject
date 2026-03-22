@@ -72,7 +72,7 @@ namespace Nekki.Vector.Core.Trigger.Actions
 
         public override string ToString()
 		{
-            return "SetVariable Var:" + _SetVar.ToString() + " Value=" + _ValueVar.DebugStringValue;
+            return "SetVariable Var:" + _SetVar + " Value=" + _ValueVar.DebugStringValue;
         }
     }
 }

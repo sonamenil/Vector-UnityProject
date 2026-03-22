@@ -1,5 +1,5 @@
-using Nekki.Vector.Core.Models;
 using System.Collections.Generic;
+using Nekki.Vector.Core.Models;
 using UnityEngine;
 using Xml2Prefab;
 
@@ -7,9 +7,9 @@ namespace Nekki.Vector.Core.Location
 {
     public class PrimitiveRunner : Runner
     {
-        private Vector3f _position = new Vector3f(0, 0, 0);
+        private Vector3f _position = new Vector3f();
 
-        private Vector3f _DeltaPosition = new Vector3f(0, 0, 0);
+        private Vector3f _DeltaPosition = new Vector3f();
 
         private Color _Color;
 
@@ -29,40 +29,22 @@ namespace Nekki.Vector.Core.Location
 
         public override Vector3f Position
         {
-            get
-            {
-                return _position;
-            }
-            set
-            {
-                _position = DeltaPosition + value;
-            }
+            get => _position;
+            set => _position = DeltaPosition + value;
         }
 
         public Vector3f DeltaPosition => _DeltaPosition == null ? new Vector3f() : _DeltaPosition;
 
         public Color Color
         {
-            get
-            {
-                return _Color;
-            }
-            set
-            {
-                _Color = value;
-            }
+            get => _Color;
+            set => _Color = value;
         }
 
         public ModelType Type
         {
-            get
-            {
-                return _Type;
-            }
-            set
-            {
-                _Type = value;
-            }
+            get => _Type;
+            set => _Type = value;
         }
 
         public bool IsUpdate => _IsUpdate;
@@ -71,22 +53,13 @@ namespace Nekki.Vector.Core.Location
 
         public virtual bool IsStrike
         {
-            get
-            {
-                return _Model.IsStrike;
-            }
-            set
-            {
-                _Model.IsStrike = value;
-            }
+            get => _Model.IsStrike;
+            set => _Model.IsStrike = value;
         }
 
         public override bool IsDebug
         {
-            get
-            {
-                return _IsDebug;
-            }
+            get => _IsDebug;
             set
             {
                 _IsDebug = value;
@@ -94,13 +67,7 @@ namespace Nekki.Vector.Core.Location
             }
         }
 
-        public Rectangle Rectangle
-        {
-            get
-            {
-                return _Model.Rectangle;
-            }
-        }
+        public Rectangle Rectangle => _Model.Rectangle;
 
         public PrimitiveRunner(int type, string name, Color color, Vector3f deltaPosition, float impulse, List<string> sounds)
             : base(0f, 0f)

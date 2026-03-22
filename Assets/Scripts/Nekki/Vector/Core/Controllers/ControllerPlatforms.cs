@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Nekki.Vector.Core.Detector;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Result;
-using UnityEngine;
-using static Nekki.Vector.Core.Node.NodeName;
 
 namespace Nekki.Vector.Core.Controllers
 {
@@ -192,7 +189,8 @@ namespace Nekki.Vector.Core.Controllers
             {
                 return _Horizontal;
             }
-            else if (Type == DetectorLine.DetectorType.Vertical)
+
+            if (Type == DetectorLine.DetectorType.Vertical)
             {
                 return _Vertical;
             }

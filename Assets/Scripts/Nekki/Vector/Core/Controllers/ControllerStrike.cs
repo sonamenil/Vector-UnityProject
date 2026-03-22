@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Node;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Controllers
 {

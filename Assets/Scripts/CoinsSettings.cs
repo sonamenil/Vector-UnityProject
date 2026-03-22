@@ -10,9 +10,9 @@ public class CoinsSettings
 
     public CoinsSettings(XmlNode node)
     {
-        nominal = XmlUtils.ParseInt(node.Attributes["Nominal"]);
-        chance = XmlUtils.ParseFloat(node.Attributes["Chance"]);
-        count = XmlUtils.ParseInt(node.Attributes["Count"]);
+        nominal = node.Attributes["Nominal"].ParseInt();
+        chance = node.Attributes["Chance"].ParseFloat();
+        count = node.Attributes["Count"].ParseInt();
     }
 
     public CoinsSettings(float chance, int nominal, int count)

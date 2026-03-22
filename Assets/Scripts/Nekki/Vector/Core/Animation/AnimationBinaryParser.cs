@@ -1,6 +1,6 @@
-using Nekki.Vector.Core.Frame;
 using System.Collections.Generic;
 using System.IO;
+using Nekki.Vector.Core.Frame;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Animation

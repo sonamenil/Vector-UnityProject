@@ -1,8 +1,7 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Node;
 using Nekki.Vector.Core.Trigger.Events;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Models
 {
@@ -137,7 +136,7 @@ namespace Nekki.Vector.Core.Models
                         string text = null;
                         for (int i = 0; i < p_trigger.TriggerNodesName.Count; i++)
                         {
-                            text = (p_trigger.CollisionNodeName = p_trigger.TriggerNodesName[i]);
+                            text = p_trigger.CollisionNodeName = p_trigger.TriggerNodesName[i];
                             if (p_trigger.Hit(GetNode(text).Start))
                             {
                                 return true;

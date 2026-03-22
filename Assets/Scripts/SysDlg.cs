@@ -22,7 +22,7 @@ public class SysDlg : MonoBehaviour
 		if (!_instance)
 		{
 			_instance = new GameObject("_message").AddComponent<SysDlg>();
-			Object.DontDestroyOnLoad(_instance);
+			DontDestroyOnLoad(_instance);
 		}
 		Time.timeScale = 0f;
 	}
@@ -32,7 +32,7 @@ public class SysDlg : MonoBehaviour
 		Touch[] touches = Input.touches;
 		for (int i = 0; i < touches.Length; i++)
 		{
-			if (touches[i].phase == TouchPhase.Ended && new Rect((float)Screen.width / 10f, (float)Screen.height / 8f * 6f, (float)Screen.width / 10f * 8f, (float)Screen.height / 8f).Contains(touches[i].position))
+			if (touches[i].phase == TouchPhase.Ended && new Rect(Screen.width / 10f, Screen.height / 8f * 6f, Screen.width / 10f * 8f, Screen.height / 8f).Contains(touches[i].position))
 			{
 				Close();
 			}
@@ -47,7 +47,7 @@ public class SysDlg : MonoBehaviour
 			return;
 		}
 		Time.timeScale = 1f;
-		Object.Destroy(base.gameObject);
+		Destroy(gameObject);
 	}
 
 	private void OnGUI()
@@ -56,9 +56,9 @@ public class SysDlg : MonoBehaviour
 		TextAnchor alignment = GUI.skin.label.alignment;
 		GUI.skin.label.alignment = TextAnchor.UpperCenter;
 		GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), _t);
-		GUI.Label(new Rect((float)Screen.width / 10f, (float)Screen.height / 8f, (float)Screen.width / 10f * 8f, (float)Screen.height / 8f * 8f), string.Format("<color=white><size={1}>{0}</size></color>", _message, ((Screen.width <= Screen.height) ? Screen.height : Screen.width) / 40));
+		GUI.Label(new Rect(Screen.width / 10f, Screen.height / 8f, Screen.width / 10f * 8f, Screen.height / 8f * 8f), string.Format("<color=white><size={1}>{0}</size></color>", _message, (Screen.width <= Screen.height ? Screen.height : Screen.width) / 40));
 		GUI.skin.label.alignment = alignment;
-		if (GUI.Button(new Rect((float)Screen.width / 10f, (float)Screen.height / 8f * 6f, (float)Screen.width / 10f * 8f, (float)Screen.height / 8f), "OK"))
+		if (GUI.Button(new Rect(Screen.width / 10f, Screen.height / 8f * 6f, Screen.width / 10f * 8f, Screen.height / 8f), "OK"))
 		{
 			Close();
 		}

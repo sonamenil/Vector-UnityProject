@@ -1,6 +1,6 @@
-using Nekki.Vector.Core.Trigger.Conditions;
 using System.Collections.Generic;
 using System.Xml;
+using Nekki.Vector.Core.Trigger.Conditions;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger
@@ -32,7 +32,7 @@ namespace Nekki.Vector.Core.Trigger
 		protected TriggerCondition(TriggerLoop p_parent, XmlNode p_node)
 		{
             _Parent = p_parent;
-            _IsNot = XmlUtils.ParseBool(p_node.Attributes["Not"]);
+            _IsNot = p_node.Attributes["Not"].ParseBool();
         }
 
 		public Variable GetOrCreateVar(string p_name)
@@ -120,7 +120,7 @@ namespace Nekki.Vector.Core.Trigger
                 {
                     string value = childNode.Attributes["Template"].Value;
                     XmlNode templateConditionsXML2 = TemplateModule.getTemplateConditionsXML(value);
-                    string p_prefix2 = ((childNode.Attributes["Prefix"] == null) ? null : childNode.Attributes["Prefix"].Value);
+                    string p_prefix2 = childNode.Attributes["Prefix"] == null ? null : childNode.Attributes["Prefix"].Value;
                     ParseConditions(templateConditionsXML2, p_loop, p_conditions, p_prefix2);
                     continue;
                 }

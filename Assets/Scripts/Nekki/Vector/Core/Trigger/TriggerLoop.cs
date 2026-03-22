@@ -1,8 +1,7 @@
-using Nekki.Vector.Core.Location;
-using Nekki.Vector.Core.Trigger.Events;
 using System.Collections.Generic;
 using System.Xml;
-using UnityEngine;
+using Nekki.Vector.Core.Location;
+using Nekki.Vector.Core.Trigger.Events;
 
 namespace Nekki.Vector.Core.Trigger
 {
@@ -30,7 +29,7 @@ namespace Nekki.Vector.Core.Trigger
 
 		private TriggerLoop(XmlNode p_node, TriggerRunner p_parent)
 		{
-			_Name = XmlUtils.ParseString(p_node.Attributes["Name"], string.Empty);
+			_Name = p_node.Attributes["Name"].ParseString(string.Empty);
 			_IsRender = true;
 			_Parent = p_parent;
             ParseEvent(p_node["Events"]);
@@ -143,17 +142,17 @@ namespace Nekki.Vector.Core.Trigger
             text += "\n Events:";
             foreach (TriggerEvent @event in _Events)
             {
-                text = text + "\n   " + @event.ToString();
+                text = text + "\n   " + @event;
             }
             text += "\n Conditions:";
             foreach (TriggerCondition condition in _Conditions)
             {
-                text = text + "\n   " + condition.ToString();
+                text = text + "\n   " + condition;
             }
             text += "\n Actions:";
             foreach (TriggerAction action in _Actions)
             {
-                text = text + "\n   " + action.ToString();
+                text = text + "\n   " + action;
             }
             return text;
         }

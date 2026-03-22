@@ -1,10 +1,9 @@
-using Nekki.Vector.Core.Gadgets;
-using Newtonsoft.Json;
-using PlayerData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using Banzai.Json;
+using Newtonsoft.Json;
+using PlayerData;
 
 public class ShopData : BaseUserHolder<ShopData>
 {
@@ -20,7 +19,7 @@ public class ShopData : BaseUserHolder<ShopData>
 		{
 			return;
 		}
-		var list = JsonConvert.DeserializeObject<List<OwnedItem>>(Banzai.Json.JsonUtils.AsString(_userjObject["Items"]));
+		var list = JsonConvert.DeserializeObject<List<OwnedItem>>(JsonUtils.AsString(_userjObject["Items"]));
 		foreach (var item in list )
 		{
 			_items[item.id] = item;

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Nekki.Vector.Core.Scripts.Projection
 {
@@ -20,26 +19,14 @@ namespace Nekki.Vector.Core.Scripts.Projection
 
 		public Color Color
 		{
-			get
-			{
-				return _Color;
-			}
-			set
-			{
-				_Color = value;
-			}
+			get => _Color;
+			set => _Color = value;
 		}
 
 		public List<Triangle> Base
 		{
-			get
-			{
-				return _Base;
-			}
-			set
-			{
-				_Base = value;
-			}
+			get => _Base;
+			set => _Base = value;
 		}
 
 		private static Shader Shader

@@ -1,3 +1,4 @@
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -37,8 +38,8 @@ namespace UI
 
 		public override void Init(StatsScreen screen)
 		{
-			BackToLobbyButton.onClick.AddListener(new UnityEngine.Events.UnityAction(screen.BackToLobbyButton.PressedAction));
-			BuyCoinsButton.onClick.AddListener(new UnityEngine.Events.UnityAction(screen.BuyCoinsButton.PressedAction));
+			BackToLobbyButton.onClick.AddListener(new UnityAction(screen.BackToLobbyButton.PressedAction));
+			BuyCoinsButton.onClick.AddListener(new UnityAction(screen.BuyCoinsButton.PressedAction));
 		}
 
 		public override void PreShow(CommonPayloadData payload)

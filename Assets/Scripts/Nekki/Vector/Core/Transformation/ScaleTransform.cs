@@ -1,8 +1,7 @@
-using Nekki.Vector.Core.Location;
 using System;
 using System.Collections.Generic;
 using System.Xml;
-using UnityEngine;
+using Nekki.Vector.Core.Location;
 
 namespace Nekki.Vector.Core.Transformation
 {
@@ -36,10 +35,10 @@ namespace Nekki.Vector.Core.Transformation
 
         public override void Parse(XmlNode node)
         {
-            _Frames = XmlUtils.ParseInt(node.Attributes["Frames"]);
+            _Frames = node.Attributes["Frames"].ParseInt();
 
-            _FinalWidth = XmlUtils.ParseFloat(node.Attributes["FinalWidth"], -1);
-            _FinalHeight = XmlUtils.ParseFloat(node.Attributes["FinalHeight"], -1);
+            _FinalWidth = node.Attributes["FinalWidth"].ParseFloat(-1);
+            _FinalHeight = node.Attributes["FinalHeight"].ParseFloat(-1);
         }
 
         protected void ReplaceZeroByEps(Point p_point)
@@ -117,20 +116,20 @@ namespace Nekki.Vector.Core.Transformation
             for (int j = 0; j < _Frames; j++)
             {
                 double num2 = Math.Pow(1f - num, list.Count + 1);
-                double num3 = num2 * (double)point.X;
-                double num4 = num2 * (double)point.Y;
+                double num3 = num2 * point.X;
+                double num4 = num2 * point.Y;
                 int num5 = 0;
                 for (num5 = 0; num5 < list.Count; num5++)
                 {
-                    num2 = (double)(list.Count + 1) * Math.Pow(1f - num, list.Count - num5) * Math.Pow(num, num5 + 1);
-                    num3 += num2 * (double)list[num5].X;
-                    num4 += num2 * (double)list[num5].Y;
+                    num2 = (list.Count + 1) * Math.Pow(1f - num, list.Count - num5) * Math.Pow(num, num5 + 1);
+                    num3 += num2 * list[num5].X;
+                    num4 += num2 * list[num5].Y;
                 }
                 num2 = Math.Pow(num, num5 + 1);
-                num3 += num2 * (double)point2.X;
-                num4 += num2 * (double)point2.Y;
+                num3 += num2 * point2.X;
+                num4 += num2 * point2.Y;
                 _Points.Add(new Point((float)num3, (float)num4));
-                num += 1f / (float)_Frames;
+                num += 1f / _Frames;
             }
             _Points.Add(point2);
             ReplaceZeroByEps(_Points[_Points.Count - 1]);

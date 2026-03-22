@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Nekki.Vector.Core.Animation;
 using Nekki.Vector.Core.Animation.Events;
 using Nekki.Vector.Core.Camera;
@@ -6,13 +8,8 @@ using Nekki.Vector.Core.Detector;
 using Nekki.Vector.Core.Gadgets;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Node;
-using Nekki.Vector.Core.Result;
-using Nekki.Vector.Core.Trigger.Events;
 using Nekki.Vector.Core.User;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using static Nekki.Vector.Core.Node.NodeName;
 using AnimationInfo = Nekki.Vector.Core.Animation.AnimationInfo;
 using Collision = Nekki.Vector.Core.Result.Collision;
 
@@ -70,10 +67,7 @@ namespace Nekki.Vector.Core.Models
 
         public override GameObject Layer
         {
-            get
-            {
-                return _ModelObject.Layer;
-            }
+            get => _ModelObject.Layer;
             set
             {
                 _ModelObject.Layer = value;
@@ -96,14 +90,8 @@ namespace Nekki.Vector.Core.Models
 
         public bool IsGadget
         {
-            get
-            {
-                return _IsGadget;
-            }
-            set
-            {
-                _IsGadget = value;
-            }
+            get => _IsGadget;
+            set => _IsGadget = value;
         }
 
         public override bool IsEnabled => _isDelayEnd ? base.IsEnabled : false;
@@ -131,28 +119,16 @@ namespace Nekki.Vector.Core.Models
 
         public AnimationReaction DelayReaction
         {
-            get
-            {
-                return _DelayReaction;
-            }
-            set
-            {
-                _DelayReaction = value;
-            }
+            get => _DelayReaction;
+            set => _DelayReaction = value;
         }
 
         public ControllerStatistics controllerStatistics => _controllerStatistics;
 
         public bool IsDeath
         {
-            get
-            {
-                return _isDeath;
-            }
-            set
-            {
-                _isDeath = value;
-            }
+            get => _isDeath;
+            set => _isDeath = value;
         }
 
         public Vector3d VelocityQuadCurrent => _VelocityQuadCurrent;
@@ -175,7 +151,7 @@ namespace Nekki.Vector.Core.Models
 
         public bool IsPlay => _controllerAnimations.IsPlay;
 
-        public int Sign => (_controllerAnimations == null) ? 1 : ((_controllerAnimations.Sign == 1) ? 1 : (-1));
+        public int Sign => _controllerAnimations == null ? 1 : _controllerAnimations.Sign == 1 ? 1 : -1;
 
         public string AnimationName => _controllerAnimations.Name;
 
@@ -237,14 +213,8 @@ namespace Nekki.Vector.Core.Models
 
         public bool IsDelayEnd
         {
-            get
-            {
-                return _isDelayEnd;
-            }
-            set
-            {
-                _isDelayEnd = value;
-            }
+            get => _isDelayEnd;
+            set => _isDelayEnd = value;
         }
 
         public ModelHuman(UserData userData)
@@ -441,20 +411,20 @@ namespace Nekki.Vector.Core.Models
         {
             float autoPositionDetectorH = _controllerAnimations.AutoPositionDetectorH;
             float autoPositionDetectorV = _controllerAnimations.AutoPositionDetectorV;
-            if ((double)autoPositionDetectorH != -1.0 || (double)autoPositionDetectorV != -1.0)
+            if (autoPositionDetectorH != -1.0 || autoPositionDetectorV != -1.0)
             {
                 Vector3d vector3d = _ModelObject.Velocity + _VelocityQuadCurrent;
                 Vector3d start = _ModelObject.CenterOfMassNode.Start;
                 if (autoPositionDetectorV >= 0f)
                 {
-                    _ModelObject.DetectorVerticalNode.Start.X = start.X + 4f * vector3d.X + (float)Sign * autoPositionDetectorV;
+                    _ModelObject.DetectorVerticalNode.Start.X = start.X + 4f * vector3d.X + Sign * autoPositionDetectorV;
                     _ModelObject.DetectorVerticalNode.Start.Y = start.Y + 4f * vector3d.Y;
                 }
                 if (autoPositionDetectorH > 0f)
                 {
                     Vector3d start2 = _ModelObject.ToeRight.Start;
                     Vector3d start3 = _ModelObject.ToeLeft.Start;
-                    _ModelObject.DetectorHorizontalNode.Start.X = (Sign != 1) ? (Math.Min(start2.X, start3.X) + vector3d.X * 4) : (Math.Max(start2.X, start3.X) + vector3d.X * 4);
+                    _ModelObject.DetectorHorizontalNode.Start.X = Sign != 1 ? Math.Min(start2.X, start3.X) + vector3d.X * 4 : Math.Max(start2.X, start3.X) + vector3d.X * 4;
                 }
             }
         }
@@ -522,7 +492,7 @@ namespace Nekki.Vector.Core.Models
                 double num7;
                 if (start.X <= num)
                 {
-                    double num6 = (start.X = num);
+                    double num6 = start.X = num;
                     num7 = num6;
                 }
                 else
@@ -533,7 +503,7 @@ namespace Nekki.Vector.Core.Models
                 double num9;
                 if (start.Y <= num2)
                 {
-                    double num6 = (start.Y = num2);
+                    double num6 = start.Y = num2;
                     num9 = num6;
                 }
                 else
@@ -544,7 +514,7 @@ namespace Nekki.Vector.Core.Models
                 double num11;
                 if (start.X >= num3)
                 {
-                    double num6 = (start.X = num3);
+                    double num6 = start.X = num3;
                     num11 = num6;
                 }
                 else
@@ -555,7 +525,7 @@ namespace Nekki.Vector.Core.Models
                 double num13;
                 if (start.Y >= num4)
                 {
-                    double num6 = (start.Y = num4);
+                    double num6 = start.Y = num4;
                     num13 = num6;
                 }
                 else

@@ -1,8 +1,7 @@
-using Nekki.Vector.Core.Location;
-using Nekki.Vector.Core.Location.LevelCreation;
 using System.Collections.Generic;
 using System.Xml;
-using UnityEngine;
+using Nekki.Vector.Core.Location;
+using Nekki.Vector.Core.Location.LevelCreation;
 
 namespace Nekki.Vector.Core.Transformation
 {
@@ -10,7 +9,7 @@ namespace Nekki.Vector.Core.Transformation
     {
         private List<TransformPrototype> _Storage = new List<TransformPrototype>();
 
-        private int _CurrentSystem = 0;
+        private int _CurrentSystem;
 
         private Runner _Parent;
 
@@ -20,7 +19,7 @@ namespace Nekki.Vector.Core.Transformation
 
         private string _Name;
 
-        private bool _IsSystemTemplate = false;
+        private bool _IsSystemTemplate;
 
         private bool _FirstIteration = true;
 
@@ -28,10 +27,7 @@ namespace Nekki.Vector.Core.Transformation
 
         public Runner Parent
         {
-            get
-            {
-                return _Parent;
-            }
+            get => _Parent;
             set
             {
                 _Parent = value;
@@ -44,22 +40,13 @@ namespace Nekki.Vector.Core.Transformation
 
         public BaseObjectRunner MainParent
         {
-            get
-            {
-                return _MainParent;
-            }
-            set
-            {
-                _MainParent = value;
-            }
+            get => _MainParent;
+            set => _MainParent = value;
         }
 
         public bool IsPaused
         {
-            get
-            {
-                return _IsPaused;
-            }
+            get => _IsPaused;
             set
             {
                 _IsPaused = value;
@@ -78,26 +65,14 @@ namespace Nekki.Vector.Core.Transformation
 
         public string Name
         {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                _Name = value;
-            }
+            get => _Name;
+            set => _Name = value;
         }
 
         public bool IsSystemTemplate
         {
-            get
-            {
-                return _IsSystemTemplate;
-            }
-            set
-            {
-                _IsSystemTemplate = value;
-            }
+            get => _IsSystemTemplate;
+            set => _IsSystemTemplate = value;
         }
 
         public int FramesCount

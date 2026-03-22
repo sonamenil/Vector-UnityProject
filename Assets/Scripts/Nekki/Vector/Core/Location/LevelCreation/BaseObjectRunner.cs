@@ -1,7 +1,7 @@
-using Nekki.Vector.Core.Transformation;
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using Nekki.Vector.Core.Transformation;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Location.LevelCreation
@@ -12,7 +12,7 @@ namespace Nekki.Vector.Core.Location.LevelCreation
 
         protected List<BaseObjectRunner> _Childs = new List<BaseObjectRunner>();
 
-        protected Point _Position = new Point(0, 0);
+        protected Point _Position = new Point();
 
         protected Point _LocalPosition;
 
@@ -52,38 +52,23 @@ namespace Nekki.Vector.Core.Location.LevelCreation
 
         public float Factor
         {
-            get
-            {
-                return _Factor;
-            }
-            set
-            {
-                _Factor = value;
-            }
+            get => _Factor;
+            set => _Factor = value;
         }
 
         public BaseElements Element => _Element;
 
         public bool IsInitialized
         {
-            get
-            {
-                return _IsInitialized;
-            }
-            set
-            {
-                _IsInitialized = value;
-            }
+            get => _IsInitialized;
+            set => _IsInitialized = value;
         }
 
         public GameObject Layer => _Layer;
 
         public virtual bool IsEnabled
         {
-            get
-            {
-                return _IsEnabled;
-            }
+            get => _IsEnabled;
             set
             {
                 _IsEnabled = value;
@@ -96,10 +81,7 @@ namespace Nekki.Vector.Core.Location.LevelCreation
 
         public bool DebugMode
         {
-            get
-            {
-                return _debugMode;
-            }
+            get => _debugMode;
             set
             {
                 _debugMode = value;

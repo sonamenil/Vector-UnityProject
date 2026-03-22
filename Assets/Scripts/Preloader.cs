@@ -1,9 +1,9 @@
-using Nekki.Vector.Core.Animation;
 using System;
 using System.Collections;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Nekki.Vector.Core.Animation;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -110,20 +110,20 @@ public class Preloader : MonoBehaviour
             yield
             break;
         }
-        if (UserDataManager.Instance.Options.GDPR != false)
+        if (UserDataManager.Instance.Options.GDPR)
         {
             StartCoroutine(LoadProcess());
             yield
             break;
         }
         _preloaderUIGO.SetActive(false);
-        _gdprPopup.Init(new System.Action(() => {
+        _gdprPopup.Init(() => {
             _gdprPopup.gameObject.SetActive(false);
             _preloaderUIGO.gameObject.SetActive(true);
             UserDataManager.Instance.Options.GDPR = true;
             UserDataManager.Instance.Options.SaveData();
             StartCoroutine(LoadProcess());
-        }));
+        });
     }
 
     private void GDPRConfirm() { }

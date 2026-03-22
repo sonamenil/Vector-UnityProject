@@ -1,7 +1,7 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Node;
-using System.Collections.Generic;
 
 namespace Nekki.Vector.Core.Controllers
 {

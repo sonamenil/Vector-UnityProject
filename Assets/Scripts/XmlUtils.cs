@@ -1,4 +1,3 @@
-using Core._Common;
 using System;
 using System.IO;
 using System.Xml;
@@ -124,7 +123,7 @@ public static class XmlUtils
 
     public static XmlDocument OpenXMLDocument(string path, string file = "", OpenXmlType openType = OpenXmlType.Normal, bool pIgnoreComments = true)
     {
-        string fullPath = System.IO.Path.Combine(path, file);
+        string fullPath = Path.Combine(path, file);
         var xmlReaderSettings = new XmlReaderSettings();
         xmlReaderSettings.IgnoreComments = pIgnoreComments;
         XmlDocument document = null;
@@ -138,25 +137,25 @@ public static class XmlUtils
                         DebugUtils.Dialog("FILE DOESNT EXIST: " + fullPath, true, true);
                         return null;
                     }
-                    var text0 = System.IO.File.ReadAllText(fullPath);
-                    document = XmlUtils.OpenXMLDocFromString(text0, xmlReaderSettings);
+                    var text0 = File.ReadAllText(fullPath);
+                    document = OpenXMLDocFromString(text0, xmlReaderSettings);
                     break;
                 }
                 var text = ResourceManager.GetTextFromResources(fullPath);
-                document = XmlUtils.OpenXMLDocFromString(text, xmlReaderSettings);
+                document = OpenXMLDocFromString(text, xmlReaderSettings);
                 break;
             case OpenXmlType.ForcedResourced:
                 var text1 = ResourceManager.GetTextFromResources(fullPath);
-                document = XmlUtils.OpenXMLDocFromString(text1, xmlReaderSettings);
+                document = OpenXMLDocFromString(text1, xmlReaderSettings);
                 break;
             case OpenXmlType.ForcedExternal:
-                var text2 = System.IO.File.ReadAllText(fullPath);
-                document = XmlUtils.OpenXMLDocFromString(text2, xmlReaderSettings);
+                var text2 = File.ReadAllText(fullPath);
+                document = OpenXMLDocFromString(text2, xmlReaderSettings);
                 break;
             default:
                 var input = File.Open(fullPath, FileMode.Open);
                 var reader = XmlReader.Create(input);
-                document = XmlUtils.OpenXMLDocument(reader);
+                document = OpenXMLDocument(reader);
                 break;
         }
         return document;

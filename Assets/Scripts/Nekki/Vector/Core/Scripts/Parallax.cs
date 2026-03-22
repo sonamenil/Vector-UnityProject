@@ -1,6 +1,4 @@
-using Nekki.Vector.Core.Camera;
 using UnityEngine;
-
 
 namespace Nekki.Vector.Core.Scripts
 {
@@ -30,14 +28,14 @@ namespace Nekki.Vector.Core.Scripts
 
         protected virtual void Start()
         {
-            _CachedTransform = base.transform;
+            _CachedTransform = transform;
             _StartPosition = _CachedTransform.position;
             if (UnityEngine.Camera.main != null && Mathf.Abs(_FactorX) > float.Epsilon)
             {
                 Vector3 position = UnityEngine.Camera.main.transform.position;
                 float p_x = _FactorX * position.x;
                 float p_y = _FactorY * position.y;
-                _LastCameraPosition = new Vector3f(p_x, p_y, 0f);
+                _LastCameraPosition = new Vector3f(p_x, p_y);
             }
             _CachedTransform.position = _StartPosition + _LastCameraPosition;
         }
@@ -45,8 +43,8 @@ namespace Nekki.Vector.Core.Scripts
         protected virtual void UpdatePosition()
         {
             Vector3 position = UnityEngine.Camera.main.transform.position;
-            float num = position.x - (_FactorX * position.x * transform.localScale.x);
-            float num2 = position.y - (_FactorY * position.y * transform.localScale.y);
+            float num = position.x - _FactorX * position.x * transform.localScale.x;
+            float num2 = position.y - _FactorY * position.y * transform.localScale.y;
             Vector3 vector = new Vector3(num - _LastCameraPosition.x, num2 - _LastCameraPosition.y);
             Vector3 vector3 = _CachedTransform.parent.InverseTransformVector(vector);
             _CachedTransform.localPosition += vector3;

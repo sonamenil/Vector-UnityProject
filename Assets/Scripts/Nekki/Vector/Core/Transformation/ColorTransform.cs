@@ -1,7 +1,6 @@
-﻿using Nekki.Vector.Core.Location;
+﻿using System.Xml;
+using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Utilites;
-using System;
-using System.Xml;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Transformation
@@ -35,7 +34,7 @@ namespace Nekki.Vector.Core.Transformation
 
         public override void Parse(XmlNode node)
         {
-            _Frames = (int)XmlUtils.ParseFloat(node.Attributes["Frames"], 1f);
+            _Frames = (int)node.Attributes["Frames"].ParseFloat(1f);
             ParseColor(node.Attributes["ColorStart"], ref _StartColor, new Color(-1f, -1f, -1f, -1f));
             ParseColor(node.Attributes["ColorFinish"], ref _EndColor, new Color(1f, 1f, 1f, 1f));
         }
@@ -88,7 +87,7 @@ namespace Nekki.Vector.Core.Transformation
                 }
             }
             _DeltaColor = _EndColor - _StartColor;
-            _DeltaColor /= (float)_Frames;
+            _DeltaColor /= _Frames;
         }
 
         public override void Reset()

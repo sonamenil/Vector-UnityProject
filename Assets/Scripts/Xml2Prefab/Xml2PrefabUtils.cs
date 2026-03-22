@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using Nekki.Vector.Core.User;
 using Nekki.Vector.Core.Utilites;
-using UnityEditor;
 using UnityEngine;
 
 namespace Xml2Prefab
@@ -29,8 +27,8 @@ namespace Xml2Prefab
         {
             var userData = new UserData("");
             userData.Name = node.Attributes["Name"].Value;
-            userData.BirthSpawn = XmlUtils.ParseString(node.Attributes["BirthSpawn"], "");
-            userData.isIcon = XmlUtils.ParseBool(node.Attributes["Icon"]);
+            userData.BirthSpawn = node.Attributes["BirthSpawn"].ParseString("");
+            userData.isIcon = node.Attributes["Icon"].ParseBool();
             userData.Color = node.Attributes["Color"] == null ? Color.black : ColorUtils.FromHex(node.Attributes["Color"].Value);
             userData.Skins = node.Attributes["Skins"] == null ? new List<string>() : new List<string>(node.Attributes["Skins"].Value.Split('|'));
             userData.Stocks = node.Attributes["Stocks"] == null ? new List<string>() : new List<string>(node.Attributes["Stocks"].Value.Split('|'));
@@ -38,14 +36,14 @@ namespace Xml2Prefab
             userData.Murders = node.Attributes["Murders"] == null ? new List<string>() : new List<string>(node.Attributes["Murders"].Value.Split('|'));
             userData.Respawns = node.Attributes["Respawns"] == null ? new List<string>() : new List<string>(node.Attributes["Respawns"].Value.Split('|'));
             userData.Births = node.Attributes["AllowedSpawns"] == null ? new List<string>() : new List<string>(node.Attributes["AllowedSpawns"].Value.Split('|'));
-            userData.IsSelf = XmlUtils.ParseBool(node.Attributes["Type"]);
-            userData.IsTrick = XmlUtils.ParseBool(node.Attributes["Trick"]);
-            userData.IsItem = XmlUtils.ParseBool(node.Attributes["Item"]);
-            userData.IsVictory = XmlUtils.ParseBool(node.Attributes["Victory"]);
-            userData.IsLost = XmlUtils.ParseBool(node.Attributes["Lose"]);
+            userData.IsSelf = node.Attributes["Type"].ParseBool();
+            userData.IsTrick = node.Attributes["Trick"].ParseBool();
+            userData.IsItem = node.Attributes["Item"].ParseBool();
+            userData.IsVictory = node.Attributes["Victory"].ParseBool();
+            userData.IsLost = node.Attributes["Lose"].ParseBool();
             userData.AI = int.Parse(node.Attributes["AI"].Value);
-            userData.StartTime = XmlUtils.ParseFloat(node.Attributes["Time"]);
-            userData.LiveTime = XmlUtils.ParseFloat(node.Attributes["LifeTime"], 2);
+            userData.StartTime = node.Attributes["Time"].ParseFloat();
+            userData.LiveTime = node.Attributes["LifeTime"].ParseFloat(2);
             if (userData.Skins.Count == 0)
             {
                 userData.Skins.Add("1");

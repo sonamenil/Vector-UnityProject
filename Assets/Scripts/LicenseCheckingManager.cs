@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class LicenseCheckingManager : AbstractManager<LicenseCheckingManager>
 {
 	private LicenseCheckingAbstract _licenseChecking;

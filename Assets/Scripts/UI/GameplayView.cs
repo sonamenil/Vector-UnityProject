@@ -1,3 +1,4 @@
+using Nekki.Vector.Core.Gadgets;
 using Nekki.Vector.GUI.Scenes.Run;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,29 +41,29 @@ namespace UI
                 }
 
             }
-            ButtonPause.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            ButtonPause.onClick.AddListener(() =>
             {
                 if (Game.Instance.Snail)
                 {
                     LevelMainController.current.pauseRender = !LevelMainController.current.pauseRender;
                     return;
                 }
-                if (LevelMainController.current.CanPauseOrReload == false)
+                if (!LevelMainController.current.CanPauseOrReload)
                 {
                     return;
                 }
                 Game.Instance.ScreenManager.Show<GameplayPauseScreen>(false, false);
                 LevelMainController.current.pauseRender = true;
-            }));
-            ButtonReplay.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            });
+            ButtonReplay.onClick.AddListener(() =>
             {
-                if (!Game.Instance.Snail && LevelMainController.current.CanPauseOrReload == false)
+                if (!Game.Instance.Snail && !LevelMainController.current.CanPauseOrReload)
                 {
                     return;
                 }
                 LevelMainController.current.ReloadButton();
-            }));
-            UseGadgetsButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            });
+            UseGadgetsButton.onClick.AddListener(() =>
             {
                 if (UserDataManager.RuntimeInfo.IsHunterMode)
                 {
@@ -72,8 +73,8 @@ namespace UI
                 {
                     return;
                 }
-                LevelMainController.current.controllerGadgets.ActivateGadget(Nekki.Vector.Core.Gadgets.GadgetType.KillBot);
-            }));
+                LevelMainController.current.controllerGadgets.ActivateGadget(GadgetType.KillBot);
+            });
             UserDataManager.Instance.ShopData.Updated += InventoryOnUpdated;
         }
 
@@ -117,7 +118,7 @@ namespace UI
             }
             var equipped = inventory.IsEquipped("GADGET_FORCEBLASTER");
             var count = inventory.GetCount("GADGET_FORCEBLASTER");
-            if (count < 1 || (!equipped || UserDataManager.RuntimeInfo.IsHunterMode))
+            if (count < 1 || !equipped || UserDataManager.RuntimeInfo.IsHunterMode)
             {
                 Gadgets.SetActive(false);
                 return;

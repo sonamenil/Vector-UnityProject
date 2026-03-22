@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class ResolutionManager : AbstractManager<ResolutionManager>
@@ -126,6 +125,6 @@ public class ResolutionManager : AbstractManager<ResolutionManager>
     {
         if (!PlayerPrefs.HasKey(ResKey)) return -1;
         int idx = PlayerPrefs.GetInt(ResKey);
-        return (idx >= 0 && idx < count) ? idx : -1;
+        return idx >= 0 && idx < count ? idx : -1;
     }
 }

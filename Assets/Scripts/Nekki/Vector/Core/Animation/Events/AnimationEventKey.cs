@@ -1,5 +1,5 @@
-using Nekki.Vector.Core.Controllers;
 using System.Xml;
+using Nekki.Vector.Core.Controllers;
 
 namespace Nekki.Vector.Core.Animation.Events
 {

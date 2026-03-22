@@ -1,6 +1,6 @@
-using Nekki.Vector.Core.Location;
 using System;
 using System.Collections.Generic;
+using Nekki.Vector.Core.Location;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger
@@ -111,7 +111,7 @@ namespace Nekki.Vector.Core.Trigger
             {
                 if (token.Operator == ExprToken.OperatorID.BRACK_L || token.Operator == ExprToken.OperatorID.BRACK_R)
                 {
-                    num += ((token.Operator == ExprToken.OperatorID.BRACK_L) ? 1 : (-1));
+                    num += token.Operator == ExprToken.OperatorID.BRACK_L ? 1 : -1;
                     _TokensForRemove.Add(token);
                 }
                 else
@@ -119,7 +119,7 @@ namespace Nekki.Vector.Core.Trigger
                     token.OperatorPriority = num;
                 }
             }
-            ForDeleteClear(true);
+            ForDeleteClear();
         }
 
 		public void Trace()
@@ -161,7 +161,7 @@ namespace Nekki.Vector.Core.Trigger
                 }
                 else
                 {
-                    text = ((token.Type != ExprToken.TypeToken.VARIABLE) ? (text + token.Var.ValueFloat) : (text + token.Var.ValueString));
+                    text = token.Type != ExprToken.TypeToken.VARIABLE ? text + token.Var.ValueFloat : text + token.Var.ValueString;
                 }
             }
             Debug.Log(text);
@@ -214,7 +214,7 @@ namespace Nekki.Vector.Core.Trigger
 		public bool TryGetResult(ref float p_result)
 		{
             p_result = CalcTree(_Root);
-            Clear(false);
+            Clear();
             return !_NeedReCallc;
         }
 
@@ -396,7 +396,7 @@ namespace Nekki.Vector.Core.Trigger
 
 		private void Clear(bool p_fromDestructor = false)
 		{
-            ForDeleteClear(true);
+            ForDeleteClear();
             if (p_fromDestructor)
             {
                 _TokenList.Clear();

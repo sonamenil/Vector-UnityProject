@@ -30,26 +30,17 @@ namespace Nekki.Vector.Core.Scripts
 
         public float FPS
         {
-            set
-            {
-                _FPS = value;
-            }
+            set => _FPS = value;
         }
 
         public int Iterations
         {
-            set
-            {
-                _iterations = value;
-            }
+            set => _iterations = value;
         }
 
         public bool IsWork
         {
-            get
-            {
-                return _isWork;
-            }
+            get => _isWork;
             set
             {
                 _currentFrame = 0;

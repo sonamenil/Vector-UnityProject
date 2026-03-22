@@ -58,11 +58,11 @@ public class Rectangle
 
     public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2)
     {
-        if (object.ReferenceEquals(rectangle1, rectangle2))
+        if (ReferenceEquals(rectangle1, rectangle2))
         {
             return true;
         }
-        if (object.ReferenceEquals(rectangle1, null) || object.ReferenceEquals(rectangle2, null))
+        if (ReferenceEquals(rectangle1, null) || ReferenceEquals(rectangle2, null))
         {
             return false;
         }
@@ -96,7 +96,7 @@ public class Rectangle
     }
     public bool Contains(double x, double y)
     {
-        return x >= (double)MinX && x <= (double)MaxX && y >= (double)MinY && y <= (double)MaxY;
+        return x >= MinX && x <= MaxX && y >= MinY && y <= MaxY;
     }
     public bool Contains(Vector3d point)
     {

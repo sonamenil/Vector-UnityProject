@@ -1,18 +1,17 @@
 using System.Collections.Generic;
 using System.Xml;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Transformation
 {
     public class MoveTransform : TransformPrototype
     {
-        private int _Frames = 0;
+        private int _Frames;
 
         private int _Loop;
 
         private int _LoopFromInterval;
 
-        private int _CurrentInterval = 0;
+        private int _CurrentInterval;
 
         private List<MoveInterval> _Intervals = new List<MoveInterval>();
 
@@ -33,8 +32,8 @@ namespace Nekki.Vector.Core.Transformation
 
         public override void Parse(XmlNode p_node)
         {
-            _Loop = XmlUtils.ParseInt(p_node.Attributes["Cycle"], 0);
-            _LoopFromInterval = XmlUtils.ParseInt(p_node.Attributes["CycleFromInterval"]);
+            _Loop = p_node.Attributes["Cycle"].ParseInt();
+            _LoopFromInterval = p_node.Attributes["CycleFromInterval"].ParseInt();
             foreach (XmlNode node in p_node.ChildNodes)
             {
                 if (node.Name == "MoveInterval")

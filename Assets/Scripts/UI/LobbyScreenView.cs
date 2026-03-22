@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
-using System;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -86,11 +86,6 @@ namespace UI
 
 		private string _adsLink;
 
-		public LobbyScreenView() : base()
-		{
-
-		}
-
 		public override void Init(LobbyScreen lobbyScreen)
 		{
 			ADSButton.gameObject.SetActive(false);
@@ -102,15 +97,15 @@ namespace UI
             FollowUsFacebookButton.onClick.AddListener(new UnityAction(lobbyScreen.FollowUsFacebookButton.PressedAction));
             FollowUsTwitterButton.onClick.AddListener(new UnityAction(lobbyScreen.FollowUsTwitterButton.PressedAction));
             FollowUsTikTokButton.onClick.AddListener(new UnityAction(lobbyScreen.FollowUsTikTokButton.PressedAction));
-            GetFreeButton.onClick.AddListener(new UnityAction(() => Game.Instance.ScreenManager.Show<GetFreeScreen>(true, true)));
+            GetFreeButton.onClick.AddListener(() => Game.Instance.ScreenManager.Show<GetFreeScreen>(true, true));
             MoreGamesButton.onClick.AddListener(new UnityAction(lobbyScreen.MoreGamesButton.PressedAction));
             CreditsButton.onClick.AddListener(new UnityAction(lobbyScreen.CreditsButton.PressedAction));
             OptionsButton.onClick.AddListener(new UnityAction(lobbyScreen.OptionsButton.PressedAction));
-            BuyCoinsButton.onClick.AddListener(new UnityAction(() =>
-			{
-				Game.Instance.ScreenManager.Show<BuyCoinsScreen>(true, true);
-				SoundsManager.Instance.PlaySounds(SoundType.ui_click);
-			}));
+            BuyCoinsButton.onClick.AddListener(() =>
+            {
+	            Game.Instance.ScreenManager.Show<BuyCoinsScreen>(true, true);
+	            SoundsManager.Instance.PlaySounds(SoundType.ui_click);
+            });
         }
 
         public void Start()
@@ -124,7 +119,7 @@ namespace UI
 			var ok = LocalizationManager.Instance.GetTranslation("ctrl_ok");
 			var cancel = LocalizationManager.Instance.GetTranslation("ctrl_cancel");
 
-			Action<bool> action = new Action<bool>((b) =>
+			Action<bool> action = b =>
 			{
 				if (b)
 				{
@@ -133,9 +128,9 @@ namespace UI
 				}
 				else
 				{
-                    Game.Instance.ScreenManager.ClosePopup();
-                }
-            });
+					Game.Instance.ScreenManager.ClosePopup();
+				}
+			};
 
 			Game.Instance.ScreenManager.Popup<AlertPopup, AlertPayloadData>(new AlertPayloadData(title, message, ok, cancel, action));
 		}

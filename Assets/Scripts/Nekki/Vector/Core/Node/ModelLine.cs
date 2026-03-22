@@ -1,6 +1,4 @@
-using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Nekki.Vector.Core.Node
 {
@@ -30,14 +28,8 @@ namespace Nekki.Vector.Core.Node
 
 		public virtual string Name
 		{
-			get
-			{
-				return _name;
-			}
-			set
-			{
-				_name = value;
-			}
+			get => _name;
+			set => _name = value;
 		}
 
 		public Color Color

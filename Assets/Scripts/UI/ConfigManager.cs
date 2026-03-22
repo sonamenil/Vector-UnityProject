@@ -13,14 +13,7 @@ namespace UI
 			private set;
 		}
 
-		private string filePath
-		{
-			get
-			{
-				return Application.persistentDataPath + "/config.xml";
-
-            }
-		}
+		private string filePath => Application.persistentDataPath + "/config.xml";
 
 		protected override void InitInternal()
 		{

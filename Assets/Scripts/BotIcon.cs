@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Nekki.Vector.Core.Models;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
 public class BotIcon : MonoBehaviour
@@ -63,11 +62,11 @@ public class BotIcon : MonoBehaviour
 
         SetBotIconVisible(true);
 
-        int newSign = (viewportXY.x < 0) ? 0 : 1;
+        int newSign = viewportXY.x < 0 ? 0 : 1;
 
         if (newSign != _sign)
         {
-            float num = (_sign > 0) ? 0 : 1;
+            float num = _sign > 0 ? 0 : 1;
             _sign = newSign;
 
             Vector2 anchor = new Vector2(num, 0.5f);
@@ -75,13 +74,13 @@ public class BotIcon : MonoBehaviour
             _botIcon.anchorMax = anchor;
             _botIcon.pivot = anchor;
 
-            _botIconFlip.horizontal = (_sign > 0);
+            _botIconFlip.horizontal = _sign > 0;
         }
 
         float clampedY = Mathf.Clamp01(viewportXY.y);
 
         Vector2 canvasSize = _canvasRect.sizeDelta;
-        float anchoredY = (clampedY * canvasSize.y) - (canvasSize.y * 0.5f);
+        float anchoredY = clampedY * canvasSize.y - canvasSize.y * 0.5f;
 
         _botIcon.anchoredPosition = new Vector2(0f, anchoredY);
     }

@@ -292,7 +292,7 @@ namespace Nekki.Vector.Core.Trigger.Actions
             text = text2 + " Set:" + _SetVar.DebugStringValue + " Frames=" + _Frame + " CurFrame=" + _CurrentFrame;
             foreach (TriggerAction action in _Actions)
             {
-                text = text + "\n     " + action.ToString();
+                text = text + "\n     " + action;
             }
             return text;
         }

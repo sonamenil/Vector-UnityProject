@@ -50,8 +50,8 @@ namespace UI
 				{
 					_startext.gameObject.SetActive(true);
 				});
-				s1.Append(DOTweenModuleUI.DOAnchorPosY(_startext.rectTransform, 200, 2, false));
-				s1.Join(DOTweenModuleUI.DOFade(_startext, 0, 2));
+				s1.Append(_startext.rectTransform.DOAnchorPosY(200, 2));
+				s1.Join(_startext.DOFade(0, 2));
 				s1.Pause();
 				s.AppendCallback(() =>
 				{
@@ -62,14 +62,14 @@ namespace UI
 			{
 				Full.gameObject.SetActive(true);
 			});
-			s.Append(ShortcutExtensions.DOScale(Full.transform, new Vector3(2, 2, 1), 0.12f));
+			s.Append(Full.transform.DOScale(new Vector3(2, 2, 1), 0.12f));
 			s.AppendCallback(() =>
 			{
 				_starLight.gameObject.SetActive(true);
 			});
-			s.Append(ShortcutExtensions.DOScale(Full.transform, new Vector3(1, 1, 1), 0.12f));
-            s.Append(ShortcutExtensions.DOScale(_starLight.transform, new Vector3(3, 3, 3), 0.2f));
-			s.Append(DOTweenModuleUI.DOFade(_starLight, 0, 0.2f));
+			s.Append(Full.transform.DOScale(new Vector3(1, 1, 1), 0.12f));
+            s.Append(_starLight.transform.DOScale(new Vector3(3, 3, 3), 0.2f));
+			s.Append(_starLight.DOFade(0, 0.2f));
 			return s;
         }
     }

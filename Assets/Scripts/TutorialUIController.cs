@@ -116,7 +116,7 @@ public class TutorialUIController : MonoBehaviour
     {
         if (_sequence != null)
         {
-            TweenExtensions.Kill(_sequence, false);
+            _sequence.Kill();
             _sequence = null;
         }
     }

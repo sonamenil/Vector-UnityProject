@@ -1,6 +1,5 @@
-using Nekki.Vector.Core.Trigger.Actions;
-using Nekki.Vector.Core.Trigger.Events;
 using System.Xml;
+using Nekki.Vector.Core.Trigger.Events;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger

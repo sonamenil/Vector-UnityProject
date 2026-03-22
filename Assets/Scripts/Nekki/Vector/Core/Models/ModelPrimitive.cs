@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Node;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Models
@@ -33,10 +33,7 @@ namespace Nekki.Vector.Core.Models
 
 		public virtual bool IsStrike
 		{
-			get
-			{
-				return _IsStrike;
-			}
+			get => _IsStrike;
 			set
 			{
 				_IsStrike = value;

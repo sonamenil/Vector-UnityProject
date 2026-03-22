@@ -1,4 +1,3 @@
-using Nekki.Vector.Core.Location;
 using System.Xml;
 
 namespace Nekki.Vector.Core.Trigger.Actions

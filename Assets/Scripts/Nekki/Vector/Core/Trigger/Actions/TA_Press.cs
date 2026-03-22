@@ -1,6 +1,6 @@
+using System.Xml;
 using Nekki.Vector.Core.Controllers;
 using Nekki.Vector.Core.Models;
-using System.Xml;
 
 namespace Nekki.Vector.Core.Trigger.Actions
 {

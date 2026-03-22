@@ -1,4 +1,5 @@
 using System.Xml;
+using Nekki.Vector.Core.Utilites;
 using UnityEngine;
 
 public class Pointd
@@ -9,26 +10,14 @@ public class Pointd
 
     public double X
     {
-        get
-        {
-            return _X;
-        }
-        set
-        {
-            _X = value;
-        }
+        get => _X;
+        set => _X = value;
     }
 
     public double Y
     {
-        get
-        {
-            return _Y;
-        }
-        set
-        {
-            _Y = value;
-        }
+        get => _Y;
+        set => _Y = value;
     }
 
     public Pointd()
@@ -39,8 +28,8 @@ public class Pointd
 
     public Pointd(Point Point)
     {
-        _X = (double)Point.X;
-        _Y = (double)Point.Y;
+        _X = Point.X;
+        _Y = Point.Y;
     }
 
     public Pointd(Pointd Point)
@@ -51,8 +40,8 @@ public class Pointd
 
     public Pointd(float X, float Y)
     {
-        _X = (double)X;
-        _Y = (double)Y;
+        _X = X;
+        _Y = Y;
     }
 
     public Pointd(double X, double Y)
@@ -63,8 +52,8 @@ public class Pointd
 
     public Pointd(int X, int Y)
     {
-        _X = (double)X;
-        _Y = (double)Y;
+        _X = X;
+        _Y = Y;
     }
 
     public static Pointd operator -(Pointd Point1, Pointd Point2)
@@ -79,11 +68,11 @@ public class Pointd
 
     public static bool operator ==(Pointd Point1, Pointd Point2)
     {
-        if (object.ReferenceEquals(Point1, Point2))
+        if (ReferenceEquals(Point1, Point2))
         {
             return true;
         }
-        if (object.ReferenceEquals(Point1, null) || object.ReferenceEquals(Point2, null))
+        if (ReferenceEquals(Point1, null) || ReferenceEquals(Point2, null))
         {
             return false;
         }
@@ -129,12 +118,12 @@ public class Pointd
 
     public void Round(int Pow)
     {
-        _X = Nekki.Vector.Core.Utilites.Math.Round(_X, Pow);
+        _X = Math.Round(_X, Pow);
     }
 
     public void IRound(int Pow)
     {
-        _X = Nekki.Vector.Core.Utilites.Math.Round(_X, 1f);
+        _X = Math.Round(_X, 1f);
     }
 
     public double DistBP(Pointd Point)

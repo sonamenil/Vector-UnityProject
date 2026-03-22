@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Core._Common;
 using DG.Tweening;
 using Nekki.Vector.Core;
@@ -6,13 +8,11 @@ using Nekki.Vector.Core.Controllers;
 using Nekki.Vector.Core.Gadgets;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Models;
-using System;
-using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Xml2Prefab;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 public class LevelMainController
 {
@@ -98,14 +98,11 @@ public class LevelMainController
         private set;
     }
 
-    public static bool IsHunterMode => LevelMainController._isHunterMode;
+    public static bool IsHunterMode => _isHunterMode;
 
     public bool pauseRender
     {
-        get
-        {
-            return _pauseRender;
-        }
+        get => _pauseRender;
         set
         {
             _pauseRender = value;
@@ -211,10 +208,10 @@ public class LevelMainController
         {
             for (int i = 0; i < coinsSettings.count; i++)
             {
-                var random = UnityEngine.Random.Range(0, 100);
+                var random = Random.Range(0, 100);
                 if (random % 100 < coinsSettings.chance * 100)
                 {
-                    var index = UnityEngine.Random.Range(0, activeCoins.Count);
+                    var index = Random.Range(0, activeCoins.Count);
                     var coin = activeCoins[index];
                     coin.color = color;
                     coin.score = coinsSettings.nominal;
@@ -296,8 +293,8 @@ public class LevelMainController
         UserDataManager.Instance.SaveUserDate();
         LevelResult.LastLevelResult = new LevelResult(_Location, _FrameCount);
         var s = DOTween.Sequence();
-        TweenSettingsExtensions.AppendInterval(s, time);
-        TweenSettingsExtensions.AppendCallback(s, new TweenCallback(() =>
+        s.AppendInterval(time);
+        s.AppendCallback(() =>
         {
             if (Game.Instance.Snail)
             {
@@ -305,8 +302,8 @@ public class LevelMainController
                 return;
             }
             GoToWinScene();
-        }));
-        TweenExtensions.Play(s);
+        });
+        s.Play();
     }
 
     public void GoToWinScene()
@@ -315,10 +312,10 @@ public class LevelMainController
         var storyInfo = UserDataManager.Instance.CurrentBalanceLocation.CurrentStoryModeStoryInfos[UserDataManager.RuntimeInfo.CurrentStory];
         if (storyInfo.CutsceneEnd != null)
         {
-            var data = new VideoScreenPayloadData(storyInfo.CutsceneEnd, new System.Action(() =>
+            var data = new VideoScreenPayloadData(storyInfo.CutsceneEnd, () =>
             {
                 Game.Instance.ScreenManager.Show<PostGameplayWinScreen>(true, false);
-            }));
+            });
             Game.Instance.ScreenManager.Show<VideoScreen, VideoScreenPayloadData>(data, true, false);
             return;
         }
@@ -327,7 +324,7 @@ public class LevelMainController
 
     public void Murder(ModelHuman modelHuman)
     {
-        if (IsWin == false && IsDeath == false)
+        if (!IsWin && !IsDeath)
         {
             {
                 CanPauseOrReload = false;
@@ -335,9 +332,9 @@ public class LevelMainController
                 modelHuman.Death(GameEndType.GE_MURDER);
                 Debug.Log("Murder");
                 var s = DOTween.Sequence();
-                TweenSettingsExtensions.AppendInterval(s, 0.5f);
-                TweenSettingsExtensions.AppendCallback(s, new TweenCallback(() => { Reload(); }));
-                TweenExtensions.Play(s);
+                s.AppendInterval(0.5f);
+                s.AppendCallback(() => { Reload(); });
+                s.Play();
                 IsDeath = true;
             }
         }
@@ -345,7 +342,7 @@ public class LevelMainController
 
     public void Death(ModelHuman modelHuman, float time)
     {
-        if (IsWin == false && IsDeath == false)
+        if (!IsWin && !IsDeath)
         {
             if (!modelHuman.IsBot)
             {
@@ -355,9 +352,9 @@ public class LevelMainController
                 modelHuman.StartPhysics();
                 Debug.Log("Death");
                 var s = DOTween.Sequence();
-                TweenSettingsExtensions.AppendInterval(s, time);
-                TweenSettingsExtensions.AppendCallback(s, new TweenCallback(() => { Reload(); }));
-                TweenExtensions.Play(s);
+                s.AppendInterval(time);
+                s.AppendCallback(() => { Reload(); });
+                s.Play();
                 IsDeath = true;
             }
         }
@@ -365,7 +362,7 @@ public class LevelMainController
 
     public void Loss(ModelHuman modelHuman, float time)
     {
-        if (IsWin == false && IsDeath == false)
+        if (!IsWin && !IsDeath)
         {
             {
                 LocationCamera.Current.Stop();
@@ -374,9 +371,9 @@ public class LevelMainController
                 modelHuman.Death(GameEndType.GE_LOSS);
                 Debug.Log("Loss");
                 var s = DOTween.Sequence();
-                TweenSettingsExtensions.AppendInterval(s, time);
-                TweenSettingsExtensions.AppendCallback(s, new TweenCallback(() => { Reload(); }));
-                TweenExtensions.Play(s);
+                s.AppendInterval(time);
+                s.AppendCallback(() => { Reload(); });
+                s.Play();
                 IsDeath = true;
             }
         }
@@ -384,15 +381,15 @@ public class LevelMainController
 
     public void Arrest(ModelHuman modelHuman)
     {
-        if (IsWin == false && IsDeath == false)
+        if (!IsWin && !IsDeath)
         {
             CanPauseOrReload = false;
             modelHuman.IsGadget = false;
             Debug.Log("Arrest");
             var s = DOTween.Sequence();
-            TweenSettingsExtensions.AppendInterval(s, 1);
-            TweenSettingsExtensions.AppendCallback(s, new TweenCallback(() => { Reload(); }));
-            TweenExtensions.Play(s);
+            s.AppendInterval(1);
+            s.AppendCallback(() => { Reload(); });
+            s.Play();
             IsDeath = true;
         }
     }

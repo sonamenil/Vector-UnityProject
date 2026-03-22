@@ -1,6 +1,6 @@
 using System.Linq;
-using Nekki.Vector.Core.Location;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -42,14 +42,14 @@ namespace UI
 
         private int _dummiesCount = 10;
 
-        private bool snapSelected = false;
+        private bool snapSelected;
 
         public override void Init(GameplayPauseScreen screen)
         {
             BankButton.gameObject.SetActive(false);
 
             SkipButton.gameObject.SetActive(false);
-            BackToLobbyButton.onClick.AddListener(new UnityEngine.Events.UnityAction(screen.BackToLobbyButton.PressedAction));
+            BackToLobbyButton.onClick.AddListener(new UnityAction(screen.BackToLobbyButton.PressedAction));
             ResumeButton.onClick.AddListener(() =>
             {
                 Game.Instance.ScreenManager.Show<EmptyScreen>(false, false);
@@ -79,10 +79,10 @@ namespace UI
                 UserDataManager.Instance.Options.ToggleSound();
             });
 
-            UserDataManager.Instance.Options.ToggleMusicEvent += (musicLevel) => { MusicDisabledIcon.SetActive(musicLevel <= 0); MusicEnabledIcon.SetActive(0 < musicLevel); };
-            UserDataManager.Instance.Options.ToggleSoundEvent += (soundLevel) => { SoundDisabledIcon.SetActive(soundLevel <= 0); SoundEnabledIcon.SetActive(0 < soundLevel); };
+            UserDataManager.Instance.Options.ToggleMusicEvent += musicLevel => { MusicDisabledIcon.SetActive(musicLevel <= 0); MusicEnabledIcon.SetActive(0 < musicLevel); };
+            UserDataManager.Instance.Options.ToggleSoundEvent += soundLevel => { SoundDisabledIcon.SetActive(soundLevel <= 0); SoundEnabledIcon.SetActive(0 < soundLevel); };
             
-            ScrollSnap.SnapEvent += (i) =>
+            ScrollSnap.SnapEvent += i =>
             {
                 EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(i).GetComponent<HolderItem>().Button.gameObject);
             };
@@ -112,9 +112,9 @@ namespace UI
             {
                 Destroy(obj.gameObject);
             }
-            var tricks = StoreManager.Instance.GetItems(StoreItemType.Tricks).Where((trick) => storyInfo.TrickIds.Contains(trick.Id)).ToList();
+            var tricks = StoreManager.Instance.GetItems(StoreItemType.Tricks).Where(trick => storyInfo.TrickIds.Contains(trick.Id)).ToList();
             StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, _dummiesCount);
-            StoreTricksScreenView.PutItemsIntoContent(ScrollSnap, tricks, StoreItemType.Tricks, false, false);
+            StoreTricksScreenView.PutItemsIntoContent(ScrollSnap, tricks, StoreItemType.Tricks, false);
             StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, _dummiesCount);
             ScrollSnap.StartIndex = _dummiesCount;
             ScrollSnap.EndIndex = _dummiesCount + tricks.Count - 1;

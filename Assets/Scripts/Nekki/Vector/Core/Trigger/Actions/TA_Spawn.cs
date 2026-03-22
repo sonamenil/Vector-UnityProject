@@ -1,5 +1,4 @@
 using System.Xml;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger.Actions
 {
@@ -43,7 +42,7 @@ namespace Nekki.Vector.Core.Trigger.Actions
 
         public override string ToString()
         {
-            return ("Spawn Model=" + _ModelVar.DebugStringValue + " Spawn" + _SpawnVar == null) ? "null" : _SpawnVar.DebugStringValue;
+            return "Spawn Model=" + _ModelVar.DebugStringValue + " Spawn" + _SpawnVar == null ? "null" : _SpawnVar.DebugStringValue;
         }
     }
 }

@@ -1,9 +1,8 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Animation;
 using Nekki.Vector.Core.Animation.Events;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Models;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Controllers
 {

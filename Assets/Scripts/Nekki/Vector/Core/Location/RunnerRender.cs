@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Nekki.Vector.Core.Location;
 
 namespace Nekki.Vector.Core.Location
 {
@@ -9,13 +8,7 @@ namespace Nekki.Vector.Core.Location
 
         private List<Runner> renderRunners = new List<Runner>();
 
-        public static RunnerRender Current
-        {
-            get
-            {
-                return _current;
-            }
-        }
+        public static RunnerRender Current => _current;
 
         public static void FreeMemory()
         {

@@ -4,10 +4,6 @@ public class BufferFrames : KeyFrames
 {
 	public bool IsBufferEmpty => _Size == _ActiveFrame;
 
-	public BufferFrames() : base()
-	{
-
-	}
 	public new void Reset()
 	{
 		_Size = _ActiveFrame;

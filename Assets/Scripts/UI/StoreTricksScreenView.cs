@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Utils;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using Utils;
 
 namespace UI
 {
@@ -33,7 +32,7 @@ namespace UI
                 }
             });
 			
-			ScrollSnap.SnapEvent += (i) =>
+			ScrollSnap.SnapEvent += i =>
 			{
 				EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(i).GetComponent<HolderItem>().Button.gameObject);
 			};
@@ -44,7 +43,6 @@ namespace UI
 			if (UserDataManager.Instance.MainData.GetCoins() < trick.Price)
 			{
 				Game.Instance.ScreenManager.Popup<BuyCoinsPopup, BuyCoinsPayloadData>(new BuyCoinsPayloadData(trick.Price));
-				return;
 			}
 			else
 			{
@@ -67,7 +65,7 @@ namespace UI
             {
                 for (int i = count; i > 0; i--)
                 {
-                    Object.Instantiate(Resources.Load<ScrollSnapItem>("HolderItemDummy"), content);
+                    Instantiate(Resources.Load<ScrollSnapItem>("HolderItemDummy"), content);
                 }
             }
         }
@@ -78,7 +76,7 @@ namespace UI
 			{
 				for (int i = count; i > 0; i--)
 				{
-					Object.Instantiate(Resources.Load<ScrollSnapItem>("HolderItemDummyEmpty"), content);
+					Instantiate(Resources.Load<ScrollSnapItem>("HolderItemDummyEmpty"), content);
 				}
 			}
 		}
@@ -89,7 +87,7 @@ namespace UI
 
 		public static void PutItemsIntoContent(ScrollSnap scrollSnap, List<Item> items, StoreItemType itemType, bool canEquip, bool buySeveralTimes = false)
 		{
-			scrollSnap.SnapEvent += (i) =>
+			scrollSnap.SnapEvent += i =>
 			{
 				switch (itemType)
 				{
@@ -118,7 +116,7 @@ namespace UI
 						scrollSnap.Snap(index + 10, false);
 						return;
 					}
-					if (buySeveralTimes == false && isBought)
+					if (!buySeveralTimes && isBought)
 					{
 						return;
 					}
@@ -173,7 +171,7 @@ namespace UI
 			InsertDummies(ContentParent.transform, 10);
 			ScrollSnap.StartIndex = 10;
 			ScrollSnap.EndIndex = items.Count + 9;
-			PutItemsIntoContent(ScrollSnap, items, StoreItemType.Tricks, false, false);
+			PutItemsIntoContent(ScrollSnap, items, StoreItemType.Tricks, false);
             InsertDummies(ContentParent.transform, 10);
         }
 

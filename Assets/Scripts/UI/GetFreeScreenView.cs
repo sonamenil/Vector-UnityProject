@@ -1,5 +1,3 @@
-using UnityEngine.UI;
-
 namespace UI
 {
 	public class GetFreeScreenView : ScreenViewWithCommonPayload<GetFreeScreen>

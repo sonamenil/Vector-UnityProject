@@ -12,9 +12,9 @@ public class ConvertSpriteAssetsToPNGs : EditorWindow
     private DefaultAsset outputFolder;
     private bool useSelection = true;         // Convert selected Sprites/Textures
     private DefaultAsset scanFolder;          // Or scan a folder for Sprites
-    private bool onlyAssetFiles = false;      // If true, only Sprites that are .asset files
+    private bool onlyAssetFiles;      // If true, only Sprites that are .asset files
     private bool skipExisting = true;         // Don't overwrite existing PNGs
-    private bool deleteOriginalAsset = false; // Delete original .asset after export
+    private bool deleteOriginalAsset; // Delete original .asset after export
 
     private static Material _spriteMat;       // Lazy Sprites/Default material
 
@@ -80,7 +80,7 @@ public class ConvertSpriteAssetsToPNGs : EditorWindow
             if (result == null) { Debug.LogWarning($"Failed to render '{s.name}'"); skipped++; continue; }
 
             byte[] bytes = result.EncodeToPNG();
-            Object.DestroyImmediate(result);
+            DestroyImmediate(result);
             File.WriteAllBytes(pngPath, bytes);
 
             // Import back as Single Sprite, preserving PPU, border, pivot
@@ -224,8 +224,8 @@ public class ConvertSpriteAssetsToPNGs : EditorWindow
         GL.PopMatrix();
         RenderTexture.active = prev;
         rt.Release();
-        Object.DestroyImmediate(rt);
-        Object.DestroyImmediate(mesh);
+        DestroyImmediate(rt);
+        DestroyImmediate(mesh);
 
         return tex;
     }

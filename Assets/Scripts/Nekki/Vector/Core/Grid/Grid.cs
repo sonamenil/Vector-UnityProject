@@ -1,7 +1,5 @@
-using Nekki.Vector.Core.Location;
-using Nekki.Vector.Core.Scripts.Engine.Debug;
 using System.Collections.Generic;
-using System.Linq;
+using Nekki.Vector.Core.Location;
 
 namespace Nekki.Vector.Core.Grid
 {
@@ -17,13 +15,7 @@ namespace Nekki.Vector.Core.Grid
 
         private int _StartXIndex;
 
-        public List<QuadRunner> Transformation
-        {
-            get
-            {
-                return _Transformation;
-            }
-        }
+        public List<QuadRunner> Transformation => _Transformation;
 
         public void InitGrid(List<QuadRunner> p_quads)
         {
@@ -46,8 +38,8 @@ namespace Nekki.Vector.Core.Grid
         public void AddQuad(QuadRunner p_quad)
         {
             Rectangle rectangle = p_quad.rectangle;
-            int num = ((rectangle.MinXInt < 0) ? (rectangle.MinXInt / CellWidth - 1) : (rectangle.MinXInt / CellWidth));
-            int num2 = ((rectangle.MaxXInt < 0) ? (rectangle.MaxXInt / CellWidth - 1) : (rectangle.MaxXInt / CellWidth));
+            int num = rectangle.MinXInt < 0 ? rectangle.MinXInt / CellWidth - 1 : rectangle.MinXInt / CellWidth;
+            int num2 = rectangle.MaxXInt < 0 ? rectangle.MaxXInt / CellWidth - 1 : rectangle.MaxXInt / CellWidth;
             if (_Columns.Count == 0)
             {
                 _StartXIndex = num;
@@ -80,8 +72,8 @@ namespace Nekki.Vector.Core.Grid
         public void RemoveQuad(QuadRunner p_quad)
         {
             Rectangle rectangle = p_quad.rectangle;
-            int num = ((rectangle.MinXInt < 0) ? (rectangle.MinXInt / CellWidth - 1) : (rectangle.MinXInt / CellWidth));
-            int num2 = ((rectangle.MaxXInt < 0) ? (rectangle.MaxXInt / CellWidth - 1) : (rectangle.MaxXInt / CellWidth));
+            int num = rectangle.MinXInt < 0 ? rectangle.MinXInt / CellWidth - 1 : rectangle.MinXInt / CellWidth;
+            int num2 = rectangle.MaxXInt < 0 ? rectangle.MaxXInt / CellWidth - 1 : rectangle.MaxXInt / CellWidth;
             int num3 = num - _StartXIndex;
             int num4 = num2 - _StartXIndex;
             for (int i = num3; i <= num4; i++)
@@ -133,8 +125,8 @@ namespace Nekki.Vector.Core.Grid
         public void Collect(Rectangle p_rect, List<QuadRunner> p_quads)
         {
             p_quads.AddRange(_Transformation);
-            int num = ((p_rect.MinXInt < 0) ? (p_rect.MinXInt / CellWidth - 1) : (p_rect.MinXInt / CellWidth));
-            int num2 = ((p_rect.MaxXInt < 0) ? (p_rect.MaxXInt / CellWidth - 1) : (p_rect.MaxXInt / CellWidth));
+            int num = p_rect.MinXInt < 0 ? p_rect.MinXInt / CellWidth - 1 : p_rect.MinXInt / CellWidth;
+            int num2 = p_rect.MaxXInt < 0 ? p_rect.MaxXInt / CellWidth - 1 : p_rect.MaxXInt / CellWidth;
             int num3 = num - _StartXIndex;
             int num4 = num2 - _StartXIndex;
             int num5 = _Columns.Count - 1;

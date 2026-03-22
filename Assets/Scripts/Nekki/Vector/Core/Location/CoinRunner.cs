@@ -16,10 +16,7 @@ namespace Nekki.Vector.Core.Location
 
 		public Color color
 		{
-			set
-			{
-				_content.color = value;
-			}
+			set => _content.color = value;
 		}
 
 		public int GroupID => _groupID;

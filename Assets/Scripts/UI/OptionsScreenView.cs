@@ -1,7 +1,5 @@
 using System;
-using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 namespace UI
@@ -38,25 +36,23 @@ namespace UI
 
 		public Text GDPRButtonText;
 
-		public OptionsScreenView() : base() { }
-
 		public override void Init(OptionsScreen screen)
 		{
 			BuyCoinsButton.gameObject.SetActive(false);
-			BackToLobbyButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+			BackToLobbyButton.onClick.AddListener(() =>
 			{
 				Game.Instance.ScreenManager.Show<LobbyScreen>(true, false);
 				SoundsManager.Instance.PlaySounds(SoundType.ui_click);
-			}));
+			});
 			LanguageButtonText.text = LocalizationManager.Instance.GetTranslation("options_lang_but");
-            LanguageButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            LanguageButton.onClick.AddListener(() =>
             {
-                LocalizationManager.Instance.ChangeLocale(LocalizationManager.Instance.GetNextLocale());
-				LanguageButtonText.text = LocalizationManager.Instance.GetTranslation("options_lang_but");
-				UserDataManager.Instance.Options.Locale = LocalizationManager.Instance.CurrentLocale.index;
-				UserDataManager.Instance.Options.SaveData();
-                SoundsManager.Instance.PlaySounds(SoundType.ui_click);
-            }));
+	            LocalizationManager.Instance.ChangeLocale(LocalizationManager.Instance.GetNextLocale());
+	            LanguageButtonText.text = LocalizationManager.Instance.GetTranslation("options_lang_but");
+	            UserDataManager.Instance.Options.Locale = LocalizationManager.Instance.CurrentLocale.index;
+	            UserDataManager.Instance.Options.SaveData();
+	            SoundsManager.Instance.PlaySounds(SoundType.ui_click);
+            });
             ResolutionButtonText.text = ResolutionManager.Instance.CurrentResolution.width + "x" + ResolutionManager.Instance.CurrentResolution.height;
 			ResolutionButton.onClick.AddListener(() =>
 			{
@@ -71,33 +67,33 @@ namespace UI
                 FullScreenButtonText.text = ResolutionManager.Instance.GetFullScreenModeName();
                 SoundsManager.Instance.PlaySounds(SoundType.ui_click);
             });
-            MusicButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            MusicButton.onClick.AddListener(() =>
             {
-				UserDataManager.Instance.Options.ToggleMusic();
-				MusicSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.MusicLevel);
-            }));
-            SoundButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+	            UserDataManager.Instance.Options.ToggleMusic();
+	            MusicSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.MusicLevel);
+            });
+            SoundButton.onClick.AddListener(() =>
             {
-                UserDataManager.Instance.Options.ToggleSound();
-                SoundSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.SoundLevel);
-            }));
-            MusicSlider.onValueChanged.AddListener(new UnityEngine.Events.UnityAction<float>((value) =>
+	            UserDataManager.Instance.Options.ToggleSound();
+	            SoundSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.SoundLevel);
+            });
+            MusicSlider.onValueChanged.AddListener(value =>
             {
-				UserDataManager.Instance.Options.MusicLevel = value;
-				UserDataManager.Instance.Options.LastUsedSetMusicValue = value;
-				UserDataManager.Instance.Options.Update();
-            }));
-            SoundSlider.onValueChanged.AddListener(new UnityEngine.Events.UnityAction<float>((value) =>
+	            UserDataManager.Instance.Options.MusicLevel = value;
+	            UserDataManager.Instance.Options.LastUsedSetMusicValue = value;
+	            UserDataManager.Instance.Options.Update();
+            });
+            SoundSlider.onValueChanged.AddListener(value =>
             {
-                UserDataManager.Instance.Options.SoundLevel = value;
-                UserDataManager.Instance.Options.LastUsedSetSoundValue = value;
-                UserDataManager.Instance.Options.Update();
-            }));
-            BuyCoinsButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+	            UserDataManager.Instance.Options.SoundLevel = value;
+	            UserDataManager.Instance.Options.LastUsedSetSoundValue = value;
+	            UserDataManager.Instance.Options.Update();
+            });
+            BuyCoinsButton.onClick.AddListener(() =>
             {
-				Game.Instance.ScreenManager.Show<BuyCoinsScreen>(true, true);
-                SoundsManager.Instance.PlaySounds(SoundType.ui_click);
-            }));
+	            Game.Instance.ScreenManager.Show<BuyCoinsScreen>(true, true);
+	            SoundsManager.Instance.PlaySounds(SoundType.ui_click);
+            });
 			GDPRButton.gameObject.SetActive(false);
 			RestorePurchasesButton.gameObject.SetActive(false);
         }

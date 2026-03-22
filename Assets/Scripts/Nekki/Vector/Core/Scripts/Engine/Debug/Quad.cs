@@ -1,5 +1,5 @@
-using Nekki.Vector.Core.Location;
 using System.Collections.Generic;
+using Nekki.Vector.Core.Location;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Scripts.Engine.Debug
@@ -37,10 +37,7 @@ namespace Nekki.Vector.Core.Scripts.Engine.Debug
 
 		public Color Color
 		{
-			get
-			{
-				return default(Color);
-			}
+			get => default;
 			set
 			{
 			}
@@ -48,10 +45,7 @@ namespace Nekki.Vector.Core.Scripts.Engine.Debug
 
 		public Color BackgoundColor
 		{
-			get
-			{
-				return default(Color);
-			}
+			get => default;
 			set
 			{
 			}
@@ -59,10 +53,7 @@ namespace Nekki.Vector.Core.Scripts.Engine.Debug
 
 		public float Border
 		{
-			get
-			{
-				return 0f;
-			}
+			get => 0f;
 			set
 			{
 			}
@@ -70,10 +61,7 @@ namespace Nekki.Vector.Core.Scripts.Engine.Debug
 
 		public QuadRunner Base
 		{
-			get
-			{
-				return null;
-			}
+			get => null;
 			set
 			{
 			}

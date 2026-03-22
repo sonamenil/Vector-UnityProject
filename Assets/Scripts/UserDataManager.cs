@@ -1,9 +1,8 @@
-using Newtonsoft.Json.Linq;
-using PlayerData;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
+using Newtonsoft.Json.Linq;
+using PlayerData;
 using UnityEngine;
 
 public class UserDataManager : AbstractManager<UserDataManager>
@@ -32,24 +31,12 @@ public class UserDataManager : AbstractManager<UserDataManager>
 
     public static RuntimeInfo RuntimeInfo = new RuntimeInfo();
 
-    public LocationInfo CurrentBalanceLocation
-    {
-        get
-        {
-            return AbstractManager<LocationManager>.Instance.GetLocationInfo(RuntimeInfo.CurentLocationType, RuntimeInfo.LocationModeType);
-        }
-    }
+    public LocationInfo CurrentBalanceLocation => AbstractManager<LocationManager>.Instance.GetLocationInfo(RuntimeInfo.CurentLocationType, RuntimeInfo.LocationModeType);
 
     public event Action UnlockEvent
     {
-        add
-        {
-            UnlockEvent += value;
-        }
-        remove
-        {
-            UnlockEvent -= value;
-        }
+        add => UnlockEvent += value;
+        remove => UnlockEvent -= value;
     }
 
     protected override void InitInternal()

@@ -1,8 +1,7 @@
-using Nekki.Vector.Core.Transformation;
 using System.Collections.Generic;
 using System.Xml;
+using Nekki.Vector.Core.Transformation;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Xml2Prefab;
 
 namespace Nekki.Vector.Core.Location
@@ -35,7 +34,7 @@ namespace Nekki.Vector.Core.Location
 
         protected Vector3f _DefaulRotation = new Vector3f();
 
-        protected int _ActiveTransformation = 0;
+        protected int _ActiveTransformation;
 
         protected List<TransformSystem> _TransformationData = new List<TransformSystem>();
 
@@ -55,22 +54,13 @@ namespace Nekki.Vector.Core.Location
 
         public virtual bool IsDebug
         {
-            get
-            {
-                return _IsDebug;
-            }
-            set
-            {
-                _IsDebug = value;
-            }
+            get => _IsDebug;
+            set => _IsDebug = value;
         }
 
         public virtual GameObject Layer
         {
-            get
-            {
-                return _Layer;
-            }
+            get => _Layer;
             set
             {
                 _Layer = value;
@@ -96,19 +86,14 @@ namespace Nekki.Vector.Core.Location
                 {
                     return false;
                 }
-                else
-                {
-                    return _UnityObject.GetComponent<Renderer>().isVisible;
-                }
+
+                return _UnityObject.GetComponent<Renderer>().isVisible;
             }
         }
 
         public virtual bool IsEnabled
         {
-            get
-            {
-                return _IsEnabled;
-            }
+            get => _IsEnabled;
             set
             {
                 _IsEnabled = value;
@@ -118,10 +103,7 @@ namespace Nekki.Vector.Core.Location
 
         public uint Index
         {
-            get
-            {
-                return _Index;
-            }
+            get => _Index;
             set
             {
                 _Index = value;
@@ -148,10 +130,7 @@ namespace Nekki.Vector.Core.Location
 
         public string Name
         {
-            get
-            {
-                return _Name;
-            }
+            get => _Name;
             set
             {
                 _Name = value;
@@ -169,7 +148,7 @@ namespace Nekki.Vector.Core.Location
                 {
                     return _cahedPosition;
                 }
-                return (Vector3f)_CachedTransform.localPosition;
+                return _CachedTransform.localPosition;
             }
             set
             {
@@ -292,7 +271,7 @@ namespace Nekki.Vector.Core.Location
         {
             if (point != null)
             {
-                TweenPosition.Set((double)point.X, (double)point.Y, 0);
+                TweenPosition.Set(point.X, point.Y, 0);
                 Move(point);
             }
         }

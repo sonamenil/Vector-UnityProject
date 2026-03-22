@@ -1,10 +1,10 @@
-using Nekki.Vector.Core.Utilites;
 using System.Xml;
+using Nekki.Vector.Core.Utilites;
 using UnityEngine;
 
 public class Point
 {
-    public static readonly Point ZeroPoint = new Point(0f, 0f);
+    public static readonly Point ZeroPoint = new Point();
 
     private float _X;
 
@@ -87,7 +87,7 @@ public class Point
     }
     public static Point Create(XmlNode Node)
     {
-        return new Point(XmlUtils.ParseFloat(Node.Attributes["X"]), XmlUtils.ParseFloat(Node.Attributes["Y"]));
+        return new Point(Node.Attributes["X"].ParseFloat(), Node.Attributes["Y"].ParseFloat());
     }
 
     public Point Clone()
@@ -112,11 +112,11 @@ public class Point
 
     public static bool operator ==(Point p_point1, Point p_point2)
     {
-        if (object.ReferenceEquals(p_point1, p_point2))
+        if (ReferenceEquals(p_point1, p_point2))
         {
             return true;
         }
-        if (object.ReferenceEquals(p_point1, null) || object.ReferenceEquals(p_point2, null))
+        if (ReferenceEquals(p_point1, null) || ReferenceEquals(p_point2, null))
         {
             return false;
         }

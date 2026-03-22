@@ -1,7 +1,6 @@
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 public class LocationInfo
 {
@@ -20,13 +19,7 @@ public class LocationInfo
     public Dictionary<StoryType, List<StoryInfo>> LocationInfos;
 
     [JsonIgnore]
-    public List<StoryInfo> CurrentStoryModeStoryInfos
-    {
-        get
-        {
-            return LocationInfos[UserDataManager.RuntimeInfo.StoryType];
-        }
-    }
+    public List<StoryInfo> CurrentStoryModeStoryInfos => LocationInfos[UserDataManager.RuntimeInfo.StoryType];
 
     public List<StoryInfo> CurrentStoryInfos
     {

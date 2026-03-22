@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.UI.Extensions.Gradient2;
 
 public class Vector3dLine
 {
@@ -46,11 +45,11 @@ public class Vector3dLine
         double num = (p_point2.Y - p_point1.Y) * (Start.X - End.X) - (Start.Y - End.Y) * (p_point2.X - p_point1.X);
         double num2 = (p_point2.Y - p_point1.Y) * (Start.X - p_point1.X) - (Start.Y - p_point1.Y) * (p_point2.X - p_point1.X);
         double num3 = (Start.Y - p_point1.Y) * (Start.X - End.X) - (Start.Y - End.Y) * (Start.X - p_point1.X);
-        if ((double)num == 0.0 && (double)num2 == 0.0 && (double)num3 == 0.0)
+        if (num == 0.0 && num2 == 0.0 && num3 == 0.0)
         {
             return false;
         }
-        if ((double)num == 0.0)
+        if (num == 0.0)
         {
             return false;
         }

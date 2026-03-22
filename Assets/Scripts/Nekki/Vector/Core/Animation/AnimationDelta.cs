@@ -1,6 +1,3 @@
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.UI.GridLayoutGroup;
-
 namespace Nekki.Vector.Core.Animation
 {
 	public class AnimationDelta

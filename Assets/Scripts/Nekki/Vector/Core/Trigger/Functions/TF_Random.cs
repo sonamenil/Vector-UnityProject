@@ -1,5 +1,4 @@
 using Nekki.Vector.Core.Location;
-using System;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger.Functions

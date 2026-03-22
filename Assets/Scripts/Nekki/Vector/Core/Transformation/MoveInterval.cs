@@ -25,34 +25,19 @@ namespace Nekki.Vector.Core.Transformation
 
         public int Number
         {
-            get
-            {
-                return _Number;
-            }
-            set
-            {
-                _Number = value;
-            }
+            get => _Number;
+            set => _Number = value;
         }
 
         public int Frames
         {
-            get
-            {
-                return _Frames;
-            }
-            set
-            {
-                _Frames = value;
-            }
+            get => _Frames;
+            set => _Frames = value;
         }
 
         public float Delay
         {
-            get
-            {
-                return _Delay;
-            }
+            get => _Delay;
             set
             {
                 _Delay = value;

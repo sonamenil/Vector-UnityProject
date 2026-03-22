@@ -1,10 +1,10 @@
-using System;
 using Nekki.Vector.Core.Controllers;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Trigger.Actions;
 using Nekki.Vector.GUI.InputControllers;
 using UI;
 using UnityEngine;
+using Key = UnityEngine.InputSystem.Key;
 
 public class LevelSceneController : MonoBehaviour
 {
@@ -55,10 +55,10 @@ public class LevelSceneController : MonoBehaviour
 
     private void OnEnable()
     {
-        actions.Gameplay.Up.performed += _ => OnKeyDown(UnityEngine.InputSystem.Key.UpArrow);
-        actions.Gameplay.Down.performed += _ => OnKeyDown(UnityEngine.InputSystem.Key.DownArrow);
-        actions.Gameplay.Left.performed += _ => OnKeyDown(UnityEngine.InputSystem.Key.LeftArrow);
-        actions.Gameplay.Right.performed += _ => OnKeyDown(UnityEngine.InputSystem.Key.RightArrow);
+        actions.Gameplay.Up.performed += _ => OnKeyDown(Key.UpArrow);
+        actions.Gameplay.Down.performed += _ => OnKeyDown(Key.DownArrow);
+        actions.Gameplay.Left.performed += _ => OnKeyDown(Key.LeftArrow);
+        actions.Gameplay.Right.performed += _ => OnKeyDown(Key.RightArrow);
         
         actions.Enable();
     }
@@ -82,14 +82,14 @@ public class LevelSceneController : MonoBehaviour
         HandleNewInput(KeyMapping.MapFromSwipe(recognizer.Direction));
     }
 
-    private void OnKeyDown(UnityEngine.InputSystem.Key keyCode)
+    private void OnKeyDown(Key keyCode)
     {
         HandleNewInput(KeyMapping.MapFromKeycode(keyCode));
     }
 
-    private void HandleNewInput(Key key)
+    private void HandleNewInput(Nekki.Vector.Core.Controllers.Key key)
     {
-        if (key == Key.None)
+        if (key == Nekki.Vector.Core.Controllers.Key.None)
         {
             return;
         }
@@ -155,7 +155,7 @@ public class LevelSceneController : MonoBehaviour
 
     public void OnApplicationPause(bool pauseStatus)
     {
-        if (LevelMainController.current.CanPauseOrReload == false || LevelMainController.current.pauseRender || Game.Instance.Snail)
+        if (!LevelMainController.current.CanPauseOrReload || LevelMainController.current.pauseRender || Game.Instance.Snail)
         {
             return;
         }

@@ -25,10 +25,7 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
         public Color Color
         {
-            get
-            {
-                return _Color;
-            }
+            get => _Color;
             set
             {
                 _Color = value;
@@ -41,10 +38,7 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
         public Color BackgoundColor
         {
-            get
-            {
-                return _BackgoundColor;
-            }
+            get => _BackgoundColor;
             set
             {
                 _BackgoundColor = value;
@@ -57,10 +51,7 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
         public float Border
         {
-            get
-            {
-                return _Border;
-            }
+            get => _Border;
             set
             {
                 _Border = value;
@@ -73,10 +64,7 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
         public float Radius
         {
-            get
-            {
-                return _Radius;
-            }
+            get => _Radius;
             set
             {
                 _Radius = value;
@@ -89,38 +77,20 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
         public ModelNode Base
         {
-            get
-            {
-                return _Base;
-            }
-            set
-            {
-                _Base = value;
-            }
+            get => _Base;
+            set => _Base = value;
         }
 
         public string SortingLayerName
         {
-            get
-            {
-                return _SortingLayerName;
-            }
-            set
-            {
-                _SortingLayerName = value;
-            }
+            get => _SortingLayerName;
+            set => _SortingLayerName = value;
         }
 
         public int SortingOrder
         {
-            get
-            {
-                return _SortingOrder;
-            }
-            set
-            {
-                _SortingOrder = value;
-            }
+            get => _SortingOrder;
+            set => _SortingOrder = value;
         }
 
         private void Start()
@@ -147,8 +117,8 @@ namespace Nekki.Vector.Core.Scripts.Geometry
             mesh.triangles = new int[6] { 0, 1, 2, 1, 3, 2 };
             Mesh mesh2 = mesh;
             mesh2.RecalculateBounds();
-            base.gameObject.AddComponent<MeshFilter>().mesh = mesh2;
-            MeshRenderer meshRenderer = base.gameObject.AddComponent<MeshRenderer>();
+            gameObject.AddComponent<MeshFilter>().mesh = mesh2;
+            MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
             meshRenderer.sortingLayerName = _SortingLayerName;
             meshRenderer.sortingOrder = _SortingOrder;
             _Material = meshRenderer.material;
@@ -164,8 +134,8 @@ namespace Nekki.Vector.Core.Scripts.Geometry
         {
             if (_Base != null)
             {
-                base.transform.localScale = new Vector3(_Radius, _Radius, _Radius);
-                base.transform.localPosition = _Base.Start;
+                transform.localScale = new Vector3(_Radius, _Radius, _Radius);
+                transform.localPosition = _Base.Start;
             }
         }
     }

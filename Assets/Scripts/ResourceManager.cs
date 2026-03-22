@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
+
 public static class ResourceManager
 {
     public static Dictionary<string, Sprite> textureCache = new Dictionary<string, Sprite>();
@@ -50,7 +51,7 @@ public static class ResourceManager
             fileStream.Close();
             return array;
         }
-        char[] trimChars = new char[] { '\\', '/', };
+        char[] trimChars = { '\\', '/', };
         string path = p_path.TrimStart(trimChars);
         path = RemoveExtension(path);
         var obj = Resources.Load<TextAsset>(path);
@@ -63,7 +64,7 @@ public static class ResourceManager
 
     public static string GetTextFromResources(string p_path)
     {
-        char[] trimChars = new char[] { '\\', '/', };
+        char[] trimChars = { '\\', '/', };
         string path = p_path.TrimStart(trimChars);
         path = RemoveExtension(path);
         var obj = Resources.Load<TextAsset>(path);

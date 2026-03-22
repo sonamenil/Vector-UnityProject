@@ -6,7 +6,7 @@ namespace Nekki.Vector.Core.Utilites
 	{
 		public static double Round(double Value, double Pow)
 		{
-            return (double)System.Math.Floor(Value * Pow + 0.5) / Pow;
+            return System.Math.Floor(Value * Pow + 0.5) / Pow;
         }
 
 		public static float Round(float Value, float Pow)

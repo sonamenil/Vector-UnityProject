@@ -10,13 +10,7 @@ public static class DebugUtils
 
     private static long _Memory;
 
-    public static double SceneLoadTime
-    {
-        get
-        {
-            return _SceneLoadTime;
-        }
-    }
+    public static double SceneLoadTime => _SceneLoadTime;
 
     public static double GetMS()
     {
@@ -82,7 +76,7 @@ public static class DebugUtils
     public static void StopMem(string p_mess = null)
     {
         GC.Collect();
-        Debug.Log("Mem" + ((p_mess == null) ? " :" : ("(" + p_mess + ") :")) + (float)(GC.GetTotalMemory(true) - _Memory) / 1048576f);
+        Debug.Log("Mem" + (p_mess == null ? " :" : "(" + p_mess + ") :") + (GC.GetTotalMemory(true) - _Memory) / 1048576f);
     }
 
     public static void Log(string p_value)

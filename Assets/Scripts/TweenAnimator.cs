@@ -15,7 +15,7 @@ public class TweenAnimator : MonoBehaviour
 	{
 		if ( _sequence != null )
 		{
-			TweenExtensions.Kill(_sequence, false);
+			_sequence.Kill();
 		}
 	}
 

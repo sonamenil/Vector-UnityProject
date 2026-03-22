@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 using Nekki.Vector.Core.Utilites;
 using UnityEngine;
@@ -76,8 +75,8 @@ namespace Nekki.Vector.Core.Location
                 }
                 Matrix4x4 rotation = qRDecomposition.Rotation;
                 Quaternion quaternion = default(Quaternion);
-                int num = ((rotation[0, 0] * rotation[1, 1] - rotation[0, 1] * rotation[1, 0] > 0f) ? 1 : (-1));
-                quaternion = ((num >= 0) ? Quaternion.LookRotation(rotation.GetColumn(2), rotation.GetColumn(1)) : Quaternion.LookRotation(-rotation.GetColumn(2), rotation.GetColumn(1)));
+                int num = rotation[0, 0] * rotation[1, 1] - rotation[0, 1] * rotation[1, 0] > 0f ? 1 : -1;
+                quaternion = num >= 0 ? Quaternion.LookRotation(rotation.GetColumn(2), rotation.GetColumn(1)) : Quaternion.LookRotation(-rotation.GetColumn(2), rotation.GetColumn(1));
                 _CachedTransform.localRotation = quaternion;
                 _CachedTransform.localScale = new Vector3(qRDecomposition.ScaleX, qRDecomposition.ScaleY, 1f);
             }

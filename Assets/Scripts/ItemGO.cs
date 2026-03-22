@@ -24,10 +24,7 @@ public class ItemGO : MonoBehaviour
 
     public Color color
     {
-        set
-        {
-            _spriteRenderer.color = value;
-        }
+        set => _spriteRenderer.color = value;
     }
 
     public void Init()
@@ -43,11 +40,11 @@ public class ItemGO : MonoBehaviour
         _animationSprite.Iterations = 1;
         _textMesh.gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
-        var tween = ShortcutExtensions.DOLocalMoveY(_textMesh.transform, _textMesh.transform.localPosition.y + -200, 1, false);
-        TweenSettingsExtensions.Append(sequence, tween);
+        var tween = _textMesh.transform.DOLocalMoveY(_textMesh.transform.localPosition.y + -200, 1);
+        sequence.Append(tween);
         var callback = new TweenCallback(() => _textMesh.gameObject.SetActive(false));
-        TweenSettingsExtensions.AppendCallback(sequence, callback);
-        TweenExtensions.Play(sequence);
+        sequence.AppendCallback(callback);
+        sequence.Play();
     }
 
     public void Reset()

@@ -23,7 +23,7 @@ public class TriggerColider : MonoBehaviour
             _mesh = new Mesh();
             _meshFilter.mesh = _mesh;
         }
-        var array = new Vector3[]
+        var array = new[]
         {
             Vector3.zero,
             new Vector3(rectangle.Size.Width, 0, 0),

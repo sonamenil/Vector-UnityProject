@@ -1,4 +1,4 @@
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace UI
 {
@@ -12,9 +12,9 @@ namespace UI
 
 		public override void Init(BasePopup basePopup)
 		{
-			CreditsButton.onClick.AddListener(new UnityEngine.Events.UnityAction(basePopup.CreditsButton.PressedAction));
-            CancelButton.onClick.AddListener(new UnityEngine.Events.UnityAction(basePopup.CancelButton.PressedAction));
-            BackgroundButton.onClick.AddListener(new UnityEngine.Events.UnityAction(basePopup.BackgroundButton.PressedAction));
+			CreditsButton.onClick.AddListener(new UnityAction(basePopup.CreditsButton.PressedAction));
+            CancelButton.onClick.AddListener(new UnityAction(basePopup.CancelButton.PressedAction));
+            BackgroundButton.onClick.AddListener(new UnityAction(basePopup.BackgroundButton.PressedAction));
         }
 
         public override void PreShow(CommonPayloadData payload)

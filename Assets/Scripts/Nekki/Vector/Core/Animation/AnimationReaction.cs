@@ -1,12 +1,9 @@
-using Nekki.Vector.Core.Detector;
-using Nekki.Vector.Core.Location;
-using Nekki.Vector.Core.Models;
-using Nekki.Vector.Core.Transformation;
 using System;
 using System.Collections.Generic;
 using System.Xml;
-using UnityEditor;
-using static Nekki.Vector.Core.Node.NodeName;
+using Nekki.Vector.Core.Detector;
+using Nekki.Vector.Core.Location;
+using Nekki.Vector.Core.Models;
 
 namespace Nekki.Vector.Core.Animation
 {
@@ -199,17 +196,17 @@ namespace Nekki.Vector.Core.Animation
             Sides = new List<int>();
             NodesWi = new List<string>();
             Name = node.Name;
-            FirstFrame = XmlUtils.ParseInt(node.Attributes["FirstFrame"]);
-            Priority = XmlUtils.ParseInt(node.Attributes["Priority"]);
-            CornerCling = XmlUtils.ParseBool(node.Attributes["CornerCling"]);
-            CornerClingV = XmlUtils.ParseInt(node.Attributes["CornerClingV"], -1);
-            CornerClingH = XmlUtils.ParseInt(node.Attributes["CornerClingH"], -1);
-            SafeHorizontal = XmlUtils.ParseBool(node.Attributes["SafeH"]);
-            SafeVertical = XmlUtils.ParseBool(node.Attributes["SafeV"]);
-            Reverse = XmlUtils.ParseBool(node.Attributes["Reverse"]);
-            Mirror = XmlUtils.ParseBool(node.Attributes["Mirror"]);
-            OnEndTrigger = XmlUtils.ParseBool(node.Attributes["OnEndTrigger"]);
-            PivotNode = XmlUtils.ParseString(node.Attributes["PivotNode"]);
+            FirstFrame = node.Attributes["FirstFrame"].ParseInt();
+            Priority = node.Attributes["Priority"].ParseInt();
+            CornerCling = node.Attributes["CornerCling"].ParseBool();
+            CornerClingV = node.Attributes["CornerClingV"].ParseInt(-1);
+            CornerClingH = node.Attributes["CornerClingH"].ParseInt(-1);
+            SafeHorizontal = node.Attributes["SafeH"].ParseBool();
+            SafeVertical = node.Attributes["SafeV"].ParseBool();
+            Reverse = node.Attributes["Reverse"].ParseBool();
+            Mirror = node.Attributes["Mirror"].ParseBool();
+            OnEndTrigger = node.Attributes["OnEndTrigger"].ParseBool();
+            PivotNode = node.Attributes["PivotNode"].ParseString();
             if (node.Attributes["TriggerName"] != null)
             {
                 TriggerName = node.Attributes["TriggerName"].Value;
@@ -248,8 +245,8 @@ namespace Nekki.Vector.Core.Animation
             {
                 NodesWi = new List<string>(node.Attributes["NodesWI"].Value.Split('|'));
             }
-            InsideH = XmlUtils.ParseFloat(node.Attributes["InsideH"], float.NaN);
-            InsideV = XmlUtils.ParseFloat(node.Attributes["InsideV"], float.NaN);
+            InsideH = node.Attributes["InsideH"].ParseFloat(float.NaN);
+            InsideV = node.Attributes["InsideV"].ParseFloat(float.NaN);
             DeltasH = new AnimationDeltas(node, AnimationDeltaType.Horizontal);
             DeltasV = new AnimationDeltas(node, AnimationDeltaType.Vertical);
             DeltasC = new AnimationDeltas(node, AnimationDeltaType.Collision);
@@ -385,7 +382,7 @@ namespace Nekki.Vector.Core.Animation
 
         public static AnimationReaction Random(List<AnimationReaction> Reactions)
         {
-            return (Reactions.Count != 0) ? Reactions[_Random.Next(0, Reactions.Count - 1)] : null;
+            return Reactions.Count != 0 ? Reactions[_Random.Next(0, Reactions.Count - 1)] : null;
         }
 
         public static int MaxPriority(List<AnimationReaction> Reactions)

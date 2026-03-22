@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Xml;
 using Nekki.Vector.Core.Animation.Events;
 using Nekki.Vector.Core.Detector;
-using UnityEngine;
 
 namespace Nekki.Vector.Core.Animation
 {
@@ -130,7 +129,7 @@ namespace Nekki.Vector.Core.Animation
 			CollisionEvents = new List<AnimationEventCollision>();
 			AreaEvents = new List<AnimationEventArea>();
 			FrameEvents = new List<AnimationEventFrame>();
-			NoPlatformBound = new Point(0, 0);
+			NoPlatformBound = new Point();
 			PreParse(node);
 			Parse(node);
 		}
@@ -146,17 +145,17 @@ namespace Nekki.Vector.Core.Animation
 
 		private void PreParse(XmlNode node)
 		{
-            BeginFrame = XmlUtils.ParseInt(node.Attributes["Start"]);
-            EndFrame = XmlUtils.ParseInt(node.Attributes["End"]);
-            IsSafe = XmlUtils.ParseBool(node.Attributes["Safe"]);
-            IsLock = XmlUtils.ParseBool(node.Attributes["Lock"]);
-            IsAction = ((node.Attributes["Action"] != null) ? true : false);
-            NoPlatformBound.X = XmlUtils.ParseFloat(node.Attributes["NoPlatformBoundX"]);
-            NoPlatformBound.Y = XmlUtils.ParseFloat(node.Attributes["NoPlatformBoundY"]);
-			ConditionlessPlatformBound = XmlUtils.ParseBool(node.Attributes["ConditionlessPlatformBound"]);
-            ConditionlessBoundH = XmlUtils.ParseBool(node.Attributes["ConditionlessPlatformBoundH"], false);
-            ConditionlessBoundV = XmlUtils.ParseBool(node.Attributes["ConditionlessPlatformBoundV"], false);
-            ConditionlessBoundC = XmlUtils.ParseBool(node.Attributes["ConditionlessPlatformBoundC"], false);
+            BeginFrame = node.Attributes["Start"].ParseInt();
+            EndFrame = node.Attributes["End"].ParseInt();
+            IsSafe = node.Attributes["Safe"].ParseBool();
+            IsLock = node.Attributes["Lock"].ParseBool();
+            IsAction = node.Attributes["Action"] != null ? true : false;
+            NoPlatformBound.X = node.Attributes["NoPlatformBoundX"].ParseFloat();
+            NoPlatformBound.Y = node.Attributes["NoPlatformBoundY"].ParseFloat();
+			ConditionlessPlatformBound = node.Attributes["ConditionlessPlatformBound"].ParseBool();
+            ConditionlessBoundH = node.Attributes["ConditionlessPlatformBoundH"].ParseBool();
+            ConditionlessBoundV = node.Attributes["ConditionlessPlatformBoundV"].ParseBool();
+            ConditionlessBoundC = node.Attributes["ConditionlessPlatformBoundC"].ParseBool();
             if (node.Attributes["LT"] != null && node.Attributes["RB"] != null)
             {
                 string[] array = node.Attributes["LT"].Value.Split('|');
@@ -187,7 +186,7 @@ namespace Nekki.Vector.Core.Animation
 		{
             foreach (XmlNode item in pNode)
             {
-                string p_GroupNames = XmlUtils.ParseString(item.Attributes["Groups"]);
+                string p_GroupNames = item.Attributes["Groups"].ParseString();
                 switch (item.Name)
                 {
                     case "Keys":
@@ -198,13 +197,13 @@ namespace Nekki.Vector.Core.Animation
                         break;
                     case "DetectorH":
                         {
-                            DetectorEvent.DetectorEventType p_type2 = (DetectorEvent.DetectorEventType)XmlUtils.ParseInt(item.Attributes["Type"]);
+                            DetectorEvent.DetectorEventType p_type2 = (DetectorEvent.DetectorEventType)item.Attributes["Type"].ParseInt();
                             DetectorHEvents.Add(new AnimationEventDetector(p_type2, GetEventParam(item, p_GroupNames)));
                             break;
                         }
                     case "DetectorV":
                         {
-                            DetectorEvent.DetectorEventType p_type = (DetectorEvent.DetectorEventType)XmlUtils.ParseInt(item.Attributes["Type"]);
+                            DetectorEvent.DetectorEventType p_type = (DetectorEvent.DetectorEventType)item.Attributes["Type"].ParseInt();
                             DetectorVEvents.Add(new AnimationEventDetector(p_type, GetEventParam(item, p_GroupNames)));
                             break;
                         }

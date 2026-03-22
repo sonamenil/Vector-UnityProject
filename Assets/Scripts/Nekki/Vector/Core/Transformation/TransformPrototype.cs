@@ -1,5 +1,5 @@
-using Nekki.Vector.Core.Location;
 using System.Xml;
+using Nekki.Vector.Core.Location;
 
 namespace Nekki.Vector.Core.Transformation
 {
@@ -7,32 +7,20 @@ namespace Nekki.Vector.Core.Transformation
 	{
 		protected Runner _Runner;
 
-		protected bool _Pause = false;
+		protected bool _Pause;
 
 		protected Type _Type;
 
 		public virtual Runner Runner
 		{
-			get
-			{
-				return _Runner;
-			}
-			set
-			{
-				_Runner = value;
-			}
+			get => _Runner;
+			set => _Runner = value;
 		}
 
 		public bool Pause
 		{
-			get
-			{
-				return _Pause;
-			}
-			set
-			{
-				_Pause = value;
-			}
+			get => _Pause;
+			set => _Pause = value;
 		}
 
 		public Type Type => _Type;

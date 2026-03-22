@@ -1,13 +1,12 @@
-using Nekki.Vector.Core.Location.Animation;
-using Nekki.Vector.Core.Location.LevelCreation;
-using Nekki.Vector.Core.Utilites;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using System.Xml.Linq;
+using Nekki.Vector.Core.Location.Animation;
+using Nekki.Vector.Core.Location.LevelCreation;
+using Nekki.Vector.Core.Models;
+using Nekki.Vector.Core.Utilites;
 using UnityEngine;
 using Xml2Prefab;
-
 
 namespace Nekki.Vector.Core.Location
 {
@@ -122,10 +121,10 @@ namespace Nekki.Vector.Core.Location
 
         private TriggerRunner CreateTrigger(XmlNode Node)
         {
-            var x = XmlUtils.ParseFloat(Node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(Node.Attributes["Y"]);
-            var width = XmlUtils.ParseFloat(Node.Attributes["Width"]);
-            var height = XmlUtils.ParseFloat(Node.Attributes["Height"]);
+            var x = Node.Attributes["X"].ParseFloat();
+            var y = Node.Attributes["Y"].ParseFloat();
+            var width = Node.Attributes["Width"].ParseFloat();
+            var height = Node.Attributes["Height"].ParseFloat();
             var trigger = new TriggerRunner(x, y, width, height, Node);
             trigger.Layer = _Parent.Layer;
             trigger.SetXmlList(Xml2PrefabUtils.GetTransformationNode(Node));
@@ -135,26 +134,26 @@ namespace Nekki.Vector.Core.Location
         private AreaRunner CreateArea(XmlNode node)
         {
             AreaRunner area = null;
-            var name = XmlUtils.ParseString(node.Attributes["Name"]);
-            string type = XmlUtils.ParseString(node.Attributes["Type"]);
-            var x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(node.Attributes["Y"]);
-            var width = XmlUtils.ParseFloat(node.Attributes["Width"]);
-            var height = XmlUtils.ParseFloat(node.Attributes["Height"]);
+            var name = node.Attributes["Name"].ParseString();
+            string type = node.Attributes["Type"].ParseString();
+            var x = node.Attributes["X"].ParseFloat();
+            var y = node.Attributes["Y"].ParseFloat();
+            var width = node.Attributes["Width"].ParseFloat();
+            var height = node.Attributes["Height"].ParseFloat();
             switch (type)
             {
                 case "Trick":
-                    string itemName = XmlUtils.ParseString(node.Attributes["ItemName"]);
-                    int score = XmlUtils.ParseInt(node.Attributes["Score"]);
+                    string itemName = node.Attributes["ItemName"].ParseString();
+                    int score = node.Attributes["Score"].ParseInt();
                     area = new TrickAreaRunner(x, y, width, height, type, name, itemName, score);
                     break;
                 case "Catch":
-                    float distance = XmlUtils.ParseFloat(node.Attributes["Distance"], 200);
+                    float distance = node.Attributes["Distance"].ParseFloat(200);
                     area = new ArrestAreaRunner(x, y, width, height, type, name, distance);
                     break;
                 case "Help":
-                    string key = XmlUtils.ParseString(node.Attributes["Key"]);
-                    string description = XmlUtils.ParseString(node.Attributes["Description"]);
+                    string key = node.Attributes["Key"].ParseString();
+                    string description = node.Attributes["Description"].ParseString();
                     area = new TutorialAreaRunner(x, y, width, height, type, name, key, description);
                     break;
                 default:
@@ -168,16 +167,16 @@ namespace Nekki.Vector.Core.Location
 
         private VisualRunner CreateVisual(XmlNode node)
         {
-            var name = XmlUtils.ParseString(node.Attributes["ClassName"]);
-            int type = XmlUtils.ParseInt(node.Attributes["Type"]);
-            var x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(node.Attributes["Y"]);
-            var width = XmlUtils.ParseFloat(node.Attributes["Width"], float.NaN);
-            var height = XmlUtils.ParseFloat(node.Attributes["Height"], float.NaN);
+            var name = node.Attributes["ClassName"].ParseString();
+            int type = node.Attributes["Type"].ParseInt();
+            var x = node.Attributes["X"].ParseFloat();
+            var y = node.Attributes["Y"].ParseFloat();
+            var width = node.Attributes["Width"].ParseFloat(float.NaN);
+            var height = node.Attributes["Height"].ParseFloat(float.NaN);
             if (node.Attributes["TrMatrix"] != null)
             {
-                width = XmlUtils.ParseFloat(node.Attributes["NativeX"], float.NaN);
-                height = XmlUtils.ParseFloat(node.Attributes["NativeY"], float.NaN);
+                width = node.Attributes["NativeX"].ParseFloat(float.NaN);
+                height = node.Attributes["NativeY"].ParseFloat(float.NaN);
             }
             Color color = Color.white;
             if (node.Attributes["Color"] != null)
@@ -188,13 +187,13 @@ namespace Nekki.Vector.Core.Location
             {
                 color = ColorUtils.FromHex(node["Properties"]["Static"]["StartColor"].Attributes["Color"].Value);
             }
-            int depth = XmlUtils.ParseInt(node.Attributes["Depth"], -1);
+            int depth = node.Attributes["Depth"].ParseInt(-1);
             XmlNode matrixNode = null;
             if (node["Properties"] != null && node["Properties"]["Static"] != null && node["Properties"]["Static"]["Matrix"] != null)
             {
                 matrixNode = node["Properties"]["Static"]["Matrix"];
-                var tX = XmlUtils.ParseFloat(matrixNode.Attributes["Tx"], 0);
-                var tY = XmlUtils.ParseFloat(matrixNode.Attributes["Ty"], 0);
+                var tX = matrixNode.Attributes["Tx"].ParseFloat();
+                var tY = matrixNode.Attributes["Ty"].ParseFloat();
                 x += tX;
                 y += tY;
             }
@@ -206,12 +205,12 @@ namespace Nekki.Vector.Core.Location
 
         private PlatformRunner CreatePlatform(XmlNode node)
         {
-            var name = XmlUtils.ParseString(node.Attributes["Name"]);
-            var x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(node.Attributes["Y"]);
-            var width = XmlUtils.ParseFloat(node.Attributes["Width"]);
-            var height = XmlUtils.ParseFloat(node.Attributes["Height"]);
-            var sticky = XmlUtils.ParseBool(node.Attributes["Sticky"], true);
+            var name = node.Attributes["Name"].ParseString();
+            var x = node.Attributes["X"].ParseFloat();
+            var y = node.Attributes["Y"].ParseFloat();
+            var width = node.Attributes["Width"].ParseFloat();
+            var height = node.Attributes["Height"].ParseFloat();
+            var sticky = node.Attributes["Sticky"].ParseBool(true);
             var platform = new PlatformRunner(name, x, y, width, height, sticky);
             platform.Layer = _Parent.Layer;
             platform.SetXmlList(Xml2PrefabUtils.GetTransformationNode(node));
@@ -220,14 +219,14 @@ namespace Nekki.Vector.Core.Location
 
         private TrapezoidRunner CreateTrapezoid(XmlNode node)
         {
-            var name = XmlUtils.ParseString(node.Attributes["Name"]);
-            var x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(node.Attributes["Y"]);
-            int type = XmlUtils.ParseInt(node.Attributes["Type"], 1);
-            var width = XmlUtils.ParseFloat(node.Attributes["Width"]);
-            var height = XmlUtils.ParseFloat(node.Attributes["Height"]);
-            var height1 = XmlUtils.ParseFloat(node.Attributes["Height1"]);
-            var sticky = XmlUtils.ParseBool(node.Attributes["Sticky"], true);
+            var name = node.Attributes["Name"].ParseString();
+            var x = node.Attributes["X"].ParseFloat();
+            var y = node.Attributes["Y"].ParseFloat();
+            int type = node.Attributes["Type"].ParseInt(1);
+            var width = node.Attributes["Width"].ParseFloat();
+            var height = node.Attributes["Height"].ParseFloat();
+            var height1 = node.Attributes["Height1"].ParseFloat();
+            var sticky = node.Attributes["Sticky"].ParseBool(true);
             var trapezoid = new TrapezoidRunner(name, type, x, y, width, height, height1, sticky);
             trapezoid.Layer = _Parent.Layer;
             trapezoid.SetXmlList(Xml2PrefabUtils.GetTransformationNode(node));
@@ -237,18 +236,18 @@ namespace Nekki.Vector.Core.Location
         private ItemRunner CreateItem(XmlNode node)
         {
             ItemRunner item = null;
-            int type = XmlUtils.ParseInt(node.Attributes["Type"]);
-            var x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(node.Attributes["Y"]);
+            int type = node.Attributes["Type"].ParseInt();
+            var x = node.Attributes["X"].ParseFloat();
+            var y = node.Attributes["Y"].ParseFloat();
             if (type == 0)
             {
-                int score = XmlUtils.ParseInt(node.Attributes["Score"]);
+                int score = node.Attributes["Score"].ParseInt();
                 item = new ItemScoreRunner(type, "ScoreItem", score, x, y);
             }
             else
             {
-                int groupId = XmlUtils.ParseInt(node.Attributes["GroupId"]);
-                int score = XmlUtils.ParseInt(node.Attributes["Score"]);
+                int groupId = node.Attributes["GroupId"].ParseInt();
+                int score = node.Attributes["Score"].ParseInt();
                 item = new CoinRunner(type, "CoinItem", groupId, score, x, y);
             }
             item.Layer = _Parent.Layer;
@@ -259,12 +258,12 @@ namespace Nekki.Vector.Core.Location
         private PrimitiveRunner CreatePrimitive(XmlNode node)
         {
             PrimitiveRunner primitive = null;
-            var name = XmlUtils.ParseString(node.Attributes["ClassName"]);
-            int type = XmlUtils.ParseInt(node.Attributes["Type"]);
-            var x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(node.Attributes["Y"]);
-            var impulse = XmlUtils.ParseFloat(node.Attributes["Impuls"], 30);
-            List<string> sounds = XmlUtils.ParseString(node.Attributes["Sounds"], string.Empty).Split('|').ToList();
+            var name = node.Attributes["ClassName"].ParseString();
+            int type = node.Attributes["Type"].ParseInt();
+            var x = node.Attributes["X"].ParseFloat();
+            var y = node.Attributes["Y"].ParseFloat();
+            var impulse = node.Attributes["Impuls"].ParseFloat(30);
+            List<string> sounds = node.Attributes["Sounds"].ParseString(string.Empty).Split('|').ToList();
             Vector3f deltaPosition = new Vector3f(x, y);
             if (type == 0)
             {
@@ -273,7 +272,7 @@ namespace Nekki.Vector.Core.Location
             else
             {
                 primitive = new PrimitiveAnimatedRunner(type, name, Color.black, deltaPosition, impulse, sounds);
-                primitive.Type = Core.Models.ModelType.PrimitiveAnimated;
+                primitive.Type = ModelType.PrimitiveAnimated;
             }
             primitive.Layer = _Parent.Layer;
             primitive.SetXmlList(Xml2PrefabUtils.GetTransformationNode(node));
@@ -282,11 +281,11 @@ namespace Nekki.Vector.Core.Location
 
         private ParticleRunner CreateParticle(XmlNode node)
         {
-            var name = XmlUtils.ParseString(node.Attributes["ClassName"]);
-            var x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(node.Attributes["Y"]);
-            var width = XmlUtils.ParseFloat(node.Attributes["Width"]);
-            var height = XmlUtils.ParseFloat(node.Attributes["Height"]);
+            var name = node.Attributes["ClassName"].ParseString();
+            var x = node.Attributes["X"].ParseFloat();
+            var y = node.Attributes["Y"].ParseFloat();
+            var width = node.Attributes["Width"].ParseFloat();
+            var height = node.Attributes["Height"].ParseFloat();
             var particle = new ParticleRunner(x, y, width, height, name);
             particle.Layer = _Parent.Layer;
             particle.SetXmlList(Xml2PrefabUtils.GetTransformationNode(node));
@@ -296,23 +295,23 @@ namespace Nekki.Vector.Core.Location
         private AnimationRunner CreateAnimation(XmlNode node)
         {
             AnimationRunner animation = null;
-            var name = XmlUtils.ParseString(node.Attributes["ClassName"]);
+            var name = node.Attributes["ClassName"].ParseString();
             if (name == "p_dust2")
             {
                 return null;
             }
-            int type = XmlUtils.ParseInt(node.Attributes["Type"]);
-            var x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(node.Attributes["Y"]);
-            var width = XmlUtils.ParseFloat(node.Attributes["Width"]);
-            var height = XmlUtils.ParseFloat(node.Attributes["Height"]);
-            var scaleX = XmlUtils.ParseFloat(node.Attributes["ScaleX"], 1);
-            var scaleY = XmlUtils.ParseFloat(node.Attributes["ScaleY"], 1);
+            int type = node.Attributes["Type"].ParseInt();
+            var x = node.Attributes["X"].ParseFloat();
+            var y = node.Attributes["Y"].ParseFloat();
+            var width = node.Attributes["Width"].ParseFloat();
+            var height = node.Attributes["Height"].ParseFloat();
+            var scaleX = node.Attributes["ScaleX"].ParseFloat(1);
+            var scaleY = node.Attributes["ScaleY"].ParseFloat(1);
             if (type == 1)
             {
                 Vector2 direction = Vector2.zero;
                 Vector2 acceleration = Vector2.zero;
-                int life = XmlUtils.ParseInt(node.Attributes["Time"]);
+                int life = node.Attributes["Time"].ParseInt();
                 if (node.Attributes["Direction"] != null)
                 {
                     string[] value = node.Attributes["Direction"].Value.Split('|');
@@ -330,14 +329,14 @@ namespace Nekki.Vector.Core.Location
                 animation = new AnimationRunner(x, y, width, height, name, type, scaleX, scaleY, false, 2);
             }
             animation.Layer = _Parent.Layer;
-            animation.SetXmlList(Xml2Prefab.Xml2PrefabUtils.GetTransformationNode(node));
+            animation.SetXmlList(Xml2PrefabUtils.GetTransformationNode(node));
             return animation;
         }
 
         private CameraRunner CreateCamera(XmlNode node)
         {
-            var x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(node.Attributes["Y"]);
+            var x = node.Attributes["X"].ParseFloat();
+            var y = node.Attributes["Y"].ParseFloat();
             CameraRunner camera = new CameraRunner(x, y, "", "");
             camera.Layer = _Parent.Layer;
             camera.SetXmlList(Xml2PrefabUtils.GetTransformationNode(node));
@@ -346,10 +345,10 @@ namespace Nekki.Vector.Core.Location
 
         private SpawnRunner CreateSpawn(XmlNode node)
         {
-            var x = XmlUtils.ParseFloat(node.Attributes["X"]);
-            var y = XmlUtils.ParseFloat(node.Attributes["Y"]);
-            var animation = XmlUtils.ParseString(node.Attributes["Animation"]);
-            var name = XmlUtils.ParseString(node.Attributes["Name"]);
+            var x = node.Attributes["X"].ParseFloat();
+            var y = node.Attributes["Y"].ParseFloat();
+            var animation = node.Attributes["Animation"].ParseString();
+            var name = node.Attributes["Name"].ParseString();
             SpawnRunner spawn = new SpawnRunner(x, y, name, animation);
             spawn.Layer = _Parent.Layer;
             spawn.SetXmlList(Xml2PrefabUtils.GetTransformationNode(node));

@@ -1,7 +1,5 @@
-using Nekki.Vector.Core.Controllers;
 using System.Collections.Generic;
-using UnityEngine;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
+using Nekki.Vector.Core.Controllers;
 
 public static class KeyMapping
 {
@@ -13,7 +11,7 @@ public static class KeyMapping
         {SwipeDirection.Right, Key.Right},
     };
 
-	private static readonly IReadOnlyDictionary<UnityEngine.InputSystem.Key, Key> KeyboardToKeyMapping = new Dictionary<UnityEngine.InputSystem.Key, Key>()
+	private static readonly IReadOnlyDictionary<UnityEngine.InputSystem.Key, Key> KeyboardToKeyMapping = new Dictionary<UnityEngine.InputSystem.Key, Key>
     {
         { UnityEngine.InputSystem.Key.UpArrow, Key.Up },
         { UnityEngine.InputSystem.Key.DownArrow, Key.Down },

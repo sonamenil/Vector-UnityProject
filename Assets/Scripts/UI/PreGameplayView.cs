@@ -1,10 +1,8 @@
-using Nekki.Vector.Core;
-using System;
 using System.Collections;
 using System.Linq;
+using Nekki.Vector.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -40,29 +38,29 @@ namespace UI
         {
             BuyCoinsButton.gameObject.SetActive(false);
 
-            PlayButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            PlayButton.onClick.AddListener(() =>
             {
                 _ShowBoostDialogRequestBeen = false;
                 CoroutineRunner.Instance.Run(Load());
                 SoundsManager.Instance.PlaySounds(SoundType.ui_click);
                 SoundsManager.Instance.AudioSourceBackground.Stop();
-            }));
-            BackToSelectStoryButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            });
+            BackToSelectStoryButton.onClick.AddListener(() =>
             {
                 Game.Instance.ScreenManager.Show<SelectStoryScreen>(true, false);
                 SoundsManager.Instance.PlaySounds(SoundType.ui_click);
-            }));
-            BuyCoinsButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            });
+            BuyCoinsButton.onClick.AddListener(() =>
             {
                 Game.Instance.ScreenManager.Show<BuyCoinsScreen>(true, true);
                 SoundsManager.Instance.PlaySounds(SoundType.ui_click);
-            }));
-            BuyGadgetsButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            });
+            BuyGadgetsButton.onClick.AddListener(() =>
             {
                 Game.Instance.ScreenManager.Show<StoreGadgetsScreen, GadgetScreenPayloadData>(new GadgetScreenPayloadData(true), true, true);
-            }));
+            });
             
-            ScrollSnap.SnapEvent += (i) =>
+            ScrollSnap.SnapEvent += i =>
             {
                 EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(i).GetComponent<HolderItem>().Button.gameObject);
             };
@@ -121,9 +119,9 @@ namespace UI
             {
                 Destroy(child.gameObject);
             }
-            var tricks = StoreManager.Instance.GetItems(StoreItemType.Tricks).Where((t) => storyInfo.TrickIds.Contains(t.Id)).ToList();
+            var tricks = StoreManager.Instance.GetItems(StoreItemType.Tricks).Where(t => storyInfo.TrickIds.Contains(t.Id)).ToList();
             StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, 10);
-            StoreTricksScreenView.PutItemsIntoContent(ScrollSnap, tricks, StoreItemType.Tricks, false, false);
+            StoreTricksScreenView.PutItemsIntoContent(ScrollSnap, tricks, StoreItemType.Tricks, false);
             StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, 10);
             ScrollSnap.StartIndex = 10;
             ScrollSnap.EndIndex = tricks.Count + 9;

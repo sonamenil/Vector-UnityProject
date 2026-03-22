@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Location;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace Nekki.Vector.Core.SpatialPartitioning
 {

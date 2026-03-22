@@ -1,5 +1,5 @@
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace UI
 {
@@ -13,22 +13,17 @@ namespace UI
 
 		public UnityEngine.UI.Button BuyCoinsButton;
 
-		public ChooseModeScreenView() : base()
-		{
-
-		}
-
 		public override void Init(ChooseModeScreen screen)
 		{
             BuyCoinsButton.gameObject.SetActive(false);
-            BackToLobbyButton.onClick.AddListener(new UnityEngine.Events.UnityAction(screen.BackToLobbyButton.PressedAction));
-			ClassicModeItemView.Button.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+            BackToLobbyButton.onClick.AddListener(new UnityAction(screen.BackToLobbyButton.PressedAction));
+			ClassicModeItemView.Button.onClick.AddListener(() =>
 			{
 				UserDataManager.RuntimeInfo.IsHunterMode = false;
 				UserDataManager.Instance.SetClassicMode();
 				Game.Instance.ScreenManager.Show<SelectLocationScreen>(true, false);
-			}));
-			HunterModeItemView.Button.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+			});
+			HunterModeItemView.Button.onClick.AddListener(() =>
 			{
 				if (isHunterModeAvailible())
 				{
@@ -40,12 +35,12 @@ namespace UI
 				{
 					Game.Instance.ScreenManager.Popup<HunterUnlockPopup>();
 				}
-			}));
-			BuyCoinsButton.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+			});
+			BuyCoinsButton.onClick.AddListener(() =>
 			{
 				Game.Instance.ScreenManager.Show<BuyCoinsScreen>(true, true);
 				SoundsManager.Instance.PlaySounds(SoundType.ui_click);
-			}));
+			});
         }
 
 		public override void PreShow(CommonPayloadData payload)

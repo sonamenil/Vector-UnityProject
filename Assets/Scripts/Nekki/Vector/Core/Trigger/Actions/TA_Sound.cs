@@ -1,4 +1,5 @@
 using System.Xml;
+using UnityEngine;
 
 namespace Nekki.Vector.Core.Trigger.Actions
 {
@@ -22,7 +23,7 @@ namespace Nekki.Vector.Core.Trigger.Actions
 		{
 			p_isRunNext = true;
 			var sounds = _SoundVar.ValueString.Split('|');
-			SoundsManager.Instance.PlaySounds(sounds[UnityEngine.Random.Range(0, sounds.Length - 1)]);
+			SoundsManager.Instance.PlaySounds(sounds[Random.Range(0, sounds.Length - 1)]);
 		}
 
 		public override TriggerAction Copy()
