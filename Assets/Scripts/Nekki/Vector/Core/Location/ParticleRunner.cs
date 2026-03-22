@@ -43,6 +43,8 @@ namespace Nekki.Vector.Core.Location
 			_CachedTransform.localScale *= Random.Range(0.5f, 1f);
 			var range = Random.Range(0, 360);
 			_CachedTransform.eulerAngles = new Vector3(range, range, 0);
+
+			Animator._spriteRenderer.color = Color.black;
 		}
 
 		public void PlayAnimation(ModelNode p_node)
@@ -96,7 +98,7 @@ namespace Nekki.Vector.Core.Location
 			}
 			base.Render();
 			_node.TimeStep(ControllerPhysics.Gravity);
-            ControllerCollisions.PushingNode(_node, BaseSets.Current.Quads, 0.55);
+            ControllerCollisions.PushingNode(_node, BaseSets.Current.Quads, 0.5);
 			MoveParticle();
             IsCollision();
 			return false;
@@ -122,6 +124,10 @@ namespace Nekki.Vector.Core.Location
 			IsEnabled = false;
 			_IsPlay = false;
 			_isRender = false;
+			
+			_CachedTransform.localScale *= Random.Range(0.5f, 1f);
+			var range = Random.Range(0, 360);
+			_CachedTransform.eulerAngles = new Vector3(range, range, 0);
 		}
 	}
 }

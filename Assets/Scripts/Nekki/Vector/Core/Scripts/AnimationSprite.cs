@@ -9,7 +9,7 @@ namespace Nekki.Vector.Core.Scripts
     {
         private List<Sprite> _frames;
 
-        private SpriteRenderer _spriteRenderer;
+        public SpriteRenderer _spriteRenderer;
 
         private int _totalFrames;
 
