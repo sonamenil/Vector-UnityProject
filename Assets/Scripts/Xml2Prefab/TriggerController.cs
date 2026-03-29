@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Xml2Prefab
@@ -11,16 +10,6 @@ namespace Xml2Prefab
         private static Sprite whiteSprite;
         
         SpriteRenderer  spriteRender;
-
-        public Action OnBecameVisibleEvent = delegate
-        {
-        };
-
-        public Action OnBecameInvisibleEvent = delegate
-        {
-        };
-
-        private bool _IsVisible;
 
         private void Awake()
         {
@@ -59,24 +48,6 @@ namespace Xml2Prefab
             color.a = a;
 
             spriteRender.color = color;
-        }
-
-        private void OnBecameVisible()
-        {
-            if (LevelMainController.current != null && LevelMainController.current.Location != null && !_IsVisible)
-            {
-                _IsVisible = true;
-                OnBecameVisibleEvent?.Invoke();
-            }
-        }
-
-        private void OnBecameInvisible()
-        {
-            if (LevelMainController.current != null && LevelMainController.current.Location != null && _IsVisible)
-            {
-                _IsVisible = false;
-                OnBecameInvisibleEvent?.Invoke();
-            }
         }
 
     }

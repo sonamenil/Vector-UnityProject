@@ -59,7 +59,12 @@ namespace Xml2Prefab
 			_choice = choice;
 			_sticky = s;
 
-            gameObject.AddComponent<PlatformController>().Container = this;
+			if (Game.Instance.SnailSett.ShowPlatforms)
+			{
+				var controller = new GameObject("Controller");
+				controller.transform.SetParent(transform, false);
+				controller.AddComponent<PlatformController>().Container = this;
+			}
         }
 
 		public void ChangeHW(float h, float w)

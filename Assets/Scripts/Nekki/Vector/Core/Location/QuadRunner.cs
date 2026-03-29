@@ -116,12 +116,6 @@ namespace Nekki.Vector.Core.Location
             return true;
         }
 
-        public override void InitRunner(Point point, bool serialize = false)
-        {
-            base.InitRunner(point, serialize);
-            _DefaultScale.Set(_WidthQuad, _HeightQuad);
-        }
-
         public override void Move(Point point)
         {
             base.Move(point);

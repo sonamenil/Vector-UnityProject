@@ -26,12 +26,12 @@ namespace Nekki.Vector.GUI.InputControllers
 		}
 		
 
-		private void Update()
-		{
-			HandleKeyboard();
-			
-			
-		}
+		// private void Update()
+		// {
+		// 	HandleKeyboard();
+		// 	
+		// 	
+		// }
 
 		private void HandleKeyboard()
 		{

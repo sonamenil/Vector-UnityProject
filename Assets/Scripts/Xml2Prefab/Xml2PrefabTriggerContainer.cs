@@ -45,7 +45,12 @@ namespace Xml2Prefab
 
 		public void CreateInnerController()
 		{
-            gameObject.AddComponent<TriggerController>().Container = this;
+			if (Game.Instance.SnailSett.ShowTriggers)
+			{
+				var controller = new GameObject("Controller");
+				controller.transform.SetParent(transform, false);
+				controller.AddComponent<TriggerController>().Container = this;
+			}
         }
 
 		public void ChangeHW(float h, float w)

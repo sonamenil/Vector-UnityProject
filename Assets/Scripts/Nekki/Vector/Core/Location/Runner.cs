@@ -30,7 +30,7 @@ namespace Nekki.Vector.Core.Location
 
         protected Vector3f _DefautPosition = new Vector3f();
 
-        protected Vector3f _DefaultScale = new Vector3f();
+        protected Vector3f _DefaultScale = new Vector3f(1, 1);
 
         protected Vector3f _DefaulRotation = new Vector3f();
 

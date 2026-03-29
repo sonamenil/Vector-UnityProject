@@ -1,20 +1,26 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TriggerColider : MonoBehaviour
 {
     private MeshFilter _meshFilter;
 
     private Mesh _mesh;
+    
+    public UnityEvent OnBecameVisibleAction = new UnityEvent();
 
-    public Action OnBecameVisibleAction;
-
-    public Action OnBecameUnvisibleAction;
+    public UnityEvent OnBecameUnvisibleAction  = new UnityEvent();
 
     private bool _isVisible;
-
+    
     public void Init(Rectangle rectangle)
     {
+        if (GetComponent<Renderer>())
+        {
+            return;
+        }
+        
         if (_meshFilter == null)
         {
             _meshFilter = gameObject.AddComponent<MeshFilter>();
@@ -44,5 +50,13 @@ public class TriggerColider : MonoBehaviour
     {
         _isVisible = false;
         OnBecameUnvisibleAction?.Invoke();
+    }
+
+    private void OnDestroy()
+    {
+        OnBecameVisibleAction.RemoveAllListeners();
+        OnBecameUnvisibleAction.RemoveAllListeners();
+        
+        
     }
 }

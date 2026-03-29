@@ -59,7 +59,12 @@ namespace Xml2Prefab
 			_h = h;
 			_choice = choice;
 
-			gameObject.AddComponent<AreaController>().Container = this;
+			if (Game.Instance.SnailSett.ShowAreas)
+			{
+				var controller = new GameObject("Controller");
+				controller.transform.SetParent(transform, false);
+				controller.AddComponent<AreaController>().Container = this;
+			}
 		}
 
 		public void ChangeHW(float h, float w)

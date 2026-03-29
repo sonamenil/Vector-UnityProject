@@ -38,7 +38,7 @@ public class TrickGO : MonoBehaviour
             //if (Xml2PrefabRoot.UseOnlyXML)
             {
                 UpdatePosition(w, h);
-                UpdateScale(w, h);
+                // UpdateScale(w, h);
             }
 
         }
@@ -46,10 +46,10 @@ public class TrickGO : MonoBehaviour
 
     public void UpdatePosition(float w, float h)
     {
-        var vector = new Vector3(w * 0.5f / w, -(h * -0.5f / h));
+        var vector = new Vector3(w * 0.5f, h * -0.5f);
         _animation.transform.localPosition = vector;
 
-        var vector2 = new Vector3(w * 0.5f / w, -((h * -0.5f + -23.28f) / h));
+        var vector2 = new Vector3(w * 0.5f, h * -0.5f + -23.28f);
         _trickIcon.transform.localPosition = vector2;
     }
 
