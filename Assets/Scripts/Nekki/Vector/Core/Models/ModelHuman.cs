@@ -275,6 +275,7 @@ namespace Nekki.Vector.Core.Models
                 StartPhysics();
                 if (IsBot)
                 {
+                    Death(GameEndType.GE_DEATH);
                     return;
                 }
                 LocationCamera.Current.Stop();
@@ -472,7 +473,7 @@ namespace Nekki.Vector.Core.Models
                 return;
             }
             _LiveTime--;
-            if (_LiveTime != 0)
+            if (_LiveTime > 0)
             {
                 return;
             }

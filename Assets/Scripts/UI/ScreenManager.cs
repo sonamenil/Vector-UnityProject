@@ -41,11 +41,16 @@ namespace UI
 
         public float Duration = 0.4f;
 
+        public UiRoot uiRoot;
+
         public ScreenManager()
         {
             //Used ChatGPT for this because what in the fuck is this method
             //God bless the poor soul who thought that this was the only way to do this
             //Sadly, I couldn't care less about rewriting UI code
+
+            uiRoot = Object.Instantiate(Resources.Load<UiRoot>("UIROOT"));
+            Object.DontDestroyOnLoad(uiRoot);
 
             _screens[typeof(LobbyScreen)] = InitAndCreateCacheRecord(new LobbyScreen(this), LoadScreenView<LobbyScreen, CommonPayloadData>());
             _screens[typeof(OptionsScreen)] = InitAndCreateCacheRecord(new OptionsScreen(this), LoadScreenView<OptionsScreen, CommonPayloadData>());
@@ -89,14 +94,12 @@ namespace UI
 
         private ScreenView<T, TPayload> LoadScreenView<T, TPayload>() where T : Screen
         {
-            var root = Object.FindAnyObjectByType<UiRoot>();
-            return LoadView<T, TPayload>(root.ScreensParent.transform);
+            return LoadView<T, TPayload>(uiRoot.ScreensParent.transform);
         }
 
         private ScreenView<T, TPayload> LoadPopupView<T, TPayload>() where T : Screen
         {
-            var root = Object.FindAnyObjectByType<UiRoot>();
-            return LoadView<T, TPayload>(root.PopupParent.transform);
+            return LoadView<T, TPayload>(uiRoot.PopupParent.transform);
         }
 
         private ScreenView<T, TPayload> LoadView<T, TPayload>(Transform parent) where T : Screen
@@ -107,17 +110,35 @@ namespace UI
             return obj.GetComponent<ScreenView<T, TPayload>>();
         }
 
-        public void Refresh()
+        public void Refresh(Action postRefresh = null, bool keepPopUp = false)
         {
-            CoroutineRunner.Instance.Run(RefreshCoroutine());
+            var popUp = _popupView;
+            if (_previousStack.Count > 0)
+                _previousStack.Peek().Item5?.Invoke();
+            
+            if (popUp != null && keepPopUp)
+            {
+                popUp.SetActive(true);
+                _popupView = popUp;
+            }
+            
+            if (postRefresh != null)
+            {
+                postRefresh();
+            }
         }
 
-        private IEnumerator RefreshCoroutine()
+        private IEnumerator RefreshCoroutine(Action postRefresh)
         {
             if (_previousStack.Count > 0)
                 _previousStack.Peek().Item5?.Invoke();
-
+            
             yield return null; 
+            
+            if (postRefresh != null)
+            {
+                postRefresh();
+            }
         }
 
         private void ReShow<T, TPayload>(TPayload payload, bool fade) where T : Screen
@@ -255,7 +276,7 @@ namespace UI
         public IEnumerator FadeInCoroutine(Action action = null)
         {
             var startTime = Time.realtimeSinceStartup;
-            var fadeInOut = Object.FindAnyObjectByType<UiRoot>().FadeInOUt;
+            var fadeInOut = uiRoot.FadeInOUt;
 
             fadeInOut.gameObject.SetActive(true);
             var color = fadeInOut.color;
@@ -279,7 +300,7 @@ namespace UI
         public IEnumerator FadeOutCoroutine(Action action = null)
         {
             var startTime = Time.realtimeSinceStartup;
-            var fadeInOut = Object.FindAnyObjectByType<UiRoot>().FadeInOUt;
+            var fadeInOut = uiRoot.FadeInOUt;
 
             var color = fadeInOut.color;
             color.a = 1;
@@ -300,7 +321,8 @@ namespace UI
         {
             var input = EventSystem.current.GetComponent<InputSystemUIInputModule>();
             BackButtonManager.Instance.playerActions.Disable();
-            input.enabled = false;
+            if (input != null)
+                input.enabled = false;
             if (fade)
             {
                 yield return FadeInCoroutine();
@@ -324,7 +346,8 @@ namespace UI
                 yield return FadeOutCoroutine();
             }
             BackButtonManager.Instance.playerActions.Enable();
-            input.enabled = true;
+            if (input != null)
+                input.enabled = true;
             yield return true;
         }
     }

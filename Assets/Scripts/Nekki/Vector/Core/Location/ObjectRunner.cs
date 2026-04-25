@@ -72,7 +72,7 @@ namespace Nekki.Vector.Core.Location
 
         public uint CreateChild(XmlNode mainNode, uint index, Dictionary<string, string> choices)
         {
-            uint num = index;
+            uint num = 0;
             if (mainNode["Properties"] != null && mainNode["Properties"]["Static"] != null && mainNode["Properties"]["Static"]["Selection"] != null)
             {
                 var selectionNode = mainNode["Properties"]["Static"]["Selection"];

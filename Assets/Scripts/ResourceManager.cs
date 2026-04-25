@@ -19,19 +19,22 @@ public static class ResourceManager
 
     public static Sprite LoadSpriteFromExternal(string path, Vector2 pivot, float ppu)
     {
-        if (textureCache.TryGetValue(path, out var cached)) return cached;
+        if (textureCache.TryGetValue(path, out var cached))
+        {
+            return cached;
+        }
         if (!File.Exists(path)) return null;
 
         byte[] bytes = File.ReadAllBytes(path);
 
-        var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+        var tex = new Texture2D(1, 1, TextureFormat.RGBA32, false);
         tex.LoadImage(bytes, markNonReadable: false);
         tex.wrapMode = TextureWrapMode.Clamp; 
-        tex.filterMode = FilterMode.Bilinear;
+        tex.filterMode = FilterMode.Trilinear;
         tex.Apply(false, false);
 
         var rect = new Rect(0, 0, tex.width, tex.height);
-        var sprite = Sprite.Create(tex, rect, pivot, ppu, 0, SpriteMeshType.FullRect); // try FullRect
+        var sprite = Sprite.Create(tex, rect, pivot, ppu, 0, SpriteMeshType.FullRect);
         textureCache[path] = sprite;
         return sprite;
     }

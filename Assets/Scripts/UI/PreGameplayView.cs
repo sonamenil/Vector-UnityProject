@@ -77,9 +77,12 @@ namespace UI
             var storyInfo = UserDataManager.Instance.CurrentBalanceLocation.CurrentStoryModeStoryInfos[UserDataManager.RuntimeInfo.CurrentStory];
             CurrentTrackInfo.Current.LocationFile = storyInfo.Name.Replace("_HUNTER", "") + ".xml";
 
-            SceneManager.LoadScene("Scenes/Level", LoadSceneMode.Additive);
+            yield return SceneManager.LoadSceneAsync("Scenes/Level");
 
-            yield return null;
+            while (LevelMainController.current == null)
+            {
+                yield return null;
+            }
 
             LevelMainController.current.pauseRender = true;
 
@@ -105,7 +108,6 @@ namespace UI
             yield return null;
 
             LevelMainController.current.pauseRender = false;
-            yield break;
         }
 
 

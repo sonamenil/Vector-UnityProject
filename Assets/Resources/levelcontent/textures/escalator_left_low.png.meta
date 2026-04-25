@@ -3,14 +3,14 @@ guid: 018ed463ee05aac42a417cd27165ca99
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: escalator_left_low
+      213: -9044735085230509569
+    second: escalator_left_low_0
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
-    sRGBTexture: 0
+    sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -23,19 +23,21 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
   seamlessCubemap: 0
-  textureFormat: 4
+  textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 2
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 9
   spritePivot: {x: 0, y: 1}
   spritePixelsToUnits: 1
@@ -54,7 +56,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -64,33 +66,24 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 0
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -100,84 +93,50 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 47
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
-    outline:
-    - - {x: -137.5, y: -69.42446}
-      - {x: -137.5, y: 93.57554}
-      - {x: -133.5, y: -77.42446}
-    - - {x: -135.5, y: 93.57554}
-      - {x: -133.5, y: -77.42446}
-      - {x: -137.5, y: 93.57554}
-    - - {x: -14.5, y: 34.57554}
-      - {x: -133.5, y: -77.42446}
-      - {x: -135.5, y: 93.57554}
-    - - {x: -117.5, y: -93.42446}
-      - {x: -133.5, y: -77.42446}
-      - {x: -14.5, y: 34.57554}
-    - - {x: 98.5, y: -93.42446}
-      - {x: -117.5, y: -93.42446}
-      - {x: -14.5, y: 34.57554}
-    - - {x: 92.5, y: 33.57554}
-      - {x: 98.5, y: -93.42446}
-      - {x: -14.5, y: 34.57554}
-    - - {x: 116.5, y: 22.57554}
-      - {x: 98.5, y: -93.42446}
-      - {x: 92.5, y: 33.57554}
-    - - {x: 111.5, y: -86.42446}
-      - {x: 98.5, y: -93.42446}
-      - {x: 116.5, y: 22.57554}
-    - - {x: 129.5, y: -71.42446}
-      - {x: 111.5, y: -86.42446}
-      - {x: 116.5, y: 22.57554}
-    - - {x: 136.5, y: -2.424461}
-      - {x: 129.5, y: -71.42446}
-      - {x: 116.5, y: 22.57554}
-    - - {x: 137.5, y: -52.42446}
-      - {x: 129.5, y: -71.42446}
-      - {x: 136.5, y: -2.424461}
-    - - {x: 137.5, y: -7.424461}
-      - {x: 137.5, y: -52.42446}
-      - {x: 136.5, y: -2.424461}
-    physicsShape:
-    - - {x: 137.5, y: -53.42446}
-      - {x: 137.5, y: -10.42446}
-      - {x: 129.5, y: 10.57554}
-      - {x: 100.5, y: 30.57554}
-      - {x: 90.5, y: 32.57554}
-      - {x: -18.5, y: 33.57554}
-      - {x: -22.5, y: 34.57554}
-      - {x: -65.5, y: 56.57554}
-      - {x: -134.5, y: 91.57554}
-      - {x: -137.5, y: 91.57554}
-      - {x: -137.5, y: 75.57554}
-      - {x: -58.5, y: 36.57554}
-      - {x: -56.5, y: 33.57554}
-      - {x: -22.5, y: 17.57554}
-      - {x: 82.5, y: 17.57554}
-      - {x: 106.5, y: 7.575539}
-      - {x: 123.5, y: -21.42446}
-      - {x: 114.5, y: -60.42446}
-      - {x: 92.5, y: -76.42446}
-      - {x: 78.5, y: -79.42446}
-      - {x: 91.5, y: -38.42446}
-      - {x: 100.5, y: -10.42446}
-      - {x: 101.5, y: -2.424461}
-      - {x: 96.5, y: 4.575539}
-      - {x: 90.5, y: 6.575539}
-      - {x: -22.5, y: 7.575539}
-      - {x: -35.5, y: 10.57554}
-      - {x: -101.5, y: 43.57554}
-      - {x: -137.5, y: 60.57554}
-      - {x: -137.5, y: -61.42446}
-      - {x: -74.5, y: -93.42446}
-      - {x: 88.5, y: -93.42446}
-      - {x: 102.5, y: -90.42446}
-      - {x: 113.5, y: -84.42446}
-      - {x: 131.5, y: -64.42446}
+    sprites:
+    - serializedVersion: 2
+      name: escalator_left_low_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 275
+        height: 186
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff1b25d6c55aa7280800000000000000
+      internalID: -9044735085230509569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
@@ -186,9 +145,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      escalator_left_low_0: -9044735085230509569
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -222,7 +222,8 @@ namespace Nekki.Vector.Core.Animation
                 string[] sides = node.Attributes["Sides"].Value.Split('|');
                 foreach (string side in sides)
                 {
-                    Sides.Add(int.Parse(side));
+                    if (!string.IsNullOrEmpty(side))
+                        Sides.Add(int.Parse(side));
                 }
             }
             if (node.Attributes["SlopeH"] != null)
@@ -230,7 +231,8 @@ namespace Nekki.Vector.Core.Animation
                 string[] array2 = node.Attributes["SlopeH"].Value.Split('|');
                 foreach (string s2 in array2)
                 {
-                    _slopeH.Add(int.Parse(s2));
+                    if (!string.IsNullOrEmpty(s2))
+                        _slopeH.Add(int.Parse(s2));
                 }
             }
             if (node.Attributes["SlopeV"] != null)
@@ -238,7 +240,8 @@ namespace Nekki.Vector.Core.Animation
                 string[] array3 = node.Attributes["SlopeV"].Value.Split('|');
                 foreach (string s3 in array3)
                 {
-                    _slopeV.Add(int.Parse(s3));
+                    if (!string.IsNullOrEmpty(s3))
+                        _slopeV.Add(int.Parse(s3));
                 }
             }
             if (node.Attributes["NodesWI"] != null)

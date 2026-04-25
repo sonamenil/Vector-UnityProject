@@ -63,7 +63,7 @@ namespace Nekki.Vector.Core.Location
         protected override void GenerateObject()
         {
             base.GenerateObject();
-            _UnityObject.AddComponent<Xml2PrefabTrapezoidContainer>().Init(_className, _type, _x, _y, _width, _height, _height1, _sticky, TransformationDataRaw, Choice); ;
+            //_UnityObject.AddComponent<Xml2PrefabTrapezoidContainer>().Init(_className, _type, _x, _y, _width, _height, _height1, _sticky, TransformationDataRaw, Choice); ;
         }
 
         public override bool Hit(double x, double y, bool equality)

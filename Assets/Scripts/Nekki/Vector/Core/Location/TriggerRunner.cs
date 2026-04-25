@@ -3,6 +3,7 @@ using System.Xml;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Trigger;
 using Nekki.Vector.Core.Trigger.Events;
+using UnityEngine;
 using Xml2Prefab;
 
 namespace Nekki.Vector.Core.Location
@@ -144,6 +145,7 @@ namespace Nekki.Vector.Core.Location
         {
             if (_colider == null)
             {
+                CreateObject();
                 var controller = UnityObject.AddComponent<TriggerColider>();
                 controller.Init(rectangle);
                 controller.OnBecameVisibleAction.AddListener(OnBecameVisible);

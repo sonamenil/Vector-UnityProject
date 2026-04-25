@@ -3,14 +3,14 @@ guid: 762e0f3f0a4bf634f9d1e09f1ed872e4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: passage_gallery
+      213: -5147599639533632685
+    second: passage_gallery_0
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
-    sRGBTexture: 0
+    sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -23,19 +23,21 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
   seamlessCubemap: 0
-  textureFormat: 4
+  textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 2
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 9
   spritePivot: {x: 0, y: 1}
   spritePixelsToUnits: 1
@@ -54,7 +56,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -64,33 +66,24 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 0
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -100,83 +93,50 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 47
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
-    outline:
-    - - {x: -410, y: -165}
-      - {x: -410, y: 165}
-      - {x: 410, y: -165}
-    - - {x: 410, y: 165}
-      - {x: 410, y: -165}
-      - {x: -410, y: 165}
-    physicsShape:
-    - - {x: -410, y: 165}
-      - {x: -410, y: -165}
-      - {x: 410, y: -165}
-      - {x: 410, y: 165}
-      - {x: -349, y: 84}
-      - {x: -347, y: 84}
-      - {x: -346, y: 83}
-      - {x: -258, y: 83}
-      - {x: -258, y: -131}
-      - {x: -346, y: -131}
-      - {x: -347, y: -132}
-      - {x: -349, y: -132}
-      - {x: -202, y: 85}
-      - {x: -111, y: 85}
-      - {x: -111, y: -131}
-      - {x: -202, y: -131}
-      - {x: -50, y: -61}
-      - {x: -49, y: -52}
-      - {x: -51, y: -52}
-      - {x: -50, y: -20}
-      - {x: -50, y: 84}
-      - {x: 40, y: 84}
-      - {x: 40, y: -43}
-      - {x: 41, y: -64}
-      - {x: 40, y: -65}
-      - {x: 40, y: -131}
-      - {x: -50, y: -131}
-      - {x: 105, y: 85}
-      - {x: 196, y: 85}
-      - {x: 196, y: -131}
-      - {x: 105, y: -131}
-      - {x: 257, y: -61}
-      - {x: 258, y: -52}
-      - {x: 256, y: -52}
-      - {x: 257, y: -20}
-      - {x: 257, y: 84}
-      - {x: 347, y: 84}
-      - {x: 347, y: -43}
-      - {x: 348, y: -64}
-      - {x: 347, y: -65}
-      - {x: 347, y: -131}
-      - {x: 257, y: -131}
-      - {x: -349, y: 136}
-      - {x: -258, y: 136}
-      - {x: -258, y: 100}
-      - {x: -335, y: 100}
-      - {x: -336, y: 99}
-      - {x: -349, y: 99}
-      - {x: -202, y: 136}
-      - {x: -111, y: 136}
-      - {x: -111, y: 99}
-      - {x: -202, y: 99}
-      - {x: -50, y: 136}
-      - {x: 40, y: 136}
-      - {x: 40, y: 99}
-      - {x: -19, y: 100}
-      - {x: 105, y: 136}
-      - {x: 196, y: 136}
-      - {x: 196, y: 99}
-      - {x: 105, y: 99}
-      - {x: 257, y: 136}
-      - {x: 347, y: 136}
-      - {x: 347, y: 99}
-      - {x: 288, y: 100}
+    sprites:
+    - serializedVersion: 2
+      name: passage_gallery_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 820
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3534ba7a66d0098b0800000000000000
+      internalID: -5147599639533632685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
@@ -185,9 +145,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      passage_gallery_0: -5147599639533632685
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

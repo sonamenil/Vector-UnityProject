@@ -55,9 +55,9 @@ namespace Nekki.Vector.Core.Transformation
                     return;
                 }
                 var list = LevelMainController.current.Location.transformManager.Find(_Name);
-                foreach (var t in list)
+                for (int i = 0; i < list.Count; i++)
                 {
-                    t.IsPaused = _IsPaused;
+                    list[i]._IsPaused = _IsPaused;
                 }
                 list.Clear();
             }

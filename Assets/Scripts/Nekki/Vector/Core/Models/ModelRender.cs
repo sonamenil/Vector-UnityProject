@@ -130,13 +130,13 @@ namespace Nekki.Vector.Core.Models
 		{
 		}
 
-		public Transform GetCapsulTransform(string name)
+		public Capsule GetCapsulTransform(string name)
 		{
 			foreach (var c in _Capsules)
 			{
 				if (c.Name == name)
 				{
-					return c.middleRect;
+					return c;
 				}
 			}
 			return null;

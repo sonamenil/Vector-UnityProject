@@ -75,6 +75,8 @@ namespace Nekki.Vector.Core.Location
         {
             base.InitRunner(point, serialize);
             UpdateUnityObjectPosition(Position);
+
+            _DefautPosition.Set(Position);
         }
 
         protected override void SerializeData()
@@ -120,6 +122,7 @@ namespace Nekki.Vector.Core.Location
         public override void Reset()
         {
             base.Reset();
+            UpdateUnityObjectPosition(Position);
             Current = null;
             _isActive = Game.Instance.Snail ? true : Game.IsTrickBought(_itemName);
             _content.Init(_itemName, _isActive, _W, _H);

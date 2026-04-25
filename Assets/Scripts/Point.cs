@@ -72,8 +72,8 @@ public class Point
 
     public void Round(int p_pow)
     {
-        X = MathUtils.Round(X, p_pow);
-        Y = MathUtils.Round(Y, p_pow);
+        _X = MathUtils.Round(_X, p_pow);
+        _Y = MathUtils.Round(_Y, p_pow);
     }
 
     public void IRound()

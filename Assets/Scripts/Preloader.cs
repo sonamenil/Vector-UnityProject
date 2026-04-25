@@ -27,12 +27,7 @@ public class Preloader : MonoBehaviour
     private static extern IntPtr FindWindow(string className, string windowName);
 
     private void Awake()
-    {
-        CultureInfo invariant = CultureInfo.InvariantCulture;
-
-        Thread.CurrentThread.CurrentCulture = invariant;
-        Thread.CurrentThread.CurrentUICulture = invariant;
-                    
+    {                
         string[] args = Environment.GetCommandLineArgs();
         int levelArg = Array.IndexOf(args, "-level");
         if (levelArg >= 0 && levelArg < args.Length - 1)
@@ -82,12 +77,12 @@ public class Preloader : MonoBehaviour
             }
         }
         //Game.Instance.SnailSett.HunterMode = false;
-        // Game.Instance.Snail = true;
-        // Game.Instance.SnailSett.SnailLevel = "TECHPARK_BONUS_05";
-        // Game.Instance.SnailSett.ShowPlatforms = true;
+        //Game.Instance.Snail = true;
+        //Game.Instance.SnailSett.SnailLevel = "TECHPARK_BONUS_06";
+        //Game.Instance.SnailSett.ShowPlatforms = true;
         // Game.Instance.SnailSett.ShowAreas = true;
         // Game.Instance.SnailSett.ShowTriggers = true;
-        // Game.Instance.SnailSett.ShowDetectors = true;
+        //Game.Instance.SnailSett.ShowDetectors = true;
 
         //Game.Instance.SnailSett.UsePrefab = true;
 
@@ -132,7 +127,15 @@ public class Preloader : MonoBehaviour
     {
         yield
         return new WaitForEndOfFrame();
-        Application.targetFrameRate = 60;
+        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = -1;
+        }
+        else
+        {
+            Application.targetFrameRate = 60;
+        }
         _progressBar.SetValue(0.10f);
         yield
         return null;

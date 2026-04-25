@@ -4,6 +4,7 @@ using System.Xml;
 using Core._Common;
 using Nekki.Vector.Core.Detector;
 using Nekki.Vector.Core.Node;
+using Nekki.Vector.Core.Scripts.Geometry;
 using UnityEngine;
 
 namespace Nekki.Vector.Core.Models
@@ -30,7 +31,7 @@ namespace Nekki.Vector.Core.Models
 
         private List<int[]> _BothNodeList;
 
-        private Transform _botIconPosition;
+        private Capsule _botIconPosition;
 
         public Model Parent
         {
@@ -364,11 +365,12 @@ namespace Nekki.Vector.Core.Models
             modelRender.Name = "[Skins] " + file;
             modelRender.Layer = _Container;
             ModelRender modelRender2 = modelRender;
-            XmlNode xmlNode = XmlUtils.OpenXMLDocument(VectorPaths.Models, file)["Scene"];
+            XmlNode xmlNode = XmlUtils.OpenXMLDocument(VectorPaths.Models, file, XmlUtils.OpenXmlType.Normal, true, false);
             if (xmlNode == null)
             {
-                throw new Exception();
+                return;
             }
+            xmlNode = xmlNode["Scene"];
             ParseNodes(xmlNode["Nodes"], modelRender2);
             ParseEdges(xmlNode["Edges"], modelRender2);
             ParseCapsules(xmlNode["Figures"], modelRender2);
@@ -699,12 +701,15 @@ namespace Nekki.Vector.Core.Models
             {
                 foreach (var render in _Renders)
                 {
-                    var capsule = render.GetCapsulTransform("EChest");
-                    _botIconPosition = capsule;
+                    _botIconPosition = render.GetCapsulTransform("EChest");
                 }
             }
-            if (_botIconPosition != null)
-                return _botIconPosition.position;
+            else 
+            {
+                return _botIconPosition.middleRect;
+
+            }
+
             return Vector2.zero;
         }
     }

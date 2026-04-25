@@ -2,6 +2,7 @@ using Nekki.Vector.Core.Controllers;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Trigger.Actions;
 using Nekki.Vector.GUI.InputControllers;
+using System.ComponentModel;
 using UI;
 using UnityEngine;
 using Key = UnityEngine.InputSystem.Key;
@@ -101,6 +102,11 @@ public class LevelSceneController : MonoBehaviour
         LevelMainController.Init(this);
         _botIcon.Init(LevelMainController.current.Location.GetAllBotModels());
         _canRender = true;
+
+        if (Game.Instance.Snail)
+        {
+            new GameObject("[QuadsRenderer]").AddComponent<QuadsRenderer>();
+        }
     }
 
     private void FixedUpdate()

@@ -3,14 +3,14 @@ guid: 7d6fccf200151394ca82c8954dd0083f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: vent_ceiling_tile
+      213: -2210141541327290579
+    second: vent_ceiling_tile_0
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
-    sRGBTexture: 0
+    sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -23,19 +23,21 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
   seamlessCubemap: 0
-  textureFormat: 4
+  textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 2
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 9
   spritePivot: {x: 0, y: 1}
   spritePixelsToUnits: 1
@@ -54,7 +56,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -64,33 +66,24 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 0
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -100,148 +93,50 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 47
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
-    outline:
-    - - {x: -153, y: -126.6464}
-      - {x: -153, y: 126.3536}
-      - {x: 153, y: -126.6464}
-    - - {x: 153, y: 126.3536}
-      - {x: 153, y: -126.6464}
-      - {x: -153, y: 126.3536}
-    physicsShape:
-    - - {x: -153, y: 126.3536}
-      - {x: -153, y: 25.35355}
-      - {x: -122, y: 24.35355}
-      - {x: 153, y: 24.35355}
-      - {x: 153, y: 126.3536}
-      - {x: -137, y: 42.35355}
-      - {x: -138, y: 63.35355}
-      - {x: -137, y: 62.35355}
-      - {x: -98, y: 62.35355}
-      - {x: -92, y: 63.35355}
-      - {x: -89, y: 60.35355}
-      - {x: -88, y: 60.35355}
-      - {x: -69, y: 40.35355}
-      - {x: -67, y: 40.35355}
-      - {x: -72, y: 41.35355}
-      - {x: -73, y: 42.35355}
-      - {x: -40, y: 63.35355}
-      - {x: -39, y: 62.35355}
-      - {x: 0, y: 62.35355}
-      - {x: 6, y: 63.35355}
-      - {x: 14, y: 55.35355}
-      - {x: 15, y: 55.35355}
-      - {x: 30, y: 40.35355}
-      - {x: -39, y: 41.35355}
-      - {x: 63, y: 42.35355}
-      - {x: 62, y: 63.35355}
-      - {x: 63, y: 62.35355}
-      - {x: 102, y: 62.35355}
-      - {x: 108, y: 63.35355}
-      - {x: 111, y: 60.35355}
-      - {x: 112, y: 60.35355}
-      - {x: 131, y: 40.35355}
-      - {x: 133, y: 40.35355}
-      - {x: 128, y: 41.35355}
-      - {x: 127, y: 42.35355}
-      - {x: -76, y: 62.35355}
-      - {x: -78, y: 63.35355}
-      - {x: -60, y: 62.35355}
-      - {x: -59, y: 45.35355}
-      - {x: -59, y: 46.35355}
-      - {x: 25, y: 59.35355}
-      - {x: 20, y: 63.35355}
-      - {x: 38, y: 62.35355}
-      - {x: 39, y: 45.35355}
-      - {x: 39, y: 46.35355}
-      - {x: 124, y: 62.35355}
-      - {x: 122, y: 63.35355}
-      - {x: 140, y: 62.35355}
-      - {x: 141, y: 45.35355}
-      - {x: 141, y: 46.35355}
-      - {x: -95, y: 104.3536}
-      - {x: -84, y: 93.35355}
-      - {x: -65, y: 75.35355}
-      - {x: -64, y: 75.35355}
-      - {x: -62, y: 74.35355}
-      - {x: -63, y: 75.35355}
-      - {x: 8, y: 75.35355}
-      - {x: 4, y: 79.35355}
-      - {x: 3, y: 104.3536}
-      - {x: 5, y: 102.3536}
-      - {x: 25, y: 83.35355}
-      - {x: 26, y: 83.35355}
-      - {x: 36, y: 74.35355}
-      - {x: 35, y: 75.35355}
-      - {x: 105, y: 104.3536}
-      - {x: 116, y: 93.35355}
-      - {x: 135, y: 75.35355}
-      - {x: 136, y: 75.35355}
-      - {x: 138, y: 74.35355}
-      - {x: 137, y: 75.35355}
-      - {x: -138, y: 98.35355}
-      - {x: -124, y: 84.35355}
-      - {x: -113, y: 74.35355}
-      - {x: -137, y: 75.35355}
-      - {x: -40, y: 98.35355}
-      - {x: -34, y: 92.35355}
-      - {x: -33, y: 92.35355}
-      - {x: -14, y: 73.35355}
-      - {x: -13, y: 74.35355}
-      - {x: -39, y: 75.35355}
-      - {x: 62, y: 98.35355}
-      - {x: 76, y: 84.35355}
-      - {x: 87, y: 74.35355}
-      - {x: 63, y: 75.35355}
-      - {x: -137, y: 108.3536}
-      - {x: -138, y: 107.3536}
-      - {x: -109, y: 77.35355}
-      - {x: -107, y: 77.35355}
-      - {x: -106, y: 78.35355}
-      - {x: 63, y: 108.3536}
-      - {x: 62, y: 107.3536}
-      - {x: 73, y: 95.35355}
-      - {x: 94, y: 75.35355}
-      - {x: 94, y: 78.35355}
-      - {x: -39, y: 109.3536}
-      - {x: -40, y: 107.3536}
-      - {x: -27, y: 94.35355}
-      - {x: -8, y: 77.35355}
-      - {x: -7, y: 79.35355}
-      - {x: -63, y: 84.35355}
-      - {x: -84, y: 104.3536}
-      - {x: -89, y: 108.3536}
-      - {x: -60, y: 107.3536}
-      - {x: -59, y: 80.35355}
-      - {x: -59, y: 81.35355}
-      - {x: 26, y: 93.35355}
-      - {x: 10, y: 108.3536}
-      - {x: 38, y: 107.3536}
-      - {x: 39, y: 80.35355}
-      - {x: 39, y: 81.35355}
-      - {x: 137, y: 84.35355}
-      - {x: 116, y: 104.3536}
-      - {x: 111, y: 108.3536}
-      - {x: 140, y: 107.3536}
-      - {x: 141, y: 80.35355}
-      - {x: 141, y: 81.35355}
-      - {x: -125, y: 108.3536}
-      - {x: -107, y: 107.3536}
-      - {x: -106, y: 90.35355}
-      - {x: -106, y: 91.35355}
-      - {x: -15, y: 97.35355}
-      - {x: -27, y: 108.3536}
-      - {x: -9, y: 107.3536}
-      - {x: -8, y: 90.35355}
-      - {x: -8, y: 91.35355}
-      - {x: 75, y: 108.3536}
-      - {x: 93, y: 107.3536}
-      - {x: 94, y: 90.35355}
-      - {x: 94, y: 91.35355}
+    sprites:
+    - serializedVersion: 2
+      name: vent_ceiling_tile_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3
+        width: 306
+        height: 252
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2f3add5afff351e0800000000000000
+      internalID: -2210141541327290579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
@@ -250,9 +145,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      vent_ceiling_tile_0: -2210141541327290579
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -22,7 +22,7 @@ namespace Nekki.Vector.Core.Location
         {
             if (mainNode == null)
             {
-                return Index;
+                return 0;
             }
             uint num = 0;
             for (int i = 0; i < mainNode.ChildNodes.Count; i++)
@@ -46,12 +46,15 @@ namespace Nekki.Vector.Core.Location
                 switch (node.Name)
                 {
                     case "Object":
-                        num += (_Parent as ObjectRunner).CreateChild(node, num + Index, choices) + 1;
+                        num += (_Parent as ObjectRunner).CreateChild(node, (num + Index) - 1, choices);
                         continue;
                     case "Image":
                         runner = CreateVisual(node);
                         if (runner != null)
+                        {
                             _Visuals.Add((VisualRunner)runner);
+                            num++;
+                        }
                         break;
                     case "Trigger":
                         runner = CreateTrigger(node);
@@ -96,18 +99,23 @@ namespace Nekki.Vector.Core.Location
                     case "Animation":
                         runner = CreateAnimation(node);
                         if (runner != null)
+                        {
                             _Animations.Add((AnimationRunner)runner);
+                            num++;
+                        }
                         break;
                     case "Particle":
                         runner = CreateParticle(node);
                         if (runner != null)
+                        {
                             _Particles.Add((ParticleRunner)runner);
+                            num++;
+                        }
                         break;
                 }
 
                 if (runner != null)
                 {
-                    num++;
                     runner.SetVariant(choice);
                     _runners.Add(runner);
                     runner.Generate();

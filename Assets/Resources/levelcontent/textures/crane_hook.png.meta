@@ -3,14 +3,14 @@ guid: aac089c4e6a1a17428b79d20ab85d4fe
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: crane_hook
+      213: -8440206629968168887
+    second: crane_hook_0
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
-    sRGBTexture: 0
+    sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -23,19 +23,21 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
   seamlessCubemap: 0
-  textureFormat: 4
+  textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 2
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 9
   spritePivot: {x: 0, y: 1}
   spritePixelsToUnits: 1
@@ -54,7 +56,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -64,33 +66,24 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 0
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -100,60 +93,50 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 47
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
-    outline:
-    - - {x: -32, y: -234.5}
-      - {x: -32, y: 298.5}
-      - {x: -30, y: -250.5}
-    - - {x: 32, y: 298.5}
-      - {x: -30, y: -250.5}
-      - {x: -32, y: 298.5}
-    - - {x: -18, y: -298.5}
-      - {x: -30, y: -250.5}
-      - {x: 32, y: 298.5}
-    - - {x: 28, y: -298.5}
-      - {x: -18, y: -298.5}
-      - {x: 32, y: 298.5}
-    - - {x: 32, y: -296.5}
-      - {x: 28, y: -298.5}
-      - {x: 32, y: 298.5}
-    physicsShape:
-    - - {x: 19, y: -247.5}
-      - {x: 28, y: -225.5}
-      - {x: 32, y: -206.5}
-      - {x: 32, y: -162.5}
-      - {x: 30, y: -146.5}
-      - {x: 31, y: -82.5}
-      - {x: 29, y: 97.5}
-      - {x: 27, y: 99.5}
-      - {x: 24, y: 98.5}
-      - {x: 22, y: -82.5}
-      - {x: 21, y: -170.5}
-      - {x: 16, y: -166.5}
-      - {x: -16, y: -165.5}
-      - {x: -24, y: -175.5}
-      - {x: -25, y: -180.5}
-      - {x: -25, y: 103.5}
-      - {x: -27, y: 105.5}
-      - {x: -30, y: 104.5}
-      - {x: -31, y: -46.5}
-      - {x: -31, y: -186.5}
-      - {x: -32, y: -187.5}
-      - {x: -32, y: -204.5}
-      - {x: -23, y: -246.5}
-      - {x: -3, y: -265.5}
-      - {x: -18, y: -264.5}
-      - {x: -26, y: -266.5}
-      - {x: -14, y: -298.5}
-      - {x: 9, y: -298.5}
-      - {x: 14, y: -297.5}
-      - {x: 21, y: -289.5}
-      - {x: 25, y: -280.5}
-      - {x: 26, y: -269.5}
+    sprites:
+    - serializedVersion: 2
+      name: crane_hook_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 597
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 948b9d5c9cc5eda80800000000000000
+      internalID: -8440206629968168887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
@@ -162,9 +145,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      crane_hook_0: -8440206629968168887
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

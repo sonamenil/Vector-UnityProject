@@ -100,19 +100,28 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
         _scrollRect = GetComponent<ScrollRect>();
         _content = _scrollRect.content;
         _childCount = _content.childCount;
-        _scrollWidth = ((RectTransform)_scrollRect.transform).rect.width;
+        var viewport = _scrollRect.viewport != null
+            ? _scrollRect.viewport
+            : (RectTransform)_scrollRect.transform;
+
+        _scrollWidth = viewport.rect.width;
         _contentDeltaWidth = _content.sizeDelta.x;
         _contentWidth = (_content.transform.GetChild(0).transform as RectTransform).rect.width;
         _spacing = Math.Abs(_content.GetComponent<HorizontalLayoutGroup>().spacing);
         _content.ForceUpdateRectTransforms();
     }
 
+    [ContextMenu("Recalculate")]
     public void Recalculate()
     {
         _scrollRect = GetComponent<ScrollRect>();
         _content = _scrollRect.content;
         _childCount = _content.childCount;
-        _scrollWidth = ((RectTransform)_scrollRect.transform).rect.width;
+        var viewport = _scrollRect.viewport != null
+            ? _scrollRect.viewport
+            : (RectTransform)_scrollRect.transform;
+
+        _scrollWidth = viewport.rect.width;
         _contentDeltaWidth = _content.sizeDelta.x;
         _contentWidth = (_content.transform.GetChild(0).transform as RectTransform).rect.width;
         _spacing = Math.Abs(_content.GetComponent<HorizontalLayoutGroup>().spacing);
@@ -135,11 +144,6 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
     private int GetIndex(float pos)
     {
         return Mathf.RoundToInt(pos / (_contentWidth + _spacing));
-    }
-
-    private float GetCenterPos()
-    {
-        return _contentDeltaWidth * _scrollRect.horizontalNormalizedPosition + _scrollWidth * 0.5f - _contentWidth * 0.5f;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -224,25 +228,61 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
         Snap(index, _duration, instant);
     }
 
+    private float GetScrollableWidth()
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_content);
+
+        var viewport = _scrollRect.viewport != null
+            ? _scrollRect.viewport
+            : (RectTransform)_scrollRect.transform;
+
+        return Mathf.Max(0f, _content.rect.width - viewport.rect.width);
+    }
+
+    private float GetCenterPos()
+    {
+        var viewport = _scrollRect.viewport != null
+            ? _scrollRect.viewport
+            : (RectTransform)_scrollRect.transform;
+
+        float viewportWidth = viewport.rect.width;
+        float scrollableWidth = GetScrollableWidth();
+
+        return scrollableWidth * _scrollRect.horizontalNormalizedPosition
+               + viewportWidth * 0.5f
+               - _contentWidth * 0.5f;
+    }
+
     private void Snap(int index, float duration, bool instant)
     {
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_content);
 
-        float val = ((index + 0.5f) * (_contentWidth + _spacing) - _scrollWidth * 0.5f - _spacing * 0.5f) / _contentDeltaWidth;
+        var viewport = _scrollRect.viewport != null
+            ? _scrollRect.viewport
+            : (RectTransform)_scrollRect.transform;
+
+        float viewportWidth = viewport.rect.width;
+        float scrollableWidth = Mathf.Max(0f, _content.rect.width - viewportWidth);
+
+        index = Mathf.Clamp(index, StartIndex, EndIndex);
+
+        float val = ((index + 0.5f) * (_contentWidth + _spacing)
+                    - viewportWidth * 0.5f
+                    - _spacing * 0.5f);
+
+        val = scrollableWidth <= 0f ? 0f : Mathf.Clamp01(val / scrollableWidth);
 
         if (instant)
         {
             _scrollRect.horizontalNormalizedPosition = val;
             CurrentIndex = index;
-            //SnapEvent?.Invoke(index);
             return;
         }
 
         _mainTweener?.Kill();
         _mainTweener = TweenToNormalized(val, duration);
-
-
     }
-    
+
     [ContextMenu("Disable")]
     public void Disable()
     {

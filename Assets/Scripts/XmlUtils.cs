@@ -21,56 +21,56 @@ public static class XmlUtils
 
     public static int ParseInt(this XmlAttribute attr, int defVal = 0)
     {
-        if (attr == null)
+        if (attr == null || !int.TryParse(attr.Value, out int result))
         {
             return defVal;
         }
-        return int.Parse(attr.Value);
+        return result;
     }
 
     public static long ParseLong(XmlAttribute attr, long defVal = 0L)
     {
-        if (attr == null)
+        if (attr == null || !long.TryParse(attr.Value, out long result))
         {
             return defVal;
         }
-        return long.Parse(attr.Value);
+        return result;
     }
 
     public static uint ParseUint(XmlAttribute attr, uint defVal = 0u)
     {
-        if (attr == null)
+        if (attr == null || !uint.TryParse(attr.Value, out uint result))
         {
             return defVal;
         }
-        return uint.Parse(attr.Value);
+        return result;
     }
 
     public static float ParseFloat(this XmlAttribute attr, float defVal = 0f)
     {
-        if (attr == null)
+        if (attr == null || !float.TryParse(attr.Value, out float result))
         {
             return defVal;
         }
-        return float.Parse(attr.Value);
+        return result;
     }
 
     public static double ParseDouble(this XmlAttribute attr, double defVal = 0.0)
     {
-        if (attr == null)
+        if (attr == null || !double.TryParse(attr.Value, out double result))
         {
             return defVal;
         }
-        return double.Parse(attr.Value);
+        return result;
     }
 
     public static bool ParseBool(this XmlAttribute attr, bool defVal = false)
     {
-        if (attr == null)
+        if (attr == null || !int.TryParse(attr.Value, out int result))
         {
             return defVal;
         }
-        return int.Parse(attr.Value) > 0;
+        return result > 0;
     }
 
     public static string ParseString(this XmlAttribute attr, string defVal = null)
@@ -121,7 +121,7 @@ public static class XmlUtils
         return default(T);
     }
 
-    public static XmlDocument OpenXMLDocument(string path, string file = "", OpenXmlType openType = OpenXmlType.Normal, bool pIgnoreComments = true)
+    public static XmlDocument OpenXMLDocument(string path, string file = "", OpenXmlType openType = OpenXmlType.Normal, bool pIgnoreComments = true, bool dialog = true)
     {
         string fullPath = Path.Combine(path, file);
         var xmlReaderSettings = new XmlReaderSettings();
@@ -134,7 +134,9 @@ public static class XmlUtils
                 {
                     if (!File.Exists(fullPath))
                     {
-                        DebugUtils.Dialog("FILE DOESNT EXIST: " + fullPath, true, true);
+                        if (dialog)
+                            DebugUtils.Dialog("FILE DOESNT EXIST: " + fullPath, true, true);
+
                         return null;
                     }
                     var text0 = File.ReadAllText(fullPath);

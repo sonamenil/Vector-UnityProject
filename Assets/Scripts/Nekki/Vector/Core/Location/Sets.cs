@@ -100,13 +100,12 @@ namespace Nekki.Vector.Core.Location
         {
             foreach (XmlNode node in _XmlObjects)
             {
+                foreach (XmlNode obj in node)
                 {
-                    foreach (XmlNode obj in node)
-                    {
-                        if (obj.Attributes["Name"] != null)
-                            _ObjectsNodes[obj.Attributes["Name"].Value] = obj;
-                    }
+                    if (obj.Attributes["Name"] != null)
+                        _ObjectsNodes[obj.Attributes["Name"].Value] = obj;
                 }
+
             }
         }
 
@@ -164,6 +163,7 @@ namespace Nekki.Vector.Core.Location
                 }
             }
             factors.Sort();
+            uint num = 0;
             for (int i = 0; i < root.ChildNodes.Count; i++)
             {
                 var childNode = root.ChildNodes[i];
@@ -192,8 +192,8 @@ namespace Nekki.Vector.Core.Location
                 }
                 else
                 {
-                    objectRunner = new ObjectRunner((uint)i, null);
-                    (objectRunner as ObjectRunner).Parse(childNode, null, _ChoisesDictionary);
+                    objectRunner = new ObjectRunner(num, null);
+                    num += (objectRunner as ObjectRunner).Parse(childNode, null, _ChoisesDictionary);
                     objectRunner.Init();
                 }
                 _Objects.Add(objectRunner);

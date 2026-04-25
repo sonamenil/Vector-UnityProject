@@ -215,14 +215,15 @@ namespace Nekki.Vector.Core.Animation
                                 List<string> list2 = new List<string>(item.Attributes["Types"].Value.Split('|'));
                                 foreach (string item2 in list2)
                                 {
-                                    list.Add((AnimationEventCollision.Type)int.Parse(item2));
+									if (!string.IsNullOrEmpty(item2))
+										list.Add((AnimationEventCollision.Type)int.Parse(item2));
                                 }
                             }
                             CollisionEvents.Add(new AnimationEventCollision(list, GetEventParam(item)));
                             break;
                         }
                     case "OnFrame":
-                        FrameEvents.Add(new AnimationEventFrame(int.Parse(item.Attributes["Frame"].Value), GetEventParam(item)));
+                        FrameEvents.Add(new AnimationEventFrame(item.Attributes["Frame"].ParseInt(), GetEventParam(item)));
                         break;
                     case "OnTrigger":
 					case "OnArea":
@@ -257,7 +258,7 @@ namespace Nekki.Vector.Core.Animation
             {
                 if (childNode.Name == "Sound")
                 {
-                    list2.Add(new AnimationSound(childNode.Attributes["Name"].Value, int.Parse(childNode.Attributes["Type"].Value)));
+                    list2.Add(new AnimationSound(childNode.Attributes["Name"].Value, childNode.Attributes["Type"].ParseInt(0)));
                 }
             }
             if (list2.Count == 0)

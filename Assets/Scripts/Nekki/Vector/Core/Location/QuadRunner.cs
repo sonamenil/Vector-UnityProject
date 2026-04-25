@@ -24,6 +24,10 @@ namespace Nekki.Vector.Core.Location
 
         private float _DefaultHeight;
 
+        private double _DefaultX;
+
+        private double _DefaultY;
+
         private bool _Sticky;
 
         private List<Vector3d> _Points = new List<Vector3d>();
@@ -84,9 +88,16 @@ namespace Nekki.Vector.Core.Location
 
         public Rectangle rectangle => _rectangle;
 
+        public override Vector3f Position
+        {
+            get;
+            set;
+        } = new Vector3f();
+
         public QuadRunner(float x, float y, float width, float height, bool sticky, int type = 0, string name = "")
             : base(x, y)
         {
+            Position = new Vector3f(x, y);
             _XQuad = x;
             _YQuad = y;
             _WidthQuad = width;
@@ -111,6 +122,28 @@ namespace Nekki.Vector.Core.Location
             _Point4 = new Vector3d(_XQuad, _YQuad + _HeightQuad, 0f);
         }
 
+        protected override void GenerateObject()
+        {
+            //base.GenerateObject();
+        }
+
+        protected void CreateObject()
+        {
+            base.GenerateObject();
+            _CachedTransform.localPosition = new UnityEngine.Vector3((float)_XQuad, (float)_YQuad);
+        }
+
+        public override void InitRunner(Point point, bool serialize = false)
+        {
+            if (point != null)
+            {
+                Move(point);
+            }
+
+            _DefautPosition.Set(Position);
+
+        }
+
         public override bool Render()
         {
             return true;
@@ -118,8 +151,13 @@ namespace Nekki.Vector.Core.Location
 
         public override void Move(Point point)
         {
-            base.Move(point);
+            Position.Add(point);
             SetProperties();
+
+            if (_UnityObject != null)
+            {
+                UpdateUnityObjectPosition(Position);
+            }
         }
 
         public override void Reset()
@@ -128,6 +166,8 @@ namespace Nekki.Vector.Core.Location
 
             _WidthQuad = _DefaultWidth;
             _HeightQuad = _DefaultHeight;
+
+            Position.Set(_DefautPosition);
 
             base.Reset();
             SetProperties();
@@ -556,12 +596,12 @@ namespace Nekki.Vector.Core.Location
 
         public void SetX()
         {
-            _XQuad = base.Position.X;
+            _XQuad = Position.X;
         }
 
         public void SetY()
         {
-            _YQuad = base.Position.Y;
+            _YQuad = Position.Y;
         }
 
         public Point Size(int sign)
@@ -589,14 +629,14 @@ namespace Nekki.Vector.Core.Location
 
         public override void TransformResize(Point size)
         {
+            //var scale = _CachedTransform.localScale;
+            //scale.x = size.X / _WidthQuad;
+            //scale.y = size.Y / _HeightQuad;
+            //_CachedTransform.localScale = scale;
+            
             _WidthQuad = size.X;
             _HeightQuad = size.Y;
             SetProperties();
-
-            var scale = _CachedTransform.localScale;
-            scale.x = size.X;
-            scale.y = size.Y;
-            _CachedTransform.localScale = scale;
         }
 
         public override void TransformRotate(float angle)

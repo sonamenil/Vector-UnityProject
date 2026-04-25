@@ -1,5 +1,6 @@
-using System;
+using DG.Tweening;
 using Nekki.Vector.Core.Node;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -11,57 +12,23 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
         protected ModelLine _Base;
 
-        private string _SortingLayerName = "";
+        private static Material _SharedMaterial;
 
-        private int _SortingOrder;
+        private LineRenderer _LineRenderer;
 
-        private static Material _SharedQuadMaterial;
-
-        private static Material _SharedCircleMaterial;
-
-        private Transform _BeginCircle;
-
-        private Transform _EndCircle;
-
-        private Transform _MiddleRect;
-
-        public string SortingLayerName
-        {
-            get => _SortingLayerName;
-            set => _SortingLayerName = value;
-        }
-
-        public int SortingOrder
-        {
-            get => _SortingOrder;
-            set => _SortingOrder = value;
-        }
-
-        private static Material SharedQuadMaterial
+        private static Material SharedMaterial
         {
             get
             {
-                if (_SharedQuadMaterial == null)
+                if (_SharedMaterial == null)
                 {
-                    _SharedQuadMaterial = new Material(Shader.Find("Sprites/Colored"));
+                    _SharedMaterial = new Material(Shader.Find("Sprites/Colored"));
                 }
-                return _SharedQuadMaterial;
+                return _SharedMaterial;
             }
         }
 
-        private static Material SharedCircleMaterial
-        {
-            get
-            {
-                if (_SharedCircleMaterial == null)
-                {
-                    _SharedCircleMaterial = new Material(Shader.Find("Sprites/Circle-Colored"));
-                }
-                return _SharedCircleMaterial;
-            }
-        }
-
-        public Transform middleRect => _MiddleRect;
+        public Vector2 middleRect => transform.TransformPoint(Vector3f.Middle(_LineRenderer.GetPosition(0), _LineRenderer.GetPosition(1)));
 
         public string Name => _Base.Name;
 
@@ -69,58 +36,46 @@ namespace Nekki.Vector.Core.Scripts.Geometry
         {
             _Base = modelLine;
             _Stroke = modelLine.Stroke;
-            var obj = new GameObject("CircleBegin " + modelLine.Start.Name);
-            InitGameObject(obj, SharedCircleMaterial);
-            _BeginCircle = obj.transform;
-            _BeginCircle.SetParent(transform);
-            var obj2 = new GameObject("CircleEnd " + modelLine.End.Name);
-            InitGameObject(obj2, SharedCircleMaterial);
-            _EndCircle = obj2.transform;
-            _EndCircle.SetParent(transform);
-            var obj3 = new GameObject("Rect");
-            InitGameObject(obj3, SharedQuadMaterial);
-            _MiddleRect = obj3.transform;
-            _MiddleRect.SetParent(transform);
-            var scale = new Vector3((float)_Stroke * 2, (float)_Stroke * 2, (float)_Stroke * 2);
-            _BeginCircle.localScale = scale;
-            _EndCircle.localScale = scale;
-            Update();
+
+            _Stroke = _Base.Stroke;
+            _LineRenderer = gameObject.AddComponent<LineRenderer>();
+            _LineRenderer.numCapVertices = 9;
+            _LineRenderer.endWidth = (float)(_Stroke * 2);
+            _LineRenderer.startWidth = (float)(_Stroke * 2);
+            _LineRenderer.useWorldSpace = false;
+            _LineRenderer.sharedMaterial = SharedMaterial;
+            _LineRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            _LineRenderer.receiveShadows = false;
+            _LineRenderer.alignment = LineAlignment.TransformZ;
+            _LineRenderer.allowOcclusionWhenDynamic = false;
         }
 
-        private void InitGameObject(GameObject p_object, Material p_material)
+        private void UpdateLineBounds(Vector3 a, Vector3 b, float radius)
         {
-            MeshFilter meshFilter = p_object.AddComponent<MeshFilter>();
-            MeshRenderer meshRenderer = p_object.AddComponent<MeshRenderer>();
-            Mesh mesh = new Mesh();
-            mesh.vertices = new Vector3[4]
-            {
-                new Vector3(-0.5f, -0.5f, 0f),
-                new Vector3(0.5f, -0.5f, 0f),
-                new Vector3(-0.5f, 0.5f, 0f),
-                new Vector3(0.5f, 0.5f, 0f)
-            };
-            mesh.uv = new Vector2[4]
-            {
-                new Vector2(0f, 0f),
-                new Vector2(1f, 0f),
-                new Vector2(0f, 1f),
-                new Vector2(1f, 1f)
-            };
-            mesh.triangles = new int[6] { 0, 1, 2, 1, 3, 2 };
-            mesh.RecalculateBounds();
-            meshFilter.mesh = mesh;
-            meshRenderer.shadowCastingMode = ShadowCastingMode.Off;
-            meshRenderer.receiveShadows = false;
-            meshRenderer.lightProbeUsage = LightProbeUsage.Off;
-            meshRenderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
-            meshRenderer.sharedMaterial = p_material;
-            meshRenderer.sortingLayerName = _SortingLayerName;
-            meshRenderer.sortingOrder = _SortingOrder;
+            // If LineRenderer.useWorldSpace = false, convert world points to local.
+            Vector3 localA = a;
+            Vector3 localB = b;
+
+            Bounds bounds = new Bounds(localA, Vector3.zero);
+            bounds.Encapsulate(localB);
+
+            // Inflate by line thickness + cap padding.
+            float padding = radius * 2f;
+            bounds.Expand(new Vector3(padding, padding, padding));
+
+            _LineRenderer.localBounds = bounds;
         }
 
         public void Update()
         {
-            if (_Base != null && _Base.Start != null && _Base.Start.End != null && _Base.End != null && _Base.End.End != null && !(_BeginCircle == null) && !(_EndCircle == null) && !(_MiddleRect == null))
+            if (_Stroke != _Base.Stroke)
+            {
+                _Stroke = _Base.Stroke;
+                _LineRenderer.endWidth = (float)(_Stroke * 2);
+                _LineRenderer.startWidth = (float)(_Stroke * 2);
+            }
+
+            if (_Base != null && _Base.Start != null && _Base.Start.End != null && _Base.End != null && _Base.End.End != null && _LineRenderer != null)
             {
                 Vector3d start = _Base.Start.Start;
                 Vector3d start2 = _Base.End.Start;
@@ -130,23 +85,14 @@ namespace Nekki.Vector.Core.Scripts.Geometry
                 double num4 = start.Y - num2 * _Base.Margin1;
                 double num5 = start2.X + num * _Base.Margin2;
                 double num6 = start2.Y + num2 * _Base.Margin2;
-                _BeginCircle.localPosition = new Vector2((float)num3, (float)num4);
-                _EndCircle.localPosition = new Vector2((float)num5, (float)num6);
-                num = num3 - num5;
-                num2 = num4 - num6;
-                double y = Math.Sqrt(num * num + num2 * num2);
-                _MiddleRect.transform.up = new Vector3((float)num, (float)num2, 0f);
-                num = (num3 + num5) / 2f;
-                num2 = (num4 + num6) / 2f;
-                _MiddleRect.localPosition = new Vector3((float)num, (float)num2);
-                if (_Stroke != _Base.Stroke)
-                {
-                    _Stroke = _Base.Stroke;
-                    double num7 = _Stroke * 2f;
-                    _BeginCircle.localScale = new Vector3((float)num7, (float)num7, 1f);
-                    _EndCircle.localScale = new Vector3((float)num7, (float)num7, 1f);
-                }
-                _MiddleRect.localScale = new Vector3((float)_Stroke * 2f, (float)y, 1f);
+
+                var pos1 = new Vector3((float)num3, (float)num4, 0);
+                var pos2 = new Vector3((float)num5, (float)num6, 0);
+
+                _LineRenderer.SetPosition(0, pos1);
+                _LineRenderer.SetPosition(1, pos2);
+
+                UpdateLineBounds(pos1, pos2, (float)_Stroke);
             }
         }
     }

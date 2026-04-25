@@ -160,6 +160,7 @@ public class LevelMainController
         SoundsManager.Instance.PlayBackground(_Location.Music);
         _Location.Start();
         CanPauseOrReload = true;
+        ResourceManager.textureCache.Clear();
         Resources.UnloadUnusedAssets();
         GC.Collect();
     }
@@ -396,8 +397,7 @@ public class LevelMainController
 
     public void ClearScene()
     {
-        Object.Destroy(GameObject.Find("Level_root_object"));
-        SceneManager.UnloadSceneAsync("Level");
+        SceneManager.LoadScene("UI");
     }
 
     public void ReloadButton()

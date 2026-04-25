@@ -3,14 +3,14 @@ guid: c0318cb3cee0e6441af104fb31107c5c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: tp_office_table
+      213: -7587989878078169326
+    second: tp_office_table_0
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
-    sRGBTexture: 0
+    sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -23,19 +23,21 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
   seamlessCubemap: 0
-  textureFormat: 4
+  textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 2
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 9
   spritePivot: {x: 0, y: 1}
   spritePixelsToUnits: 1
@@ -54,7 +56,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -64,33 +66,24 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 0
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -100,88 +93,50 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 47
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
-    outline:
-    - - {x: -48.46194, y: -56.46195}
-      - {x: -48.46194, y: -54.46195}
-      - {x: -47.46194, y: -58.46195}
-    - - {x: -4.461945, y: -49.46195}
-      - {x: -47.46194, y: -58.46195}
-      - {x: -48.46194, y: -54.46195}
-    - - {x: 14.53806, y: -58.46195}
-      - {x: -47.46194, y: -58.46195}
-      - {x: -4.461945, y: -49.46195}
-    - - {x: 14.53806, y: -49.46195}
-      - {x: 14.53806, y: -58.46195}
-      - {x: -4.461945, y: -49.46195}
-    - - {x: -209.4619, y: -60.46195}
-      - {x: -209.4619, y: 29.53805}
-      - {x: -207.4619, y: -62.46195}
-    - - {x: 11.53806, y: 62.53805}
-      - {x: -207.4619, y: -62.46195}
-      - {x: -209.4619, y: 29.53805}
-    - - {x: -106.4619, y: -60.46195}
-      - {x: -207.4619, y: -62.46195}
-      - {x: 11.53806, y: 62.53805}
-    - - {x: -107.4619, y: -62.46195}
-      - {x: -207.4619, y: -62.46195}
-      - {x: -106.4619, y: -60.46195}
-    - - {x: -48.46194, y: -51.46195}
-      - {x: -106.4619, y: -60.46195}
-      - {x: 11.53806, y: 62.53805}
-    - - {x: -48.46194, y: -54.46195}
-      - {x: -106.4619, y: -60.46195}
-      - {x: -48.46194, y: -51.46195}
-    - - {x: -46.46194, y: -49.46195}
-      - {x: -48.46194, y: -51.46195}
-      - {x: 11.53806, y: 62.53805}
-    - - {x: -4.461945, y: -49.46195}
-      - {x: -46.46194, y: -49.46195}
-      - {x: 11.53806, y: 62.53805}
-    - - {x: 69.53806, y: -41.46195}
-      - {x: -4.461945, y: -49.46195}
-      - {x: 11.53806, y: 62.53805}
-    - - {x: 198.5381, y: 62.53805}
-      - {x: 69.53806, y: -41.46195}
-      - {x: 11.53806, y: 62.53805}
-    - - {x: 76.53806, y: -62.46195}
-      - {x: 69.53806, y: -41.46195}
-      - {x: 198.5381, y: 62.53805}
-    - - {x: 189.5381, y: -62.46195}
-      - {x: 76.53806, y: -62.46195}
-      - {x: 198.5381, y: 62.53805}
-    - - {x: 209.5381, y: -55.46195}
-      - {x: 189.5381, y: -62.46195}
-      - {x: 198.5381, y: 62.53805}
-    - - {x: 209.5381, y: 8.538052}
-      - {x: 209.5381, y: -55.46195}
-      - {x: 198.5381, y: 62.53805}
-    - - {x: -48.46194, y: -54.46195}
-      - {x: -48.46194, y: -51.46195}
-      - {x: -4.461945, y: -49.46195}
-    - - {x: -46.46194, y: -49.46195}
-      - {x: -4.461945, y: -49.46195}
-      - {x: -48.46194, y: -51.46195}
-    physicsShape:
-    - - {x: 188.5381, y: -62.46195}
-      - {x: 189.5381, y: -52.46195}
-      - {x: 189.5381, y: 29.53805}
-      - {x: 157.5381, y: 58.53805}
-      - {x: 139.5381, y: 62.53805}
-      - {x: 123.5381, y: 62.53805}
-      - {x: 121.5381, y: 60.53805}
-      - {x: 111.5381, y: 40.53805}
-      - {x: -209.4619, y: 29.53805}
-      - {x: -209.4619, y: -59.46195}
-      - {x: -206.4619, y: -62.46195}
-      - {x: -142.4619, y: -62.46195}
-      - {x: -137.4619, y: -56.46195}
-      - {x: 75.53806, y: -57.46195}
-      - {x: 80.53806, y: -62.46195}
+    sprites:
+    - serializedVersion: 2
+      name: tp_office_table_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 418
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21f14e5a86b02b690800000000000000
+      internalID: -7587989878078169326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
@@ -190,9 +145,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      tp_office_table_0: -7587989878078169326
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

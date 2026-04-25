@@ -87,7 +87,7 @@ public class Game
             _isInited = true;
             BackButtonManager.Instance.OnBackButton += OnBackButton;
 
-            SceneManager.LoadScene("Scenes/Level", LoadSceneMode.Additive);
+            SceneManager.LoadScene("Scenes/Level");
 
             yield return null;
 

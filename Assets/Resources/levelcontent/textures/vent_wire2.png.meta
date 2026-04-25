@@ -3,14 +3,14 @@ guid: 93d6ace3c2c930d468d10e91d2529803
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: vent_wire2
+      213: 4910843854465327273
+    second: vent_wire2_0
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
-    sRGBTexture: 0
+    sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -23,19 +23,21 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
   seamlessCubemap: 0
-  textureFormat: 4
+  textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 2
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 9
   spritePivot: {x: 0, y: 1}
   spritePixelsToUnits: 1
@@ -54,7 +56,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -64,33 +66,24 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 0
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -100,49 +93,50 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 47
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
-    outline:
-    - - {x: -87.48663, y: -17.03806}
-      - {x: -87.48663, y: 16.96194}
-      - {x: 87.51337, y: -17.03806}
-    - - {x: 87.51337, y: 16.96194}
-      - {x: 87.51337, y: -17.03806}
-      - {x: -87.48663, y: 16.96194}
-    physicsShape:
-    - - {x: 55.51337, y: 5.961939}
-      - {x: 64.51337, y: 13.96194}
-      - {x: 64.51337, y: 15.96194}
-      - {x: 63.51337, y: 16.96194}
-      - {x: 43.51337, y: 16.96194}
-      - {x: 40.51337, y: 15.96194}
-      - {x: 32.51337, y: 16.96194}
-      - {x: 13.51337, y: 16.96194}
-      - {x: 13.51337, y: 15.96194}
-      - {x: 14.51337, y: 12.96194}
-      - {x: 27.51337, y: 7.961939}
-      - {x: 42.51337, y: 7.961939}
-      - {x: 24.51337, y: 1.961939}
-      - {x: 7.513374, y: -0.03806114}
-      - {x: -8.486626, y: 0.9619389}
-      - {x: -40.48663, y: 8.961939}
-      - {x: -65.48663, y: 16.96194}
-      - {x: -78.48663, y: 16.96194}
-      - {x: -79.48663, y: 15.96194}
-      - {x: -78.48663, y: 12.96194}
-      - {x: -74.48663, y: 11.96194}
-      - {x: -71.48663, y: 10.96194}
-      - {x: -54.48663, y: 3.961939}
-      - {x: -37.48663, y: -0.03806114}
-      - {x: -18.48663, y: -5.038061}
-      - {x: -7.486626, y: -7.038061}
-      - {x: 17.51337, y: -7.038061}
-      - {x: 23.51337, y: -6.038061}
-      - {x: 32.51337, y: -4.038061}
-      - {x: 43.51337, y: -0.03806114}
+    sprites:
+    - serializedVersion: 2
+      name: vent_wire2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2
+        width: 174
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a0e0d48772d62440800000000000000
+      internalID: 4910843854465327273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
@@ -151,9 +145,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      vent_wire2_0: 4910843854465327273
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

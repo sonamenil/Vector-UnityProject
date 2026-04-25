@@ -30,8 +30,8 @@ namespace Nekki.Vector.Core.Location
 		protected override void GenerateObject()
 		{
 			base.GenerateObject();
-			_UnityObject.AddComponent<Xml2PrefabPlatformContainer>().Init(_Name, _X, _Y, _W, _H, _S, TransformationDataRaw, Choice);
-			_CachedTransform = _UnityObject.transform;
+			//_UnityObject.AddComponent<Xml2PrefabPlatformContainer>().Init(_Name, _X, _Y, _W, _H, _S, TransformationDataRaw, Choice);
+			//_CachedTransform = _UnityObject.transform;
 		}
 
 		public override string ToString()

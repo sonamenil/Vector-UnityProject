@@ -97,7 +97,10 @@ namespace Nekki.Vector.Core.Location
             set
             {
                 _IsEnabled = value;
-                UnityObject.SetActive(_IsEnabled);
+                if (UnityObject != null)
+                {
+                    UnityObject.SetActive(_IsEnabled);
+                }
             }
         }
 
@@ -163,7 +166,7 @@ namespace Nekki.Vector.Core.Location
 
         public List<TransformSystem> TransformationData => _TransformationData;
 
-        protected ChoiceContainer Choice => _choice;
+        public ChoiceContainer Choice => _choice;
 
         public Runner(float X, float Y)
         {
@@ -226,15 +229,19 @@ namespace Nekki.Vector.Core.Location
         {
             if (serialize)
             {
-                SerializeData();
+                //SerializeData();
             }
             if (!Xml2PrefabRoot.Serialize)
             {
                 Move(point);
             }
-            _DefautPosition.Set(_CachedTransform.localPosition);
-            _DefaultScale.Set(_CachedTransform.localScale);
-            _DefaulRotation.Set(_CachedTransform.localEulerAngles);
+            if (_CachedTransform != null)
+            {
+                _DefautPosition.Set(_CachedTransform.localPosition);
+                _DefaultScale.Set(_CachedTransform.localScale);
+                _DefaulRotation.Set(_CachedTransform.localEulerAngles);
+            }
+
         }
 
         public virtual void Move(Point point)
@@ -249,8 +256,11 @@ namespace Nekki.Vector.Core.Location
         {
             ResetPosition();
             UpdateUnityObjectPosition((Vector3)_DefautPosition);
-            _CachedTransform.localScale = _DefaultScale;
-            _CachedTransform.localEulerAngles = _DefaulRotation;
+            if (_CachedTransform != null)
+            {
+                _CachedTransform.localScale = _DefaultScale;
+                _CachedTransform.localEulerAngles = _DefaulRotation;
+            }
             _ActiveTransformation = 0;
             if (_ActiveMoveSystem != null)
                 _ActiveMoveSystem.Clear();

@@ -54,9 +54,10 @@ namespace Nekki.Vector.Core.Transformation
         public List<TransformSystem> Find(string name)
         {
             List<TransformSystem> list = new List<TransformSystem>();
-            foreach (var t in _Storage)
+            for (int i = 0; i < _Storage.Count; i++)
             {
-                if (t.Name.Equals(name))
+                var t = _Storage[i];
+                if (t.Name == name)
                 {
                     list.Add(t);
                 }
