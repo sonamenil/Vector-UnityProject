@@ -62,7 +62,7 @@ namespace UI
             
             ScrollSnap.SnapEvent += i =>
             {
-                EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(i).GetComponent<HolderItem>().Button.gameObject);
+                EventSystem.current.SetSelectedGameObject(ScrollSnap.CurrentObject.GetComponent<HolderItem>().Button.gameObject);
             };
         }
 
@@ -79,12 +79,18 @@ namespace UI
 
             yield return SceneManager.LoadSceneAsync("Scenes/Level");
 
+            DebugUtils.StartTimer("load");
+
+
             while (LevelMainController.current == null)
             {
                 yield return null;
             }
 
+            DebugUtils.StopTimerWithMessage("load time", "load");
+
             LevelMainController.current.pauseRender = true;
+
 
             if (storyInfo.CutsceneStart != null)
             {
@@ -122,11 +128,12 @@ namespace UI
                 Destroy(child.gameObject);
             }
             var tricks = StoreManager.Instance.GetItems(StoreItemType.Tricks).Where(t => storyInfo.TrickIds.Contains(t.Id)).ToList();
-            StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, 10);
+            //StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, 10);
             StoreTricksScreenView.PutItemsIntoContent(ScrollSnap, tricks, StoreItemType.Tricks, false);
-            StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, 10);
-            ScrollSnap.StartIndex = 10;
-            ScrollSnap.EndIndex = tricks.Count + 9;
+            //StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, 10);
+            ScrollSnap.StartIndex = 0;
+            ScrollSnap.EndIndex = tricks.Count - 1;
+            ScrollSnap._childOffset = 0;
             RefreshBoostButton();
             
         }

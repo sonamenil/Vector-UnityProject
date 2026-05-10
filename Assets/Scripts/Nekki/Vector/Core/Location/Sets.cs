@@ -178,15 +178,15 @@ namespace Nekki.Vector.Core.Location
                     var obj = Xml2PrefabUtils.LoadPrefab(name);
                     if (obj == null)
                     {
-                        objectRunner = new ObjectRunner((uint)i, null);
-                        (objectRunner as ObjectRunner).Parse(childNode, null, _ChoisesDictionary);
+                        objectRunner = new ObjectRunner(num, null);
+                        num += (objectRunner as ObjectRunner).Parse(childNode, null, _ChoisesDictionary);
                         objectRunner.Init();
                     }
                     else
                     {
                         var container = obj.GetComponent<Xml2PrefabObjectRunnerContainer>();
-                        objectRunner = new SerializedObjectRunner((uint)i, null);
-                        (objectRunner as SerializedObjectRunner).Parse(container, _ChoisesDictionary);
+                        objectRunner = new SerializedObjectRunner(num, null);
+                        num += (objectRunner as SerializedObjectRunner).Parse(container, _ChoisesDictionary);
                         objectRunner.Init();
                     }
                 }

@@ -1,101 +1,138 @@
+using System.Collections.Generic;
 using Nekki.Vector.Core.Location;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
 public class QuadsRenderer : MonoBehaviour
 {
+    [SerializeField] private bool overrideShowPlatforms;
+    [SerializeField] private bool overrideShowTriggers;
+    [SerializeField] private bool overrideShowAreas;
+
+    private Mesh mesh;
     private Material material;
 
-    [SerializeField]
-    private bool overrideShowPlatforms;
+    private readonly List<Vector3> vertices = new();
+    private readonly List<int> triangles = new();
+    private readonly List<Color> colors = new();
 
-    [SerializeField]
-    private bool overrideShowTriggers;
-
-    [SerializeField]
-    private bool overrideShowAreas;
-
-    private void OnEnable()
+    private void Awake()
     {
-        if (material == null)
+        mesh = new Mesh
         {
-            Shader shader = Shader.Find("Sprites/Default");
-            if (shader != null)
-            {
-                material = new Material(shader);
-            }
-        }
+            name = "Quads Debug Mesh"
+        };
+
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+
+        GetComponent<MeshFilter>().sharedMesh = mesh;
+
+        Shader shader = Shader.Find("Sprites/Default");
+        material = new Material(shader);
+
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer.sharedMaterial = material;
+        meshRenderer.sortingOrder = 1;
     }
 
-    private void OnRenderObject()
+    private void LateUpdate()
     {
-        material.SetPass(0);
+        RebuildMesh();
+    }
 
-        GL.PushMatrix();
-        GL.Begin(GL.TRIANGLES);
+    private void RebuildMesh()
+    {
+        vertices.Clear();
+        triangles.Clear();
+        colors.Clear();
 
-        var tr = Sets.Current.Containers[1].Object.transform;
+        Transform containerTransform = Sets.Current.Containers[1].Object.transform;
 
         foreach (var quad in Sets.Current.QuadsAll)
         {
-            if (!quad.IsEnabled)
+            if (!ShouldRenderQuad(quad))
                 continue;
 
-            if ((quad.TypeClass == RunnerType.Platform || quad.TypeClass == RunnerType.Trapezoid) && (!Game.Instance.SnailSett.ShowPlatforms && !overrideShowPlatforms))
-                continue;
+            int startIndex = vertices.Count;
 
-            if (quad.TypeClass == RunnerType.Trigger && (!Game.Instance.SnailSett.ShowTriggers && !overrideShowTriggers))
-                continue;
+            Vector3 bl = containerTransform.TransformPoint(quad.Point4);
+            Vector3 tl = containerTransform.TransformPoint(quad.Point1);
+            Vector3 tr = containerTransform.TransformPoint(quad.Point2);
+            Vector3 br = containerTransform.TransformPoint(quad.Point3);
 
-            if (quad.TypeClass == RunnerType.Area && (!Game.Instance.SnailSett.ShowAreas && !overrideShowAreas))
-                continue;
+            Color color = GetQuadColor(quad);
 
-            // Local corners
-            Vector3 bl = quad.Point4;
-            Vector3 tl = quad.Point1;
-            Vector3 trc = quad.Point2;
-            Vector3 br = quad.Point3;
+            vertices.Add(bl);
+            vertices.Add(tl);
+            vertices.Add(tr);
+            vertices.Add(br);
 
-            // Convert to world space
-            bl = tr.TransformPoint(bl);
-            tl = tr.TransformPoint(tl);
-            trc = tr.TransformPoint(trc);
-            br = tr.TransformPoint(br);
+            colors.Add(color);
+            colors.Add(color);
+            colors.Add(color);
+            colors.Add(color);
 
-            var color = Color.green;
+            triangles.Add(startIndex + 0);
+            triangles.Add(startIndex + 1);
+            triangles.Add(startIndex + 2);
 
-            switch (quad.TypeClass)
-            {
-                case RunnerType.Platform:
-                case RunnerType.Trapezoid:
-                    color = new Color(0f, 0f, 1f, 0.2f);
-                    break;
-                case RunnerType.Trigger:
-                    color = new Color(0.5f, 1, 1, 0.2f);
-                    if (quad.Choice == null || string.IsNullOrEmpty(quad.Choice.Variant) || quad.Choice.Variant == "CommonMode")
-                    {
-                        color = new Color(1, 0, 0, 0.2f);
-                    }
-                    break;
-                case RunnerType.Area:
-                    color = new Color(1, 1, 0, 0.2f);
-                    break;
-            }
-
-            GL.Color(color);
-
-            // Triangle 1
-            GL.Vertex(bl);
-            GL.Vertex(tl);
-            GL.Vertex(trc);
-
-            // Triangle 2
-            GL.Vertex(trc);
-            GL.Vertex(br);
-            GL.Vertex(bl);
+            triangles.Add(startIndex + 2);
+            triangles.Add(startIndex + 3);
+            triangles.Add(startIndex + 0);
         }
 
-        GL.End();
-        GL.PopMatrix();
+        mesh.Clear();
+        mesh.SetVertices(vertices);
+        mesh.SetTriangles(triangles, 0);
+        mesh.SetColors(colors);
+
+        mesh.RecalculateBounds();
     }
 
+    private bool ShouldRenderQuad(QuadRunner quad)
+    {
+        if (!quad.IsEnabled)
+            return false;
+
+        if ((quad.TypeClass == RunnerType.Platform || quad.TypeClass == RunnerType.Trapezoid) &&
+            (!Game.Instance.SnailSett.ShowPlatforms && !overrideShowPlatforms))
+            return false;
+
+        if (quad.TypeClass == RunnerType.Trigger &&
+            (!Game.Instance.SnailSett.ShowTriggers && !overrideShowTriggers))
+            return false;
+
+        if (quad.TypeClass == RunnerType.Area &&
+            (!Game.Instance.SnailSett.ShowAreas && !overrideShowAreas))
+            return false;
+
+        return true;
+    }
+
+    private Color GetQuadColor(QuadRunner quad)
+    {
+        switch (quad.TypeClass)
+        {
+            case RunnerType.Platform:
+            case RunnerType.Trapezoid:
+                return new Color(0f, 0f, 1f, 0.2f);
+
+            case RunnerType.Trigger:
+                if (quad.Choice == null ||
+                    string.IsNullOrEmpty(quad.Choice.Variant) ||
+                    quad.Choice.Variant == "CommonMode")
+                {
+                    return new Color(1f, 0f, 0f, 0.2f);
+                }
+
+                return new Color(0.5f, 1f, 1f, 0.2f);
+
+            case RunnerType.Area:
+                return new Color(1f, 1f, 0f, 0.2f);
+
+            default:
+                return Color.green;
+        }
+    }
 }

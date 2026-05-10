@@ -106,8 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa341d658af3e72885607efbbc46e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _atlas: {fileID: 100100200, guid: b9445ca4fcb8cc943bf3fedbc3aeb0a0, type: 3}
-  _atlasEnd: {fileID: 100100200, guid: ca134b575e5ee2646b9bf5fc83d551ee, type: 3}
+  _atlas: credits
+  _atlasEnd: credits_off
   _spriteRenderer: {fileID: 1791852682982891738}
   _animationSprite: {fileID: 1791852681338724572}
   _textMesh: {fileID: 1791852681137397977}
@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db027ea1a7a97d34697d7dde109b5acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 0}
   _FPS: 20
 --- !u!1 &1791852679442899157
 GameObject:

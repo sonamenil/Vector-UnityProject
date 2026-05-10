@@ -84,7 +84,7 @@ namespace UI
             
             ScrollSnap.SnapEvent += i =>
             {
-                EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(i).GetComponent<HolderItem>().Button.gameObject);
+                EventSystem.current.SetSelectedGameObject(ScrollSnap.CurrentObject.GetComponent<HolderItem>().Button.gameObject);
             };
         }
 
@@ -113,11 +113,13 @@ namespace UI
                 Destroy(obj.gameObject);
             }
             var tricks = StoreManager.Instance.GetItems(StoreItemType.Tricks).Where(trick => storyInfo.TrickIds.Contains(trick.Id)).ToList();
-            StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, _dummiesCount);
+            //StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, _dummiesCount);
             StoreTricksScreenView.PutItemsIntoContent(ScrollSnap, tricks, StoreItemType.Tricks, false);
-            StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, _dummiesCount);
-            ScrollSnap.StartIndex = _dummiesCount;
-            ScrollSnap.EndIndex = _dummiesCount + tricks.Count - 1;
+            //StoreTricksScreenView.InsertEmptyDummies(ScrollSnap._content, _dummiesCount);
+            ScrollSnap.StartIndex = 0;
+            ScrollSnap.EndIndex = tricks.Count - 1;
+
+            ScrollSnap._childOffset = 0;
         }
 
         public override void PostShow(CommonPayloadData payload)
@@ -131,7 +133,7 @@ namespace UI
             if (!GamepadController.Instance.IsGamepadConnected)
             {
                 ScrollSnap.Enable();
-                EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(ScrollSnap.CurrentIndex).GetComponent<HolderItem>().Button.gameObject);
+                EventSystem.current.SetSelectedGameObject(ScrollSnap.CurrentObject.GetComponent<HolderItem>().Button.gameObject);
                 return;
             }
             
@@ -143,7 +145,7 @@ namespace UI
             else
             {
                 ScrollSnap.Enable();
-                EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(ScrollSnap.CurrentIndex).GetComponent<HolderItem>().Button.gameObject);
+                EventSystem.current.SetSelectedGameObject(ScrollSnap.CurrentObject.GetComponent<HolderItem>().Button.gameObject);
             }
             
         }

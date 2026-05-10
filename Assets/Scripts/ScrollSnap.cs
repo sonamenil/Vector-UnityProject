@@ -32,6 +32,9 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
     [SerializeField]
     private float _duration = 0.5f;
 
+    [SerializeField]
+    public int _childOffset = 0;
+
     private int _currentIndex;
 
     [SerializeField]
@@ -60,7 +63,10 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
     [SerializeField]
     private bool _disabled;
 
-    public ScrollSnapItem CurrentItem => _content.GetChild(_currentIndex).GetComponent<ScrollSnapItem>();
+    public Transform CurrentObject => _content.GetChild(_currentIndex + _childOffset);
+
+    public ScrollSnapItem CurrentItem => CurrentObject.GetComponent<ScrollSnapItem>();
+
 
     public int CurrentIndex
     {
@@ -109,6 +115,15 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
         _contentWidth = (_content.transform.GetChild(0).transform as RectTransform).rect.width;
         _spacing = Math.Abs(_content.GetComponent<HorizontalLayoutGroup>().spacing);
         _content.ForceUpdateRectTransforms();
+
+        if (viewport != null)
+        {
+            var val = (viewport.rect.width / 2) - (_contentWidth / 2);
+            viewport.offsetMin = new Vector2(val, viewport.offsetMin.y);
+
+            viewport.offsetMax = new Vector2(-val, viewport.offsetMax.y);
+
+        }
     }
 
     [ContextMenu("Recalculate")]
@@ -176,7 +191,7 @@ public class ScrollSnap : MonoBehaviour, IBeginDragHandler, IEventSystemHandler,
     {
         if (_disabled)
             return;
-        
+
         var index = GetCurrentIndex();
         if (index != _currentIndex)
         {

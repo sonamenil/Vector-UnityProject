@@ -1,5 +1,8 @@
 using Nekki.Vector.Core.Scripts;
 using UnityEngine;
+using System.IO;
+using System;
+using Core._Common;
 
 namespace Nekki.Vector.Core.Location.Animation
 {
@@ -35,13 +38,14 @@ namespace Nekki.Vector.Core.Location.Animation
 			_TotalHalf = speed;
 		}
 
-		public virtual void Init()
+		public virtual void Init(float pivotX = 0, float pivotY = 1)
 		{
 			var render = _UnityObject.AddComponent<SpriteRenderer>();
 			render.flipY = true;
             Animator = _UnityObject.AddComponent<AnimationSprite>();
-			Animator.Init("LevelContent/Animations/" + _Name, render);
-			_TotalFrames = Animator.TotalFrames;
+			string path = System.IO.Path.Combine(VectorPaths.AnimatedTextures, _Name);
+			Animator.Init(path, render, pivotX, pivotY);
+            _TotalFrames = Animator.TotalFrames;
 			IsEnabled = false;
 		}
 
@@ -57,7 +61,7 @@ namespace Nekki.Vector.Core.Location.Animation
 				Animator.SetSpriteFrame(_CurrentFrame);
 				_CountHalf = 0;
 				_CurrentFrame++;
-				if (_CurrentFrame < _TotalFrames - 1)
+				if (_CurrentFrame < _TotalFrames)
 				{
 					return false;
 				}

@@ -1,5 +1,6 @@
-using System.Xml;
 using Nekki.Vector.Core.Utilites;
+using System;
+using System.Xml;
 using UnityEngine;
 
 public class Point
@@ -87,7 +88,28 @@ public class Point
     }
     public static Point Create(XmlNode Node)
     {
-        return new Point(Node.Attributes["X"].ParseFloat(), Node.Attributes["Y"].ParseFloat());
+        if (Node == null)
+        {
+            return null;
+        }
+        Point vector3f = new Point(0f, 0f);
+        try
+        {
+            vector3f._X = float.Parse(Node.Attributes["X"].Value);
+        }
+        catch
+        {
+            throw new Exception("Error : parse X eeror type");
+        }
+        try
+        {
+            vector3f._Y = float.Parse(Node.Attributes["Y"].Value);
+            return vector3f;
+        }
+        catch
+        {
+            throw new Exception("Error : parse Y eeror type");
+        }
     }
 
     public Point Clone()
@@ -97,7 +119,7 @@ public class Point
 
     public override string ToString()
     {
-        return string.Format("[Point: X={0}, Y={1}]", X, Y);
+        return string.Format("[Point: X={0}, Y={1}]", X.ToString("G9"), Y.ToString("G9"));
     }
 
     public static Point operator -(Point p_point1, Point p_point2)

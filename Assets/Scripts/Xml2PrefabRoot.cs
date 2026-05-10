@@ -49,8 +49,8 @@ public class Xml2PrefabRoot
     public void Parse()
     {
         Serialize = true;
-        Objects(Directory.GetFiles("Assets/Resources/" + VectorPaths.XmlRoot));
-        Buildings(Directory.GetFiles("Assets/Resources/" + VectorPaths.XmlRoot));
+        Objects(Directory.GetFiles(VectorPaths.XmlRoot));
+        Buildings(Directory.GetFiles(VectorPaths.XmlRoot));
         Levels();
     }
 
@@ -86,7 +86,7 @@ public class Xml2PrefabRoot
         {
             Directory.CreateDirectory("Assets/Resources/" + VectorPaths.LevelsPrefab);
         }
-        var files = Directory.GetFiles("Assets/Resources/" + VectorPaths.XmlLevels).Select(p => Path.GetFileName(p)).Where(s => !s.Contains("Trigger") && !s.Contains("buildings") && !s.Contains("objects") && !s.Contains(".meta") && !_excludeFromBuildFiles.Contains(s));
+        var files = Directory.GetFiles(VectorPaths.XmlLevels).Select(p => Path.GetFileName(p)).Where(s => !s.Contains("Trigger") && !s.Contains("buildings") && !s.Contains("objects") && !s.Contains(".meta") && !_excludeFromBuildFiles.Contains(s));
         foreach (var file in files)
         {
             var document = XmlUtils.OpenXMLDocument(VectorPaths.XmlLevels, file);

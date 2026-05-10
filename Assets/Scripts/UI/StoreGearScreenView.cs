@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -18,7 +19,9 @@ namespace UI
 
 		public ScrollSnap ScrollSnap;
 
-		private StoreGearScreen _storeGearScreen;
+        public LayoutPosKeeper LayoutPosKeeper;
+
+        private StoreGearScreen _storeGearScreen;
 
 		public override void Init(StoreGearScreen screen)
 		{
@@ -28,52 +31,68 @@ namespace UI
             BuyButton.onClick.AddListener(() =>
             {
                 var items = StoreManager.Instance.GetItems(StoreItemType.Gear);
-                var item = items[ScrollSnap.CurrentIndex - 10];
+                var item = items[ScrollSnap.CurrentIndex];
                 if (!UserDataManager.Instance.ShopData.IsBought(item.Id))
                 {
-                    StoreTricksScreenView.Buy(item, false, ScrollSnap.CurrentIndex - 10);
+                    StoreTricksScreenView.Buy(item, false, ScrollSnap.CurrentIndex);
                 }
             });
             
             ScrollSnap.SnapEvent += i =>
             {
-	            EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(i).GetComponent<HolderItem>().Button.gameObject);
+	            EventSystem.current.SetSelectedGameObject(ScrollSnap.CurrentObject.GetComponent<HolderItem>().Button.gameObject);
             };
         }
 
-		private void InsertDummies(int count)
+		private void InsertDummies(int count, bool right = false)
 		{
             if (count > 0)
             {
                 for (int i = count; i > 0; i--)
                 {
-                    Instantiate(Resources.Load<ScrollSnapItem>("HolderItemDummy"), ContentParent.transform);
+                    var obj = Instantiate(Resources.Load<LayoutElement>("HolderItemDummy"), ContentParent.transform);
+                    if (right)
+                    {
+                        LayoutPosKeeper.right.Add(obj);
+                    }
+                    else
+                    {
+                        LayoutPosKeeper.left.Add(obj);
+                    }
                 }
             }
         }
 
 		public override void PreShow(CommonPayloadData payload)
 		{
+			LayoutPosKeeper.Clear();
             foreach (Transform child in ContentParent.transform)
             {
                 Destroy(child.gameObject);
             }
             var items = StoreManager.Instance.GetItems(StoreItemType.Gear);
             InsertDummies(10);
-            ScrollSnap.StartIndex = 10;
-            ScrollSnap.EndIndex = items.Count + 9;
             StoreTricksScreenView.PutItemsIntoContent(ScrollSnap, items, StoreItemType.Gear, true);
-            InsertDummies(10);
+            InsertDummies(10, true);
+
+            ScrollSnap.StartIndex = 0;
+            ScrollSnap.EndIndex = items.Count - 1;
+
+			ScrollSnap._childOffset = 10;
         }
 
 		public override void PostShow(CommonPayloadData payload)
 		{
-			ScrollSnap.Snap(UserDataManager.RuntimeInfo.LastSelectedGear + 10, true);
+			LayoutPosKeeper.SetPositions();
+
+			ScrollSnap.Recalculate();
+
+			ScrollSnap.Snap(UserDataManager.RuntimeInfo.LastSelectedGear, true);
 		}
 		
 		public override void SetSelectedGO()
 		{
-			EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(ScrollSnap.CurrentIndex).GetComponent<HolderItem>().Button.gameObject);
+			EventSystem.current.SetSelectedGameObject(ScrollSnap.CurrentObject.GetComponent<HolderItem>().Button.gameObject);
 		}
         
 		public override void OnEnable()
@@ -83,7 +102,7 @@ namespace UI
             
 			actions.UI.XButton.performed += _ =>
 			{
-				var holder = ScrollSnap._content.GetChild(ScrollSnap.CurrentIndex).GetComponent<HolderItem>();
+				var holder = ScrollSnap.CurrentObject.GetComponent<HolderItem>();
 				if (holder.EquipButton.gameObject.activeSelf)
 				{
 					holder.EquipButton.onClick?.Invoke();

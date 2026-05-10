@@ -29,7 +29,7 @@ namespace UI
             BackToChooseModeButton.onClick.AddListener(new UnityAction(screen.BackToChooseModeButton.PressedAction));
             ContinueButton.onClick.AddListener(() =>
             {
-                ScrollSnap._content.GetChild(ScrollSnap.CurrentIndex).GetComponent<LocationItem>().Button.onClick?.Invoke();
+                ScrollSnap.CurrentObject.GetComponent<LocationItem>().Button.onClick?.Invoke();
             });
             SelectButton.onClick.AddListener(new UnityAction(screen.SelectButton.PressedAction));
             BuyCoinsButton.onClick.AddListener(() =>
@@ -54,7 +54,7 @@ namespace UI
 
             ScrollSnap.SnapEvent += i =>
             {
-                EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(i).GetComponent<LocationItem>().Button.gameObject);
+                EventSystem.current.SetSelectedGameObject(ScrollSnap.CurrentObject.GetComponent<LocationItem>().Button.gameObject);
             };
         }
 
@@ -76,7 +76,7 @@ namespace UI
             {
                 Destroy(child.gameObject);
             }
-            InsertDummies(10);
+            //InsertDummies(10);
             int count = 0;
             foreach (var type in LocationManager.Instance.locations.Keys)
             {
@@ -141,9 +141,11 @@ namespace UI
                     }
                 });
             }
-            InsertDummies(10);
-            ScrollSnap.StartIndex = 10;
-            ScrollSnap.EndIndex = count + 9;
+            //InsertDummies(10);
+            ScrollSnap.StartIndex = 0;
+            ScrollSnap.EndIndex = count -1;
+
+            ScrollSnap._childOffset = 0;
         }
 
         // private void Update()
@@ -157,7 +159,7 @@ namespace UI
         public override void PostShow(CommonPayloadData payload)
         {
             ScrollSnap.Recalculate();
-            ScrollSnap.Snap(10, true);
+            ScrollSnap.Snap(0, true);
 
             
             // actions.UI.Enter.performed += _ => ContinueButton.onClick?.Invoke();
@@ -165,7 +167,7 @@ namespace UI
 
         public override void SetSelectedGO()
         {
-            EventSystem.current.SetSelectedGameObject(ScrollSnap._content.GetChild(ScrollSnap.CurrentIndex).GetComponent<LocationItem>().Button.gameObject);
+            EventSystem.current.SetSelectedGameObject(ScrollSnap.CurrentObject.GetComponent<LocationItem>().Button.gameObject);
         }
 
         public override void OnEnable()

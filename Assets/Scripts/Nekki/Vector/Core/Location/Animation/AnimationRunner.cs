@@ -44,7 +44,7 @@ namespace Nekki.Vector.Core.Location.Animation
             _ScaleY = scaleY;
         }
 
-        public override void Init()
+        public override void Init(float pivotX = 0, float pivotY = 1)
         {
             if (_oldAnimationNames.ContainsKey(_Name))
             {

@@ -33,6 +33,8 @@ namespace UI
 
         public Text Title;
 
+        public LayoutPosKeeper LayoutPosKeeper;
+
         private Dictionary<StoryItem, bool> _dummies = new Dictionary<StoryItem, bool>();
 
         private List<StoryItem> _storiesItem = new List<StoryItem>();
@@ -71,14 +73,14 @@ namespace UI
                 var currentStories = UserDataManager.Instance.CurrentBalanceLocation.CurrentStoryModeStoryInfos;
                 var index = UserDataManager.RuntimeInfo.GetLastIndex();
                 var story = currentStories[index];
-                var storyItem = ScrollSnap._content.GetChild(index + 10).GetComponent<StoryItem>();
+                var storyItem = ScrollSnap.CurrentObject.GetComponent<StoryItem>();
                 Play(story, storyItem, UserDataManager.Instance, index);
                 SoundsManager.Instance.PlaySounds(SoundType.ui_click);
             });
             ScrollSnap.SnapEvent += i =>
             {
-                UserDataManager.RuntimeInfo.SetLastIndex(i - 10);
-                EventSystem.current.SetSelectedGameObject(_storiesItem[i - 10].Button.gameObject);
+                UserDataManager.RuntimeInfo.SetLastIndex(i);
+                EventSystem.current.SetSelectedGameObject(_storiesItem[i].Button.gameObject);
             };
         }
 
@@ -111,13 +113,41 @@ namespace UI
 
 
                 if (atStart)
+                {
                     t.SetAsFirstSibling();
+
+                    var layout = dummy.GetComponent<LayoutElement>();
+                    if (!LayoutPosKeeper.left.Contains(layout))
+                        LayoutPosKeeper.left.Add(layout);
+                }
                 else
+                {
                     t.SetAsLastSibling();
+
+                    var layout = dummy.GetComponent<LayoutElement>();
+                    if (!LayoutPosKeeper.right.Contains(layout))
+                        LayoutPosKeeper.right.Add(layout);
+
+                }
 
                 if (!dummy.gameObject.activeSelf)
                     dummy.gameObject.SetActive(true);
             }
+
+            //for (int i = count; i > 0; i--)
+            //{
+            //    var obj = Instantiate(Resources.Load<LayoutElement>("StoryHolderDummy"), ContentParent.transform);
+            //    _dummies.Add(obj.GetComponent<StoryItem>(), true);
+            //    if (!atStart)
+            //    {
+            //        obj.transform.SetAsLastSibling();
+            //    }
+            //    else
+            //    {
+            //        obj.transform.SetAsFirstSibling();
+            //        LayoutPosKeeper.left.Add(obj);
+            //    }
+            //}
         }
 
         // private void Update()
@@ -150,12 +180,14 @@ namespace UI
 
         private void FillWithContent(UserDataManager playerData, CommonPayloadData payload)
         {
+
             var currentStoryModeInfos = UserDataManager.Instance.CurrentBalanceLocation.CurrentStoryModeStoryInfos;
+
             foreach (var dummy in _dummies.Keys.ToList())
             {
                 _dummies[dummy] = false;
-                dummy.gameObject.SetActive(false);
             }
+
             InsertDummies(10, true);
             for (int i = 0; i < currentStoryModeInfos.Count; i++)
             {
@@ -192,12 +224,14 @@ namespace UI
                     if (extra == null) continue;
 
                     extra.gameObject.SetActive(false);
-                    InsertDummies(1, false);
+                    //InsertDummies(1, false);
                 }
             }
             InsertDummies(10, false);
-            ScrollSnap.StartIndex = 10;
-            ScrollSnap.EndIndex = currentStoryModeInfos.Count + 9;
+            ScrollSnap.StartIndex = 0;
+            ScrollSnap.EndIndex = currentStoryModeInfos.Count - 1;
+
+            ScrollSnap._childOffset = 10;
         }
 
         private void Play(StoryInfo story, StoryItem storyItem, UserDataManager playerData, int index)
@@ -208,7 +242,7 @@ namespace UI
             {
                 if (!scrollSnap.IsSelected)
                 {
-                    ScrollSnap.Snap(index + 10, false);
+                    ScrollSnap.Snap(index, false);
                     return;
                 }
             }
@@ -233,16 +267,19 @@ namespace UI
         public override void PostShow(CommonPayloadData payload)
         {
             base.PostShow(payload);
+
+            LayoutPosKeeper.SetPositions();
+
             ScrollSnap.Recalculate();
 
-            ScrollSnap.Snap(UserDataManager.RuntimeInfo.GetLastIndex() + 10, true);
+            ScrollSnap.Snap(UserDataManager.RuntimeInfo.GetLastIndex(), true);
             
             // actions.UI.Enter.performed += _ => PlayButton.onClick?.Invoke();
         }
 
         public override void SetSelectedGO()
         {
-            EventSystem.current.SetSelectedGameObject(_storiesItem[ScrollSnap.CurrentIndex - 10].Button.gameObject);
+            EventSystem.current.SetSelectedGameObject(_storiesItem[ScrollSnap.CurrentIndex].Button.gameObject);
         }
 
         public override void OnEnable()

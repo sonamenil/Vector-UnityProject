@@ -105,7 +105,10 @@ public class LevelSceneController : MonoBehaviour
 
         if (Game.Instance.Snail)
         {
-            new GameObject("[QuadsRenderer]").AddComponent<QuadsRenderer>();
+            var quadsRenderer = new GameObject("[QuadsRenderer]");
+            quadsRenderer.AddComponent<MeshFilter>();
+            quadsRenderer.AddComponent<MeshRenderer>();
+            quadsRenderer.AddComponent<QuadsRenderer>();
         }
     }
 

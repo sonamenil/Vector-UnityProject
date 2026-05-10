@@ -1,7 +1,10 @@
-using System.IO;
-using System.Xml;
+using Core._Common;
+using DG.Tweening.Plugins.Core.PathCore;
 using Nekki.Vector.Core.Scripts;
 using Nekki.Vector.Core.Utilites;
+using System;
+using System.IO;
+using System.Xml;
 using UnityEngine;
 using Xml2Prefab;
 using Sprite = UnityEngine.Sprite;
@@ -20,6 +23,8 @@ namespace Nekki.Vector.Core.Location
         private float _OriginalWidth;
 
         private float _OriginalHeight;
+
+        public bool _isAnimation;
 
         private Pointd Point;
 
@@ -44,22 +49,6 @@ namespace Nekki.Vector.Core.Location
         public const int Vanishing = 2;
 
         public const int Dynamic = 3;
-
-        private static string[] animations = {
-            "bird_v0",
-            "bird_v2",
-            "bird_v3",
-            "bonus_v4_off",
-            "bonus_v4",
-            "credits_off",
-            "credits",
-            "glass_1",
-            "paper_v1",
-            "reverse_indicator_left",
-            "reverse_indicator_right",
-            "run_indicator",
-            "stopsign"
-        };
 
         public override GameObject Layer
         {
@@ -144,22 +133,18 @@ namespace Nekki.Vector.Core.Location
             _SpriteRender = UnityObject.AddComponent<SpriteRenderer>();
             _SpriteRender.flipY = true;
             Sprite sprite = null;
-            string path = Application.streamingAssetsPath + "/textures/" + _Name + ".png";
+            string path = VectorPaths.Textures + "/" + _Name;
 
-            if (File.Exists(path))
+            if (ResourceManager.FileExists(path, out string imagePath, ".png", ".jpg", ".jpeg"))
             {
-                sprite = ResourceManager.LoadSpriteFromExternal(path, new Vector2(0, 1), 1);
+                sprite = ResourceManager.LoadSpriteFromExternal(imagePath, new Vector2(0, 1), 1);
             }
-            else
-            {
-                sprite = Resources.Load<Sprite>("LevelContent/Textures/" + _Name);
-            }
+            
             if (sprite == null)
             {
                 DebugUtils.Dialog("Image not found: " + _Name, false);
                 return;
             }
-
             _SpriteRender.sprite = sprite;
             float width = sprite.rect.width;
             float height = sprite.rect.height;
@@ -183,7 +168,9 @@ namespace Nekki.Vector.Core.Location
         {
             _SpriteRender = UnityObject.AddComponent<SpriteRenderer>();
             _SpriteRender.flipY = true;
-            UnityObject.AddComponent<AnimationSprite>().Init("LevelContent/Animations/" + _Name, _SpriteRender);
+            var Animator = UnityObject.AddComponent<AnimationSprite>();
+            var path = VectorPaths.AnimatedTextures + "/" + _Name;
+            Animator.Init(path, _SpriteRender); 
             float width = _SpriteRender.sprite.rect.width;
             float height = _SpriteRender.sprite.rect.height;
             if (_Support != null)
@@ -221,10 +208,9 @@ namespace Nekki.Vector.Core.Location
 
         public virtual void Init()
         {
-            if (IsAnimation(_Name))
+            if (_isAnimation)
             {
                 var animationSprite = UnityObject.GetComponent<AnimationSprite>();
-                animationSprite.Init("LevelContent/Animations/" + _Name, _SpriteRender);
                 animationSprite.FPS = 20;
                 animationSprite.IsWork = true;
             }
@@ -311,14 +297,8 @@ namespace Nekki.Vector.Core.Location
 
         private bool IsAnimation(string name)
         {
-            for (int i = 0; i < animations.Length; i++)
-            {
-                if (name == animations[i])
-                {
-                    return true;
-                }
-            }
-            return false;
+            _isAnimation = ResourceManager.FileExists(VectorPaths.AnimatedTextures + "/" + name, out string path, ".plist", ".json");
+            return _isAnimation;
         }
 
     }

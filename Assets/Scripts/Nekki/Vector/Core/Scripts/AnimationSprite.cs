@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -52,9 +53,9 @@ namespace Nekki.Vector.Core.Scripts
 
         public int TotalFrames => _frames == null ? 0 : _frames.Count;
 
-        public virtual void Init(string p_name, SpriteRenderer p_spriteRender)
+        public virtual void Init(string p_name, SpriteRenderer p_spriteRender, float pivotX = 0, float pivotY = 1)
         {
-            Init(GetFramesSequence(p_name), p_spriteRender);
+            Init(GetFramesSequence(p_name, pivotX, pivotY), p_spriteRender);
         }
 
         public virtual void Init(SpriteAtlas atlas, SpriteRenderer p_spriteRender)
@@ -62,10 +63,12 @@ namespace Nekki.Vector.Core.Scripts
             Init(GetFramesSequence(atlas), p_spriteRender);
         }
 
-        private void Init(List<Sprite> sprites, SpriteRenderer p_spriteRender)
+        public void Init(List<Sprite> sprites, SpriteRenderer p_spriteRender)
         {
             if (sprites == null)
             {
+                DebugUtils.Dialog("Error create animation", false, true);
+
                 return;
             }
             _frames = sprites;
@@ -131,7 +134,7 @@ namespace Nekki.Vector.Core.Scripts
             _iterationsCounter = 0;
         }
 
-        private List<Sprite> GetFramesSequence(SpriteAtlas atlas)
+        public static List<Sprite> GetFramesSequence(SpriteAtlas atlas)
         {
             if (atlas != null)
             {
@@ -145,10 +148,29 @@ namespace Nekki.Vector.Core.Scripts
             return null;
         }
 
-        private List<Sprite> GetFramesSequence(string p_name)
+        public static List<Sprite> GetFramesSequence(string p_name, float pivotX = 0, float pivotY = 1)
         {
-            var sequence = Resources.Load<SpriteAtlas>(p_name);
-            return GetFramesSequence(sequence);
+            if (ResourceManager.FileExists(p_name, out string atlasPath, ".plist", ".json") && ResourceManager.FileExists(p_name, out string imagePath, ".png", ".jpg", ".jpeg"))
+            {
+                try
+                {
+                    var sprites = AtlasDecoder.Decode(atlasPath, imagePath, pivotX, pivotY);
+                    if (sprites != null)
+                    {
+                        return sprites;
+                    }
+                }
+                catch (Exception e)
+                {
+                    DebugUtils.Dialog(e.Message, false, true);
+                }
+            }
+            else
+            {
+                DebugUtils.Dialog("Animation not found: " + Path.GetFileNameWithoutExtension(p_name), false, true);
+            }
+
+            return null;
         }
     }
 }

@@ -40,8 +40,7 @@ namespace Nekki.Vector.Core.Scripts.Geometry
             _Stroke = _Base.Stroke;
             _LineRenderer = gameObject.AddComponent<LineRenderer>();
             _LineRenderer.numCapVertices = 9;
-            _LineRenderer.endWidth = (float)(_Stroke * 2);
-            _LineRenderer.startWidth = (float)(_Stroke * 2);
+            _LineRenderer.widthMultiplier = (float)(_Stroke * 2);
             _LineRenderer.useWorldSpace = false;
             _LineRenderer.sharedMaterial = SharedMaterial;
             _LineRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
@@ -50,29 +49,13 @@ namespace Nekki.Vector.Core.Scripts.Geometry
             _LineRenderer.allowOcclusionWhenDynamic = false;
         }
 
-        private void UpdateLineBounds(Vector3 a, Vector3 b, float radius)
-        {
-            // If LineRenderer.useWorldSpace = false, convert world points to local.
-            Vector3 localA = a;
-            Vector3 localB = b;
-
-            Bounds bounds = new Bounds(localA, Vector3.zero);
-            bounds.Encapsulate(localB);
-
-            // Inflate by line thickness + cap padding.
-            float padding = radius * 2f;
-            bounds.Expand(new Vector3(padding, padding, padding));
-
-            _LineRenderer.localBounds = bounds;
-        }
-
         public void Update()
         {
             if (_Stroke != _Base.Stroke)
             {
                 _Stroke = _Base.Stroke;
-                _LineRenderer.endWidth = (float)(_Stroke * 2);
-                _LineRenderer.startWidth = (float)(_Stroke * 2);
+                _LineRenderer.widthMultiplier = (float)(_Stroke * 2);
+
             }
 
             if (_Base != null && _Base.Start != null && _Base.Start.End != null && _Base.End != null && _Base.End.End != null && _LineRenderer != null)
@@ -91,8 +74,6 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
                 _LineRenderer.SetPosition(0, pos1);
                 _LineRenderer.SetPosition(1, pos2);
-
-                UpdateLineBounds(pos1, pos2, (float)_Stroke);
             }
         }
     }

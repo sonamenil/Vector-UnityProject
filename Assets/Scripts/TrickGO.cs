@@ -1,7 +1,9 @@
 using System.IO;
 using Nekki.Vector.Core.Scripts;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
+using Core._Common;
 
 public class TrickGO : MonoBehaviour
 {
@@ -15,18 +17,25 @@ public class TrickGO : MonoBehaviour
     private SpriteRenderer _trickIcon;
 
     [SerializeField]
-    private SpriteAtlas _idleAnimation;
+    private string _idleAnimation;
 
     [SerializeField]
-    private SpriteAtlas _activateAnimation;
+    private string _activateAnimation;
+
+    private List<Sprite> idle;
+
+    private List<Sprite> activate;
 
     public void Init(string itemName, bool isActive, float w, float h)
     {
+        idle = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _idleAnimation, 0.5f ,0.5f);
+        activate = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _activateAnimation, 0.5f ,0.5f);
+
         if (_animation != null)
         {
             _animation.gameObject.SetActive(true);
             _trickIcon.gameObject.SetActive(true);
-            _animation.Init(_idleAnimation, _animationSprite);
+            _animation.Init(idle, _animationSprite);
             if (isActive)
             {
                 InitActiveState(itemName);
@@ -72,8 +81,7 @@ public class TrickGO : MonoBehaviour
     private void InitDisableState()
     {
         Sprite sprite = null;
-        string path = Application.streamingAssetsPath + "/icons/tricks/lock.png";
-        if (File.Exists(path))
+        if (ResourceManager.FileExists(Application.streamingAssetsPath + "/icons/tricks/lock", out string path, ".png", ".jpg", ".jpeg"))
         {
             sprite = ResourceManager.LoadSpriteFromExternal(path, new Vector2(0.5f, 0.5f), 1);
         }
@@ -90,8 +98,7 @@ public class TrickGO : MonoBehaviour
         _animation.Iterations = -1;
 
         Sprite sprite = null;
-        string path = Application.streamingAssetsPath + "/icons/tricks/" + itemName + ".png";
-        if (File.Exists(path))
+        if (ResourceManager.FileExists(Application.streamingAssetsPath + "/icons/tricks/TRACK_" + itemName, out string path, ".png", ".jpg", ".jpeg"))
         {
             sprite = ResourceManager.LoadSpriteFromExternal(path, new Vector2(0.5f, 0.5f), 1);
         }
@@ -104,7 +111,7 @@ public class TrickGO : MonoBehaviour
 
     public void RunActivate()
     {
-        _animation.Init(_activateAnimation, _animationSprite);
+        _animation.Init(activate, _animationSprite);
         _animation.Iterations = 1;
         _animation.OnIterationsEnd = () =>
         {

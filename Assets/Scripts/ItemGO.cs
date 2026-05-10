@@ -1,15 +1,22 @@
+using Core._Common;
 using DG.Tweening;
 using Nekki.Vector.Core.Scripts;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 
 public class ItemGO : MonoBehaviour
 {
     [SerializeField]
-    private SpriteAtlas _atlas;
+    private string _atlas;
 
     [SerializeField]
-    private SpriteAtlas _atlasEnd;
+    private string _atlasEnd;
+
+    private List<Sprite> atlasSequence;
+
+    private List<Sprite> endSequence;
 
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
@@ -29,6 +36,9 @@ public class ItemGO : MonoBehaviour
 
     public void Init()
     {
+        atlasSequence = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _atlas, 0.5f, 0.5f);
+        endSequence = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _atlasEnd, 0.5f, 0.5f);
+
         _defaultTextPos = _textMesh.transform.localPosition;
         Reset();
     }
@@ -36,7 +46,7 @@ public class ItemGO : MonoBehaviour
     public void PlayEnd(int scope)
     {
         _textMesh.text = "+" + scope;
-        _animationSprite.Init(_atlasEnd, _spriteRenderer);
+        _animationSprite.Init(endSequence, _spriteRenderer);
         _animationSprite.Iterations = 1;
         _textMesh.gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
@@ -49,7 +59,7 @@ public class ItemGO : MonoBehaviour
 
     public void Reset()
     {
-        _animationSprite.Init(_atlas, _spriteRenderer);
+        _animationSprite.Init(atlasSequence, _spriteRenderer);
         _animationSprite.IsWork = true;
         _animationSprite.Iterations = -1;
         _textMesh.gameObject.SetActive(false);

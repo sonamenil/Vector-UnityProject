@@ -1,7 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class SysDlg : MonoBehaviour
 {
+	private static List<string> _messages = new();
+
 	private static string _message;
 
 	private static bool _exit;
@@ -17,7 +20,12 @@ public class SysDlg : MonoBehaviour
 			_t = new Texture2D(1, 1);
 			_t.SetPixel(0, 0, new Color(0f, 0f, 0f, 0.8f));
 		}
-		_message = _message + "\n\n" + message;
+		if (!_messages.Contains(message))
+		{
+			_messages.Add(message);
+            _message = _message + "\n\n" + message;
+        }
+		
 		_exit = exit;
 		if (!_instance)
 		{

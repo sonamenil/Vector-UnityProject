@@ -153,7 +153,7 @@ namespace Nekki.Vector.Core.Location
         {
             foreach (var runner in Element.Runners)
             {
-                runner.InitRunner(Position, true);
+                runner.InitRunner(Position, Xml2PrefabRoot.Serialize);
                 BuildTranformationTable(runner.TransformationData);
             }
         }

@@ -119,6 +119,10 @@ namespace Nekki.Vector.Core.Location
 
         protected override void SerializeData()
         {
+            if (_UnityObject == null)
+            {
+                CreateObject();
+            }
             _UnityObject.AddComponent<Xml2PrefabTriggerContainer>().Init(_rawNode.OuterXml, _h, _w, Choice);
             _CachedTransform = _UnityObject.transform;
         }

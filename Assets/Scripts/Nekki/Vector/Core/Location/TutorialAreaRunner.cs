@@ -74,7 +74,11 @@ namespace Nekki.Vector.Core.Location
 
 		protected override void SerializeData()
 		{
-			_UnityObject.AddComponent<Xml2PrefabTutorialAreaContainer>().Init(TransformationDataRaw, _TypeName, _Name, _X, _Y, _W, _H, _key, Description, Choice);
+            if (_UnityObject == null)
+            {
+                CreateObject();
+            }
+            _UnityObject.AddComponent<Xml2PrefabTutorialAreaContainer>().Init(TransformationDataRaw, _TypeName, _Name, _X, _Y, _W, _H, _key, Description, Choice);
             _CachedTransform = _UnityObject.transform;
         }
 

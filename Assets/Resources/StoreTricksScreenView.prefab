@@ -7649,12 +7649,12 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
   m_HandleRect: {fileID: 1791821431657176416}
   m_Direction: 0
   m_Value: 0.5
-  m_Size: 0.6956522
+  m_Size: 0.5935897
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11966,6 +11966,7 @@ MonoBehaviour:
   _contentWidth: 0
   _spacing: 0
   _duration: 0.5
+  _childOffset: 0
   _currentDragIndex: 0
   StartIndex: 5
   EndIndex: 20
@@ -12480,6 +12481,7 @@ GameObject:
   - component: {fileID: 1791821429811682940}
   - component: {fileID: 1791821431623621666}
   - component: {fileID: 1791821429811683038}
+  - component: {fileID: 2193000855087189160}
   m_Layer: 5
   m_Name: Content
   m_TagString: 
@@ -12578,6 +12580,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2193000855087189160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791821427915856817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b2454fa8e951584eb600ac6821b8112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LayoutPosKeeper
+  left: []
+  right: []
+  horizontalLayout: {fileID: 1791821429811682817}
 --- !u!1 &1791821427915856818
 GameObject:
   m_ObjectHideFlags: 0
@@ -14783,6 +14800,7 @@ MonoBehaviour:
   _contentWidth: 0
   _spacing: 0
   _duration: 0.5
+  _childOffset: 0
   _currentDragIndex: 0
   StartIndex: 5
   EndIndex: 20
@@ -15357,6 +15375,7 @@ GameObject:
   - component: {fileID: 1791821431657176416}
   - component: {fileID: 1791821431623621678}
   - component: {fileID: 1791821429811682953}
+  - component: {fileID: 8546195892448392169}
   m_Layer: 5
   m_Name: Handle
   m_TagString: 
@@ -15422,6 +15441,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8546195892448392169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791821427915856853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df93dc563db3b9e44bdc51dfffc27298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoWidth
+  Width: 115
+  RectTransform: {fileID: 1791821431657176416}
 --- !u!1 &1791821427915856854
 GameObject:
   m_ObjectHideFlags: 0
@@ -17212,6 +17245,7 @@ MonoBehaviour:
   BuyButton: {fileID: 1791821429811683021}
   ContentParent: {fileID: 1791821427915856817}
   ScrollSnap: {fileID: 1791821429811682796}
+  LayoutPosKeeper: {fileID: 2193000855087189160}
 --- !u!114 &8363256587201747153
 MonoBehaviour:
   m_ObjectHideFlags: 0

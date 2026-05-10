@@ -12,9 +12,9 @@ namespace Nekki.Vector.Core.Location
 
         private int _Type;
 
-        protected double _XQuad;
+        protected float _XQuad;
 
-        protected double _YQuad;
+        protected float _YQuad;
 
         protected float _WidthQuad;
 
@@ -52,7 +52,7 @@ namespace Nekki.Vector.Core.Location
 
         protected Vector3f _Velocity = new Vector3f();
 
-        private Rectangle _rectangle = new Rectangle();
+        protected Rectangle _rectangle = new Rectangle();
 
         public Action<QuadRunner> OnTransformationStart;
 
@@ -64,9 +64,9 @@ namespace Nekki.Vector.Core.Location
 
         public int Type => _Type;
 
-        public double XQuad => _XQuad;
+        public float XQuad => _XQuad;
 
-        public double YQuad => _YQuad;
+        public float YQuad => _YQuad;
 
         public float WidthQuad => _WidthQuad;
 
@@ -124,18 +124,29 @@ namespace Nekki.Vector.Core.Location
 
         protected override void GenerateObject()
         {
-            //base.GenerateObject();
+            if (Xml2PrefabRoot.Serialize)
+                base.GenerateObject();
         }
 
         protected void CreateObject()
         {
+            if (_UnityObject != null)
+            {
+                return;
+            }
+
             base.GenerateObject();
             _CachedTransform.localPosition = new UnityEngine.Vector3((float)_XQuad, (float)_YQuad);
         }
 
         public override void InitRunner(Point point, bool serialize = false)
         {
-            if (point != null)
+            if (serialize)
+            {
+                SerializeData();
+            }
+
+            if (point != null && !Xml2PrefabRoot.Serialize)
             {
                 Move(point);
             }
@@ -511,7 +522,7 @@ namespace Nekki.Vector.Core.Location
 
         public virtual bool Hit(double x, double y, bool equality = false)
         {
-            return _rectangle.Contains(new Vector3d(x,y), 0.01f);
+            return _rectangle.Contains(new Vector3d(x, y), 0.01f);
         }
 
         public Vector3d Add(Vector3d point)
@@ -531,7 +542,7 @@ namespace Nekki.Vector.Core.Location
 
         protected virtual void SetRectangle()
         {
-            rectangle.Set((float)_XQuad, (float)_YQuad, _WidthQuad, _HeightQuad);
+            rectangle.Set(_XQuad, _YQuad, _WidthQuad, _HeightQuad);
         }
 
         protected virtual void CalcPoints()

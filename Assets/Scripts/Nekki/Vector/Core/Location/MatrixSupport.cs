@@ -34,10 +34,10 @@ namespace Nekki.Vector.Core.Location
         {
             if (matrixNode != null)
             {
-                _Transformation[0, 0] = float.Parse(matrixNode.Attributes["A"].Value);
-                _Transformation[0, 1] = float.Parse(matrixNode.Attributes["B"].Value);
-                _Transformation[1, 0] = float.Parse(matrixNode.Attributes["C"].Value);
-                _Transformation[1, 1] = float.Parse(matrixNode.Attributes["D"].Value);
+                _Transformation[0, 0] = matrixNode.Attributes["A"].ParseFloat(0);
+                _Transformation[0, 1] = matrixNode.Attributes["B"].ParseFloat(0);
+                _Transformation[1, 0] = matrixNode.Attributes["C"].ParseFloat(0);
+                _Transformation[1, 1] = matrixNode.Attributes["D"].ParseFloat(0);
                 _Transformation[2, 2] = 1f;
                 _Transformation[3, 3] = 1f;
             }

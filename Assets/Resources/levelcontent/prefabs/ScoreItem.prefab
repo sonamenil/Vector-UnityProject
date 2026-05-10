@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db027ea1a7a97d34697d7dde109b5acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 0}
   _FPS: 20
 --- !u!114 &1791852681338724571
 MonoBehaviour:
@@ -119,8 +120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa341d658af3e72885607efbbc46e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _atlas: {fileID: 100100200, guid: 74f49758c06371d48bb8a2d46abadf8c, type: 3}
-  _atlasEnd: {fileID: 100100200, guid: 6af24496ee9cac540ae35a93f9426175, type: 3}
+  _atlas: bonus_v4
+  _atlasEnd: bonus_v4_off
   _spriteRenderer: {fileID: 1791852682982891738}
   _animationSprite: {fileID: 1791852681338724572}
   _textMesh: {fileID: 1791852681137397977}

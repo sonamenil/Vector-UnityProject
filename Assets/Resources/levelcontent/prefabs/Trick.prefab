@@ -89,7 +89,7 @@ SpriteRenderer:
   m_Size: {x: 117, y: 117}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1791852679442899157
 GameObject:
@@ -140,9 +140,8 @@ MonoBehaviour:
   _animation: {fileID: 1791852681338724573}
   _animationSprite: {fileID: 1791852682982891739}
   _trickIcon: {fileID: 1791852682982891738}
-  _idleAnimation: {fileID: 100100200, guid: a31696d79001e31458bb39e3946c6367, type: 3}
-  _activateAnimation: {fileID: 100100200, guid: e690573325a0ff747b2c66805c2f4ec7,
-    type: 3}
+  _idleAnimation: trick_idle_up
+  _activateAnimation: trick_active_up
 --- !u!1 &1791852679442899158
 GameObject:
   m_ObjectHideFlags: 0

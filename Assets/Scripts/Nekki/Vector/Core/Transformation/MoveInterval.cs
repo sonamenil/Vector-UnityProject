@@ -74,8 +74,8 @@ namespace Nekki.Vector.Core.Transformation
 
         public void CalculateExtraPoints()
         {
-            Point point = _Points[0];
-            Point point1 = _Points[_Points.Count - 1];
+            Point vector3f = _Points[0];
+            Point vector3f2 = _Points[_Points.Count - 1];
             List<Point> list = new List<Point>();
             for (int i = 1; i < _Points.Count - 1; i++)
             {
@@ -86,40 +86,36 @@ namespace Nekki.Vector.Core.Transformation
             for (int j = 0; j < _Frames; j++)
             {
                 double num2 = Math.Pow(1f - num, list.Count + 1);
-                double num3 = num2 * point.X;
-                double num4 = num2 * point.Y;
+                double num3 = num2 * (double)vector3f.X;
+                double num4 = num2 * (double)vector3f.Y;
                 int num5 = 0;
-                int num6 = 0;
                 for (num5 = 0; num5 < list.Count; num5++)
                 {
-                    var n = Math.Pow(1 - num, list.Count + num6);
-                    var n1 = Math.Pow(num, (double)num5 + 1);
-                    var p = list[num5];
-                    n1 = n * (list.Count + 1) * n1;
-                    num3 = num3 + n1 * p.X;
-                    num4 = num4 + n1 * p.Y;
-                    num6--;
+                    num2 = (double)(list.Count + 1) * Math.Pow(1f - num, list.Count - num5) * Math.Pow(num, num5 + 1);
+                    num3 += num2 * (double)list[num5].X;
+                    num4 += num2 * (double)list[num5].Y;
                 }
-                var n2 = Math.Pow(num, num5 + 1);
-                num3 = num3 + n2 * point1.X;
-                num4 = num4 + n2 * point1.Y;
-                var p1 = new Point((float)num3, (float)num4);
-                _Points.Add(p1);
-                num = num + 1 / (float)_Frames;
+                num2 = Math.Pow(num, num5 + 1);
+                num3 += num2 * (double)vector3f2.X;
+                num4 += num2 * (double)vector3f2.Y;
+                _Points.Add(new Point((float)num3, (float)num4));
+                num += 1f / (float)_Frames;
             }
-            _Points.Add(point1);
+            _Points.Add(vector3f2);
 
             for (int num2 = _Points.Count - 1; num2 > 0; num2--)
             {
                 _Points[num2].Subtract(_Points[num2 - 1]);
                 _Points[num2].Round(100);
             }
+
             _Points.RemoveAt(0);
         }
 
 
         public bool Iteration(Runner runner)
         {
+
             if (_CurrentDelay <= 0)
             {
                 runner.UpdatePosition(_Points[_CurrentFrame]);

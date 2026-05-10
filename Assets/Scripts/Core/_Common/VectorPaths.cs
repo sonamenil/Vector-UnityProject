@@ -25,5 +25,9 @@ namespace Core._Common
         public static string Music = CurrentResources + "/music";
 
         public static string Sounds = CurrentResources + "/sounds";
+
+        public static string Textures = CurrentResources + "/textures";
+
+        public static string AnimatedTextures = CurrentResources + "/animatedtextures";
     }
 }

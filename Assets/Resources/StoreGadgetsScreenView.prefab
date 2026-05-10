@@ -482,6 +482,7 @@ GameObject:
   - component: {fileID: 1791821429811682611}
   - component: {fileID: 1791821431623621652}
   - component: {fileID: 1791821429811682645}
+  - component: {fileID: 2276190475234212637}
   m_Layer: 5
   m_Name: Content
   m_TagString: 
@@ -576,6 +577,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2276190475234212637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791821427915856671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b2454fa8e951584eb600ac6821b8112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LayoutPosKeeper
+  left: []
+  right: []
+  horizontalLayout: {fileID: 1791821429811682714}
 --- !u!1 &1791821427915856672
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,12 +995,14 @@ MonoBehaviour:
   _contentWidth: 0
   _spacing: 0
   _duration: 0.75
+  _childOffset: 10
   _currentDragIndex: 0
   StartIndex: 5
   EndIndex: 20
   MinVelocity: 150
   _radius: 1
   _scale: 0.2
+  _disabled: 0
 --- !u!1 &1791821427915856677
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,12 +1469,14 @@ MonoBehaviour:
   _contentWidth: 0
   _spacing: 0
   _duration: 0.5
+  _childOffset: 0
   _currentDragIndex: 0
   StartIndex: 5
   EndIndex: 20
   MinVelocity: 150
   _radius: 1
   _scale: 0.2
+  _disabled: 0
 --- !u!1 &1791821427915856683
 GameObject:
   m_ObjectHideFlags: 0
@@ -3108,6 +3128,7 @@ MonoBehaviour:
   GadgetsArea: {fileID: 1791821427915856727}
   GadgetIcon: {fileID: 1791821427915856677}
   ScrollSnap: {fileID: 1791821429811682677}
+  LayoutPosKeeper: {fileID: 2276190475234212637}
 --- !u!114 &5834930939785508104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4114,6 +4135,7 @@ GameObject:
   - component: {fileID: 1791821431657176201}
   - component: {fileID: 1791821431623621681}
   - component: {fileID: 1791821429811682601}
+  - component: {fileID: 2964835606726361406}
   m_Layer: 5
   m_Name: Handle
   m_TagString: 
@@ -4179,6 +4201,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2964835606726361406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791821427915856716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df93dc563db3b9e44bdc51dfffc27298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoWidth
+  Width: 115
+  RectTransform: {fileID: 1791821431657176201}
 --- !u!1 &1791821427915856717
 GameObject:
   m_ObjectHideFlags: 0
@@ -12105,7 +12141,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
   m_HandleRect: {fileID: 1791821431657176201}
   m_Direction: 0

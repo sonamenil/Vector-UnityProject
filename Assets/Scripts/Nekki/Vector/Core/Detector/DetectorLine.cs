@@ -101,7 +101,7 @@ namespace Nekki.Vector.Core.Detector
             switch (Type)
             {
                 case DetectorType.Horizontal:
-                    DeltaValue.X = value; 
+                    DeltaValue.X = value;
 					break;
                 case DetectorType.Vertical:
 					DeltaValue.Y = value;

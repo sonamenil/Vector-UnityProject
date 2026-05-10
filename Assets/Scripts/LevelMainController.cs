@@ -161,6 +161,7 @@ public class LevelMainController
         _Location.Start();
         CanPauseOrReload = true;
         ResourceManager.textureCache.Clear();
+        AtlasDecoder.Cache.Clear();
         Resources.UnloadUnusedAssets();
         GC.Collect();
     }

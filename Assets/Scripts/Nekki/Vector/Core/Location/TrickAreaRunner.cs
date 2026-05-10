@@ -152,7 +152,8 @@ namespace Nekki.Vector.Core.Location
                     _Point1.X -= _originalWidth;
                     _Point4.X -= _originalWidth;
                 }
-                //Move(Point.ZeroPoint);
+
+                _rectangle.Set((float)_Point1.X, (float)_Point1.Y, (float)(_Point2.X - _Point1.X), (float)(_Point4.Y - _Point1.Y));
                 _wasExpanded = true;
             }
         }

@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System.Xml;
 using Nekki.Vector.Core.User;
 using Nekki.Vector.Core.Utilites;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Xml2Prefab
@@ -66,11 +69,17 @@ namespace Xml2Prefab
             {
                 var path = "LevelContent/Prefabs/" + directory + "/" + name;
                 var obj = Resources.Load<GameObject>(path);
+
                 if (obj != null)
                 {
+#if UNITY_EDITOR
+                    return (GameObject)PrefabUtility.InstantiatePrefab(obj);
+#else
                     var inst = Object.Instantiate(obj);
                     inst.name = name;
                     return inst;
+#endif
+
                 }
             }
             return null;

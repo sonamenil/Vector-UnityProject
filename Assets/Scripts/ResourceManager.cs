@@ -87,6 +87,22 @@ public static class ResourceManager
         return p_path;
     }
 
+    public static bool FileExists(string p_path, out string existingPath, params string[] exts)
+    {
+        foreach (var ext in exts)
+        {
+            existingPath = p_path + ext;
+
+            if (File.Exists(existingPath))
+            {
+                return true;
+            }
+        }
+
+        existingPath = p_path;
+        return false;
+    }
+
     public static AudioClip GetAudioClipFromExternal(string p_fileName)
     {
         if (audioCache.ContainsKey(p_fileName))

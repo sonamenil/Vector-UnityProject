@@ -229,7 +229,7 @@ namespace Nekki.Vector.Core.Location
         {
             if (serialize)
             {
-                //SerializeData();
+                SerializeData();
             }
             if (!Xml2PrefabRoot.Serialize)
             {

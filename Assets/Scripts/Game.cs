@@ -87,6 +87,8 @@ public class Game
             _isInited = true;
             BackButtonManager.Instance.OnBackButton += OnBackButton;
 
+            DebugUtils.StartTimer("load");
+
             SceneManager.LoadScene("Scenes/Level");
 
             yield return null;
@@ -101,10 +103,12 @@ public class Game
 
             yield return ScreenManager.FadeOutCoroutine();
 
+            DebugUtils.StopTimerWithMessage("load time", "load");
+
+
             yield return null;
 
             LevelMainController.current.pauseRender = false;
-
             yield break;
         }
         var payload = new VideoScreenPayloadData("intro.mp4", () =>

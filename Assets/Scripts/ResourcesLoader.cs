@@ -27,8 +27,7 @@ public class ResourcesLoader : MonoBehaviour
 
     public static Sprite LoadItemSprite(string trickIconId)
     {
-        string path = Application.streamingAssetsPath + "/icons/shop/" + trickIconId + ".png";
-        if (File.Exists(path))
+        if (ResourceManager.FileExists(Application.streamingAssetsPath + "/icons/shop/" + trickIconId, out string path, ".png", ".jpg", ".jpeg"))
         {
             return ResourceManager.LoadSpriteFromExternal(path, new Vector2(0.5f, 0.5f), 100);
         }
@@ -37,8 +36,7 @@ public class ResourcesLoader : MonoBehaviour
 
     public static Sprite LoadLocationSprite(string locationIconId)
     {
-        string path = Application.streamingAssetsPath + "/icons/locations/" + locationIconId + ".png";
-        if (File.Exists(path))
+        if (ResourceManager.FileExists(Application.streamingAssetsPath + "/icons/locations/" + locationIconId, out string path, ".png", ".jpg", ".jpeg"))
         {
             return ResourceManager.LoadSpriteFromExternal(path, new Vector2(0.5f, 0.5f), 100);
         }
@@ -47,8 +45,7 @@ public class ResourcesLoader : MonoBehaviour
 
     public static Sprite LoadStoriesSprite(string locationIconId)
     {
-        string path = Application.streamingAssetsPath + "/icons/stories/" + locationIconId + ".png";
-        if (File.Exists(path))
+        if (ResourceManager.FileExists(Application.streamingAssetsPath + "/icons/stories/" + locationIconId, out string path, ".png", ".jpg", ".jpeg"))
         {
             return ResourceManager.LoadSpriteFromExternal(path, new Vector2(0.5f, 0.5f), 100);
         }

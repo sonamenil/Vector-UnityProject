@@ -33,19 +33,23 @@ namespace Nekki.Vector.Core.Location
 			_UnityObject.AddComponent<Xml2PrefabParticleContainer>().Init(_Name, _DefautPosition.X, _DefautPosition.Y, _Width, _Height, TransformationDataRaw, Choice);
 		}
 
-		public override void Init()
+		public override void Init(float pivotX = 0.5f, float pivotY = 0.5f)
 		{
 			if (_Name == "p_glass1_mini")
 			{
 				Name = "glass_1";
             }
-			base.Init();
+			base.Init(pivotX, pivotY);
 			_CachedTransform.localScale *= Random.Range(0.5f, 1f);
 			var range = Random.Range(0, 360);
 			_CachedTransform.eulerAngles = new Vector3(range, range, 0);
 
-			Animator._spriteRenderer.color = Color.black;
-		}
+			if (Animator._spriteRenderer != null)
+			{
+                Animator._spriteRenderer.color = Color.black;
+
+            }
+        }
 
 		public void PlayAnimation(ModelNode p_node)
 		{
