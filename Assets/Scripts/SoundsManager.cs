@@ -1,25 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
+using Core._Common;
 
 public class SoundsManager : MonoBehaviour
 {
-    private static string PREFAB_PATH = "Other/SoundsManager";
+    private static string PREFAB_PATH = Path.Combine("Other", "SoundsManager");
 
     [Header("Audio Sources")]
-    [Tooltip("Used as the first SFX channel; additional channels are created at runtime.")]
-    public AudioSource AudioSourceMain;              // SFX channel #0 (pooled)
-    public AudioSource AudioSourceBackground;        // Music / Background (single channel)
+    public AudioSource AudioSourceMain;
+    public AudioSource AudioSourceBackground;
 
     [Header("SFX Channel Pool")]
-    [Min(1)] public int initialSfxChannels = 11;      // includes AudioSourceMain if assigned
+    [Min(1)] public int initialSfxChannels = 11;
     [Min(1)] public int maxSfxChannels = 16;
     public bool autoExpandPool = true;
 
     [Header("Defaults")]
-    [Range(0f, 1f)] public float defaultSfxVolume = 1f;
-    [Range(0f, 1f)] public float defaultMusicVolume = 1f;
+    [Range(0f, 1f)] public float defaultSfxVolume = AudioLimits.MaxSoundVolume;
+    [Range(0f, 1f)] public float defaultMusicVolume = AudioLimits.MaxMusicVolume;
 
     private static SoundsManager _instance;
     public static SoundsManager Instance
@@ -41,14 +42,20 @@ public class SoundsManager : MonoBehaviour
     private readonly List<AudioSource> _sfxSources = new List<AudioSource>();
     private Transform _sfxContainer;
 
+    // ===================== GLOBAL AUDIO STATE =====================
+    private bool _sfxEnabled = true;
+    private bool _musicEnabled = true;
+    private float _sfxLevel = 1f;
+    private float _musicLevel = 1f;
+
     private void Awake()
     {
-        // Singleton guard for scene-dropped instances
         if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
             return;
         }
+
         _instance = this;
         DontDestroyOnLoad(gameObject);
 
@@ -56,30 +63,35 @@ public class SoundsManager : MonoBehaviour
         Init();
     }
 
+	public void SyncFromUserData()
+	{
+		var options = UserDataManager.Instance.Options;
+
+		_musicLevel = options.MusicLevel;
+		_sfxLevel = options.SoundLevel;
+
+		_musicEnabled = options.Music;
+		_sfxEnabled = options.Sound;
+
+		ApplyToRuntimeAudio();
+	}
+
     private void BuildPool()
     {
-        // Container object (keeps Hierarchy tidy)
         _sfxContainer = new GameObject("SFX_Channels").transform;
         _sfxContainer.SetParent(transform, false);
 
-        // Use AudioSourceMain as first SFX channel if provided
         if (AudioSourceMain != null)
         {
             PrepareSfxSource(AudioSourceMain);
             _sfxSources.Add(AudioSourceMain);
         }
 
-        // Create extra channels up to initialSfxChannels
         int need = Mathf.Max(1, initialSfxChannels) - _sfxSources.Count;
         for (int i = 0; i < need; i++)
-        {
             _sfxSources.Add(CreateSfxSource());
-        }
 
-        // Default volumes
-        if (AudioSourceBackground != null)
-            AudioSourceBackground.volume = defaultMusicVolume;
-        foreach (var s in _sfxSources) s.volume = defaultSfxVolume;
+        ApplyToRuntimeAudio();
     }
 
     private AudioSource CreateSfxSource()
@@ -94,40 +106,103 @@ public class SoundsManager : MonoBehaviour
     private void PrepareSfxSource(AudioSource src)
     {
         src.playOnAwake = false;
-        src.volume = AudioSourceMain.volume;
         src.loop = false;
-        src.spatialBlend = 0f; // 2D by default
+        src.spatialBlend = 0f;
         src.dopplerLevel = 0f;
     }
 
+    // =========================================================
+    // STATE APPLY
+    // =========================================================
+
+    public void ApplyUserSettings(bool soundEnabled, float soundLevel, bool musicEnabled, float musicLevel)
+    {
+        _sfxEnabled = soundEnabled;
+        _musicEnabled = musicEnabled;
+
+        _sfxLevel = soundLevel;
+        _musicLevel = musicLevel;
+
+        ApplyToRuntimeAudio();
+    }
+
+    private void ApplyToRuntimeAudio()
+    {
+        if (AudioSourceBackground != null)
+        {
+            AudioSourceBackground.mute = !_musicEnabled;
+            AudioSourceBackground.volume = _musicLevel;
+        }
+
+        foreach (var s in _sfxSources)
+        {
+            s.mute = !_sfxEnabled;
+            s.volume = _sfxLevel;
+        }
+    }
+
+    // =========================================================
+    // PAN SYSTEM
+    // =========================================================
+
+    private float CalculateStereoPanFromScreen(Vector3 worldPos, Camera cam)
+    {
+        if (cam == null)
+            return 0f;
+
+        Vector3 vp = cam.WorldToViewportPoint(worldPos);
+
+        if (vp.z < 0f)
+            return 0f;
+
+        float x = Mathf.Clamp01(vp.x);
+        return (x * 2f) - 1f;
+    }
+
+    // =========================================================
+    // SOURCE POOL
+    // =========================================================
+
     private AudioSource GetFreeSfxSource()
     {
-        // Prefer an idle source
         var idle = _sfxSources.FirstOrDefault(s => !s.isPlaying);
-        if (idle != null) return idle;
 
-        // Expand if allowed and under cap
-        if (autoExpandPool && _sfxSources.Count < Mathf.Max(1, maxSfxChannels))
+        AudioSource candidate;
+
+        if (idle != null)
         {
-            var extra = CreateSfxSource();
-            _sfxSources.Add(extra);
-            return extra;
+            candidate = idle;
         }
-
-        // Steal the one that’s closest to finishing (least remaining time)
-        // Fallback if all are busy and expansion is not allowed or maxed
-        AudioSource candidate = _sfxSources[0];
-        float minRemaining = Remaining(candidate);
-        for (int i = 1; i < _sfxSources.Count; i++)
+        else if (autoExpandPool && _sfxSources.Count < Mathf.Max(1, maxSfxChannels))
         {
-            float rem = Remaining(_sfxSources[i]);
-            if (rem < minRemaining)
+            candidate = CreateSfxSource();
+            _sfxSources.Add(candidate);
+        }
+        else
+        {
+            candidate = _sfxSources[0];
+
+            float minRemaining = Remaining(candidate);
+            for (int i = 1; i < _sfxSources.Count; i++)
             {
-                minRemaining = rem;
-                candidate = _sfxSources[i];
+                float rem = Remaining(_sfxSources[i]);
+                if (rem < minRemaining)
+                {
+                    minRemaining = rem;
+                    candidate = _sfxSources[i];
+                }
             }
+
+            candidate.Stop();
         }
-        candidate.Stop(); // preempt
+
+        // IMPORTANT: apply global state (NOT defaults!)
+        candidate.panStereo = 0f;
+        candidate.pitch = 1f;
+        candidate.spatialBlend = 0f;
+        candidate.volume = _sfxLevel;
+        candidate.mute = !_sfxEnabled;
+
         return candidate;
 
         float Remaining(AudioSource s)
@@ -137,72 +212,95 @@ public class SoundsManager : MonoBehaviour
         }
     }
 
-    public void Init() { /* reserved for future setup */ }
-
-    // ======== Global Controls ========
+    // =========================================================
+    // GLOBAL CONTROLS
+    // =========================================================
 
     public void SetMusicPause(bool state)
     {
-        if (AudioSourceBackground != null) AudioSourceBackground.mute = state;
+        _musicEnabled = !state;
+
+        if (AudioSourceBackground != null)
+            AudioSourceBackground.mute = state;
     }
 
     public void SetSoundsPause(bool state)
     {
-        foreach (var s in _sfxSources) s.mute = state;
+        _sfxEnabled = !state;
+
+        foreach (var s in _sfxSources)
+            s.mute = state;
+    }
+
+    public void SetSoundLevel(float value)
+    {
+        _sfxLevel = value;
+
+        foreach (var s in _sfxSources)
+            s.volume = value;
+    }
+
+    public void SetMusicLevel(float value)
+    {
+        _musicLevel = value;
+
+        if (AudioSourceBackground != null)
+            AudioSourceBackground.volume = value;
     }
 
     public void PauseAll(bool state)
     {
         if (state)
         {
-            if (AudioSourceBackground != null) AudioSourceBackground.Pause();
+            AudioSourceBackground?.Pause();
             foreach (var s in _sfxSources) s.Pause();
         }
         else
         {
-            if (AudioSourceBackground != null) AudioSourceBackground.UnPause();
+            AudioSourceBackground?.UnPause();
             foreach (var s in _sfxSources) s.UnPause();
         }
     }
 
-    public void SetSoundLevel(float value)
-    {
-        foreach (var s in _sfxSources) s.volume = value;
-    }
-
-    public void SetMusicLevel(float value)
-    {
-        if (AudioSourceBackground != null) AudioSourceBackground.volume = value;
-    }
-
-    // ======== Music / Background ========
+    // =========================================================
+    // MUSIC
+    // =========================================================
 
     public void StopBackground()
     {
-        if (AudioSourceBackground != null) AudioSourceBackground.Stop();
+        AudioSourceBackground?.Stop();
     }
 
-    public void PlayBackground(MusicType musicType) => PlayBackground(musicType.ToString());
+    public void PlayBackground(MusicType musicType)
+        => PlayBackground(musicType.ToString());
 
     public void PlayBackground(string musicName, bool loop = true)
     {
         if (AudioSourceBackground == null)
+            return;
+
+        var clip = ResourcesLoader.LoadMusicClip(musicName);
+        if (clip == null)
         {
-            Debug.LogWarning("Background AudioSource is not assigned.");
+            Debug.LogError("Music clip not found: " + musicName);
             return;
         }
-        AudioSourceBackground.Stop();
-        AudioSourceBackground.clip = ResourcesLoader.LoadMusicClip(musicName);
+
+        AudioSourceBackground.clip = clip;
         AudioSourceBackground.loop = loop;
-        if (AudioSourceBackground.clip == null)
-        {
-            Debug.LogError("Music clip not found " + musicName);
+
+        AudioSourceBackground.volume = _musicLevel;
+        AudioSourceBackground.mute = !_musicEnabled;
+
+        if (!_musicEnabled)
             return;
-        }
+
         AudioSourceBackground.Play();
     }
 
-    // ======== SFX: Single / Parallel ========
+    // =========================================================
+    // SFX
+    // =========================================================
 
     public void PlaySounds(params SoundType[] soundTypes)
     {
@@ -210,7 +308,6 @@ public class SoundsManager : MonoBehaviour
         PlaySounds(names);
     }
 
-    /// <summary>Plays all sounds in parallel on free channels.</summary>
     public void PlaySounds(params string[] soundNames)
     {
         foreach (var name in soundNames)
@@ -218,9 +315,10 @@ public class SoundsManager : MonoBehaviour
             var clip = ResourcesLoader.LoadAudioClip(name);
             if (clip == null)
             {
-                Debug.LogError("Clip not found " + name);
+                Debug.LogError("Clip not found: " + name);
                 continue;
             }
+
             var src = GetFreeSfxSource();
             src.pitch = 1f;
             src.spatialBlend = 0f;
@@ -228,49 +326,56 @@ public class SoundsManager : MonoBehaviour
         }
     }
 
-    /// <summary>Play one sound once with custom volume and optional pitch.</summary>
-    public void PlaySoundsOnce(string soundName, float volume, float pitch = 1f)
+    public void PlaySoundsOnce(string soundName, float volume, float pitch = 1f, float panStereo = 0f)
     {
         var clip = ResourcesLoader.LoadAudioClip(soundName);
+
         if (clip == null)
         {
-            Debug.LogError("Clip not found " + soundName);
+            Debug.LogError("Clip not found: " + soundName);
             return;
         }
+
         var src = GetFreeSfxSource();
+
         src.pitch = pitch;
         src.spatialBlend = 0f;
+        src.panStereo = Mathf.Clamp(panStereo, -1f, 1f);
+
         src.PlayOneShot(clip, Mathf.Clamp01(volume));
     }
 
-    /// <summary>3D variant at a world position.</summary>
-    public void PlaySoundAt(string soundName, Vector3 position, float volume = 1f, float pitch = 1f, float spatialBlend = 1f)
+    public void PlaySoundAt(string soundName, Vector3 position,
+        float volume = 1f, float pitch = 1f, float spatialBlend = 1f)
     {
         var clip = ResourcesLoader.LoadAudioClip(soundName);
         if (clip == null)
         {
-            Debug.LogError("Clip not found " + soundName);
+            Debug.LogError("Clip not found: " + soundName);
             return;
         }
+
         var src = GetFreeSfxSource();
+
         src.transform.position = position;
         src.pitch = pitch;
         src.spatialBlend = Mathf.Clamp01(spatialBlend);
         src.minDistance = 1f;
         src.maxDistance = 25f;
         src.rolloffMode = AudioRolloffMode.Linear;
+
         src.PlayOneShot(clip, Mathf.Clamp01(volume));
     }
 
-    // ======== SFX: Sequential ========
+    // =========================================================
+    // SEQUENTIAL
+    // =========================================================
 
-    /// <summary>Plays the provided sounds sequentially on a dedicated channel.</summary>
     public void PlaySoundsSequential(params string[] soundNames)
     {
         StartCoroutine(PlaySequentially(soundNames));
     }
 
-    /// <summary>Plays SoundTypes sequentially.</summary>
     public void PlaySoundsSequential(params SoundType[] soundTypes)
     {
         string[] names = soundTypes.Select(s => s.ToString()).ToArray();
@@ -287,25 +392,26 @@ public class SoundsManager : MonoBehaviour
         {
             var clip = ResourcesLoader.LoadAudioClip(name);
             if (clip == null)
-            {
-                Debug.LogError("Clip not found " + name);
                 continue;
-            }
 
             src.clip = clip;
             src.Play();
 
-            // Wait for the clip to finish
             while (src != null && src.isPlaying)
                 yield return null;
         }
     }
 
-    // ======== Utilities ========
+    // =========================================================
+    // UTILS
+    // =========================================================
+
+    public void Init() { }
 
     public void StopAllSfx()
     {
-        foreach (var s in _sfxSources) s.Stop();
+        foreach (var s in _sfxSources)
+            s.Stop();
     }
 
     public bool IsAnySfxPlaying()
