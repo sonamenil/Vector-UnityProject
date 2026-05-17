@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.IO;
 
 namespace Core._Common
 {
@@ -6,28 +7,28 @@ namespace Core._Common
     {
         public static string CurrentResources = Application.streamingAssetsPath;
 
-        public static string XmlRoot = CurrentResources + "/XmlRoot";
+        public static string XmlRoot = Path.Combine(CurrentResources, "XmlRoot");
 
-        public static string XmlLevels = XmlRoot + "/Levels";
+        public static string XmlLevels = Path.Combine(XmlRoot, "Levels");
 
-        public static string Models = CurrentResources + "/Models";
+        public static string Models = Path.Combine(CurrentResources, "Models");
 
-        public static string Animations = CurrentResources + "/Animations";
+        public static string Animations = Path.Combine(CurrentResources, "Animations");
 
-        public static string AnimationBinary = Animations + "/Data";
+        public static string AnimationBinary = Path.Combine(Animations, "Data");
 
-        public static string LevelsPrefab = "LevelContent/Prefabs/Levels";
+        public static string LevelsPrefab = Path.Combine("LevelContent", "Prefabs", "Levels");
 
-        public static string Localization = CurrentResources + "/localization";
+        public static string Localization = Path.Combine(CurrentResources, "localization");
 
-        public static string Commons = CurrentResources + "/commons";
+        public static string Commons = Path.Combine(CurrentResources, "commons");
 
-        public static string Music = CurrentResources + "/music";
+        public static string Music = Path.Combine(CurrentResources, "music");
 
-        public static string Sounds = CurrentResources + "/sounds";
+        public static string Sounds = Path.Combine(CurrentResources, "sounds");
 
-        public static string Textures = CurrentResources + "/textures";
+        public static string Textures = Path.Combine(CurrentResources, "textures");
 
-        public static string AnimatedTextures = CurrentResources + "/animatedtextures";
+        public static string AnimatedTextures = Path.Combine(CurrentResources, "animatedtextures");
     }
 }

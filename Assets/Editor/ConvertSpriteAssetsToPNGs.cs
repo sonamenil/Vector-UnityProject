@@ -73,7 +73,9 @@ public class ConvertSpriteAssetsToPNGs : EditorWindow
             EditorUtility.DisplayProgressBar("Exporting (Exact Mesh)", s.name, (float)i / sprites.Count);
 
             string safe = SanitizeFileName(s.name);
-            string pngPath = Path.Combine(outDir, safe + ".png").Replace("\\", "/");
+            string pngPath = Path.Combine(outDir, safe + ".png").Replace(
+				Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar
+			);
             if (skipExisting && File.Exists(pngPath)) { skipped++; continue; }
 
             Texture2D result = RenderSpriteToTexture(s);

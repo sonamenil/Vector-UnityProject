@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using Nekki.Vector.Core.Camera;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Transformation;
@@ -90,7 +91,7 @@ namespace Nekki.Vector.Core.Location
             if (Game.Instance.SnailSett.UsePrefab)
             {
                 string file = filePath.Replace(".xml", "");
-                string prefab = prefabPath + "/" + file;
+                string prefab = Path.Combine(prefabPath, file);
 
                 var obj = Resources.Load<GameObject>(prefab);
                 obj = Object.Instantiate(obj);

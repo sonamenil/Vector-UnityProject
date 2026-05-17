@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml;
+using System.IO;
 using Nekki.Vector.Core.User;
 using Nekki.Vector.Core.Utilites;
 #if UNITY_EDITOR
@@ -67,7 +68,7 @@ namespace Xml2Prefab
             if (string.IsNullOrEmpty(name)) return null;
             foreach (var directory in _directories)
             {
-                var path = "LevelContent/Prefabs/" + directory + "/" + name;
+                var path = Path.Combine("LevelContent", "Prefabs", directory, name);
                 var obj = Resources.Load<GameObject>(path);
 
                 if (obj != null)
@@ -89,7 +90,7 @@ namespace Xml2Prefab
         {
             foreach (var directory in _directories)
             {
-                var path = "LevelContent/Prefabs/" + directory + "/" + name;
+                var path = Path.Combine("LevelContent", "Prefabs", directory, name);
                 var obj = Resources.Load<GameObject>(path);
                 if (obj != null)
                 {
