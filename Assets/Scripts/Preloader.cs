@@ -47,6 +47,13 @@ public class Preloader : MonoBehaviour
             {
                 Game.Instance.SnailSett.ShowUI = false;
             }
+
+            int showStatsArg = Array.IndexOf(args, "-nostats");
+            if (showStatsArg >= 0)
+            {
+                Game.Instance.SnailSett.ShowStats = false;
+            }
+
             int hunterModeArg = Array.IndexOf(args, "-huntermode");
             if (hunterModeArg >= 0)
             {
@@ -76,15 +83,17 @@ public class Preloader : MonoBehaviour
                 Game.Instance.SnailSett.ShowDetectors = true;
             }
         }
-        //Game.Instance.SnailSett.HunterMode = false;
-        //Game.Instance.Snail = true;
-        //Game.Instance.SnailSett.SnailLevel = "DOWNTOWN_STORY_02";
-        //Game.Instance.SnailSett.ShowPlatforms = true;
-        //Game.Instance.SnailSett.ShowAreas = true;
-        // Game.Instance.SnailSett.ShowTriggers = true;
-        //Game.Instance.SnailSett.ShowDetectors = true;
 
+        /*
+		Game.Instance.SnailSett.HunterMode = false;
+        Game.Instance.Snail = true;
+        Game.Instance.SnailSett.SnailLevel = "DOWNTOWN_STORY_02";
+        Game.Instance.SnailSett.ShowPlatforms = true;
+        Game.Instance.SnailSett.ShowAreas = true;
+        Game.Instance.SnailSett.ShowTriggers = true;
+        Game.Instance.SnailSett.ShowDetectors = true;
         //Game.Instance.SnailSett.UsePrefab = true;
+		*/
 
         DontDestroyOnLoad(gameObject);
         //AbstractManager<ConfigManager>.Init(); AD RELATED
