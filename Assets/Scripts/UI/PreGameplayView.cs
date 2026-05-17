@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using Nekki.Vector.Core;
+using Nekki.Vector.Core.Gadgets;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -122,7 +123,7 @@ namespace UI
             var playerData = UserDataManager.Instance;
             var storyInfo = playerData.CurrentBalanceLocation.CurrentStoryModeStoryInfos[UserDataManager.RuntimeInfo.CurrentStory];
             Title.text = LocalizationManager.Instance.GetTranslationByID(storyInfo.Name);
-            GadgetIcon.SetActive(playerData.ShopData.IsEquipped("GADGET_FORCEBLASTER"));
+            GadgetIcon.SetActive(GadgetUtils.HasAnyEquippedGadget());
             foreach (Transform child in ContentParent.transform)
             {
                 Destroy(child.gameObject);
@@ -135,7 +136,6 @@ namespace UI
             ScrollSnap.EndIndex = tricks.Count - 1;
             ScrollSnap._childOffset = 0;
             RefreshBoostButton();
-            
         }
 
         private void RefreshBoostButton()

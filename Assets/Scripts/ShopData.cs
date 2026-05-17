@@ -82,37 +82,6 @@ public class ShopData : BaseUserHolder<ShopData>
         return _items[itemId].isEquip;
     }
 
-	public bool IsEquippedGadget(string gadgetID = "GADGET_FORCEBLASTER")
-	{
-        if (!_items.ContainsKey(gadgetID))
-        {
-            return false;
-        }
-		if (_items[gadgetID].count == 0)
-		{
-			return false;
-		}
-        return _items[gadgetID].isEquip;
-    }
-
-	public bool IsEquippedGadgetNotEmpty(string gadgetID = "GADGET_FORCEBLASTER")
-	{
-		if (IsEquipped(gadgetID))
-		{
-			return GetCount(gadgetID) > 0;
-		}
-		return false;
-	}
-
-	public int GetGadgetCount(string gadgetID = "GADGET_FORCEBLASTER")
-	{
-        if (!_items.ContainsKey(gadgetID))
-        {
-            return 0;
-        }
-        return _items[gadgetID].count;
-    }
-
 	public void Equip(string itemId)
 	{
 		_items[itemId].SetEquip(true);
