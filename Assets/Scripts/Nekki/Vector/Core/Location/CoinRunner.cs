@@ -1,3 +1,4 @@
+using System.IO;
 using Nekki.Vector.Core.Models;
 using UnityEngine;
 using Xml2Prefab;
@@ -35,7 +36,9 @@ namespace Nekki.Vector.Core.Location
 
 		protected override void GenerateObject()
 		{
-			_UnityObject = Object.Instantiate(Resources.Load<GameObject>("LevelContent/Prefabs/" + _prefabName));
+			_UnityObject = Object.Instantiate(Resources.Load<GameObject>(
+				Path.Combine("LevelContent", "Prefabs", _prefabName)
+			));
 			_CachedTransform = _UnityObject.transform;
 			_CachedTransform.localPosition = new Vector3(_DefautPosition.X, _DefautPosition.Y, 0);
             if (_Layer != null)

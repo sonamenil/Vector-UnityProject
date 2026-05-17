@@ -1,6 +1,8 @@
 using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Core._Common;
 
 namespace UI
 {
@@ -104,10 +106,19 @@ namespace UI
 
 		public override void PreShow(CommonPayloadData payload)
 		{
+			SoundSlider.maxValue = AudioLimits.MaxSoundVolume;
+			MusicSlider.maxValue = AudioLimits.MaxMusicVolume;
+
 			base.PreShow(payload);
-			MusicSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.MusicLevel);
-            SoundSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.SoundLevel);
-        }
+
+			SoundSlider.SetValueWithoutNotify(
+				Mathf.Clamp(UserDataManager.Instance.Options.SoundLevel, 0f, AudioLimits.MaxSoundVolume)
+			);
+
+			MusicSlider.SetValueWithoutNotify(
+				Mathf.Clamp(UserDataManager.Instance.Options.MusicLevel, 0f, AudioLimits.MaxMusicVolume)
+			);
+		}
 
 		public override void SetSelectedGO()
 		{	

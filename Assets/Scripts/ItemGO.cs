@@ -2,6 +2,7 @@ using Core._Common;
 using DG.Tweening;
 using Nekki.Vector.Core.Scripts;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -36,8 +37,11 @@ public class ItemGO : MonoBehaviour
 
     public void Init()
     {
-        atlasSequence = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _atlas, 0.5f, 0.5f);
-        endSequence = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _atlasEnd, 0.5f, 0.5f);
+		var atlasPathSeq = Path.Combine(VectorPaths.AnimatedTextures, _atlas);
+		var atlasPathEnd = Path.Combine(VectorPaths.AnimatedTextures, _atlasEnd);
+
+        atlasSequence = AnimationSprite.GetFramesSequence(atlasPathSeq, 0.5f, 0.5f);
+        endSequence = AnimationSprite.GetFramesSequence(atlasPathEnd, 0.5f, 0.5f);
 
         _defaultTextPos = _textMesh.transform.localPosition;
         Reset();

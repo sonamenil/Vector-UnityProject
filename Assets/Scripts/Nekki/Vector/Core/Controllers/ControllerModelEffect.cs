@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using Core._Common;
 using Nekki.Vector.Core.Models;
 using Nekki.Vector.Core.Node;
@@ -54,7 +55,8 @@ namespace Nekki.Vector.Core.Controllers
 
         private void CreateAntibotEffect()
         {
-            _antibotEffect = CreateGO("AntibotEffect", VectorPaths.AnimatedTextures + "/antibot");
+			var path = Path.Combine(VectorPaths.AnimatedTextures, "antibot");
+            _antibotEffect = CreateGO("AntibotEffect", path);
             _antibotEffect.FPS = 100;
             _antibotEffect.Iterations = 1;
             _antibotEffect.OnIterationsEnd = () =>
@@ -79,7 +81,8 @@ namespace Nekki.Vector.Core.Controllers
 
         private void CreateTaserExplosionEffect()
         {
-            _taserExplosionEffect = CreateGO("Taser Explosion", VectorPaths.AnimatedTextures + "/lightning_expl_v2");
+			var path = Path.Combine(VectorPaths.AnimatedTextures, "lightning_expl_v2");
+            _taserExplosionEffect = CreateGO("Taser Explosion", path);
             _taserExplosionEffect.transform.localScale = new Vector3(2, 2, 2);
             _taserExplosionEffect.FPS = 100;
             _taserExplosionEffect.Iterations = 1;
@@ -104,7 +107,7 @@ namespace Nekki.Vector.Core.Controllers
 
         private void CreateTaserEffect()
         {
-            string path = VectorPaths.AnimatedTextures + "/lightning_hands";
+            string path = Path.Combine(VectorPaths.AnimatedTextures, "lightning_hands");
             _taserEffect.Add((_modelHuman.GetNode("NKnuckles_1"), CreateGO("Taser 1", path)));
             _taserEffect.Add((_modelHuman.GetNode("NKnuckles_2"), CreateGO("Taser 2", path)));
         }
@@ -155,7 +158,8 @@ namespace Nekki.Vector.Core.Controllers
             foreach (var nodeName in nodes)
             {
                 var node = _modelHuman.GetNode(nodeName);
-                var animation = CreateGO("Taser Paralyze " + nodeName, VectorPaths.AnimatedTextures + "/lightning_paraliz_v2", true);
+				var path = Path.Combine(VectorPaths.AnimatedTextures, "lightning_paraliz_v2");
+                var animation = CreateGO("Taser Paralyze " + nodeName, path, true);
                 animation.IsWork = true;
                 animation.transform.parent = _layer.transform;
                 animation.transform.localPosition = new Vector3((float)node.Start.X, (float)node.Start.Y, -20);
@@ -198,10 +202,14 @@ namespace Nekki.Vector.Core.Controllers
 
         private AnimationSprite CreateGO(string goName, string animationName, bool isActive = false)
         {
-            var animationSprite = Object.Instantiate(Resources.Load<GameObject>("LevelContent/Prefabs/AnimationSprite")).GetComponent<AnimationSprite>();
+            var animationSprite = Object.Instantiate(Resources.Load<GameObject>(
+				Path.Combine("LevelContent", "Prefabs", "AnimationSprite")
+			)).GetComponent<AnimationSprite>();
+
             animationSprite.Init(animationName, null, 0.5f, 0.5f);
             animationSprite.gameObject.SetActive(isActive);
             animationSprite.name = goName;
+
             return animationSprite;
         }
     }
