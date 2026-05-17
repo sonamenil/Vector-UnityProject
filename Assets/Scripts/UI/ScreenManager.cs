@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace UI
 {
-    //fuck this and fuck nekki
+    // fuck this and fuck nekki
     public class ScreenManager
     {
         private class CacheRecord<T, TPayload> where T : Screen
@@ -39,15 +39,15 @@ namespace UI
 
         private GameObject _popupView;
 
-        public float Duration = 0.4f;
+        public float Duration = 0.2f;
 
         public UiRoot uiRoot;
 
         public ScreenManager()
         {
-            //Used ChatGPT for this because what in the fuck is this method
-            //God bless the poor soul who thought that this was the only way to do this
-            //Sadly, I couldn't care less about rewriting UI code
+            // Used AI for this because what in the fuck is this method
+            // God bless the poor soul who thought that this was the only way to do this
+            // Sadly, I couldn't care less about rewriting UI code
 
             uiRoot = Object.Instantiate(Resources.Load<UiRoot>("UIROOT"));
             Object.DontDestroyOnLoad(uiRoot);
