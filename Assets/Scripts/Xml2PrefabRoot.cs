@@ -112,8 +112,8 @@ public class Xml2PrefabRoot
             return;
         }
         var root = document["Root"][rootNode];
-        string filePath = "Assets/Resources/LevelContent/Prefabs/" + fileName + "/";
-        Directory.CreateDirectory(filePath);
+        string dirPath = Path.Combine("Assets", "Resources", "LevelContent", "Prefabs" + fileName);
+        Directory.CreateDirectory(dirPath);
         GameObject obj = new GameObject();
         foreach (var (node, depth) in FindLowLevelNodes(root.ChildNodes))
         {
@@ -123,7 +123,10 @@ public class Xml2PrefabRoot
             objectRunner.Init();
             objectRunner.SetLayer(obj);
 #if UNITY_EDITOR
-            PrefabUtility.SaveAsPrefabAsset(objectRunner.UnityObject, filePath + objectRunner.UnityObject.name + ".prefab");
+            PrefabUtility.SaveAsPrefabAsset(
+				objectRunner.UnityObject,
+				Path.Combine(dirPath, objectRunner.UnityObject.name + ".prefab")
+			);
             AssetDatabase.Refresh();
 #endif
             Object.DestroyImmediate(objectRunner.UnityObject);
@@ -139,10 +142,15 @@ public class Xml2PrefabRoot
             return;
         }
         var levelobj = new GameObject(fileName);
-        var filepath = "Assets/Resources/LevelContent/Prefabs/levels/" + fileName + ".prefab";
-        Directory.CreateDirectory("Assets/Resources/LevelContent/Prefabs/levels/");
+
+		var dirPath = Path.Combine("Assets", "Resources", "LevelContent", "Prefabs", "levels");
+        var filepath = Path.Combine(dirPath, fileName + ".prefab");
+
+        Directory.CreateDirectory(dirPath);
+
         var root = document["Root"][rootNode];
         List<float> factors = new List<float>();
+
         foreach (XmlNode xmlNode in root)
         {
             if (xmlNode.Attributes["Factor"] != null)

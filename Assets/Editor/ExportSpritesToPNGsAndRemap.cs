@@ -117,7 +117,9 @@ public class ExportSpritesToPNGsAndRemap : EditorWindow
                 EditorUtility.DisplayProgressBar("Exporting PNGs", oldS.name, (float)i / oldSubSprites.Count);
 
                 string safeName = SanitizeFileName(oldS.name);
-                string pngPath = Path.Combine(outFolderPath, safeName + ".png").Replace("\\", "/");
+                string pngPath = Path.Combine(outFolderPath, safeName + ".png").Replace(
+					Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar
+				);
 
                 if (skipExisting && File.Exists(pngPath))
                 {

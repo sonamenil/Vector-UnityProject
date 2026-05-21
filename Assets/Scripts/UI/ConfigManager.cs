@@ -13,7 +13,7 @@ namespace UI
 			private set;
 		}
 
-		private string filePath => Application.persistentDataPath + "/config.xml";
+		private string filePath => Path.Combine(Application.persistentDataPath, "config.xml");
 
 		protected override void InitInternal()
 		{

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml;
+using System.IO;
 using Core._Common;
 using Nekki.Vector.Core.Frame;
 
@@ -188,7 +189,7 @@ namespace Nekki.Vector.Core.Animation
 
         public void LoadBin()
         {
-            FileName = VectorPaths.AnimationBinary + "/" + FileName;
+            FileName = Path.Combine(VectorPaths.AnimationBinary, FileName);
             if (!_isPart && !IsTrick)
             {
                 LoadBinary(true);

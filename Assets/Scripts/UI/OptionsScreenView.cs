@@ -1,6 +1,8 @@
 using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Core._Common;
 
 namespace UI
 {
@@ -67,16 +69,28 @@ namespace UI
                 FullScreenButtonText.text = ResolutionManager.Instance.GetFullScreenModeName();
                 SoundsManager.Instance.PlaySounds(SoundType.ui_click);
             });
-            MusicButton.onClick.AddListener(() =>
-            {
-	            UserDataManager.Instance.Options.ToggleMusic();
-	            MusicSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.MusicLevel);
-            });
-            SoundButton.onClick.AddListener(() =>
-            {
-	            UserDataManager.Instance.Options.ToggleSound();
-	            SoundSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.SoundLevel);
-            });
+			MusicButton.onClick.AddListener(() =>
+			{
+				UserDataManager.Instance.Options.ToggleMusic();
+
+				bool enabled = UserDataManager.Instance.Options.Music;
+
+				SoundsManager.Instance.SetMusicPause(!enabled);
+				SoundsManager.Instance.SetMusicLevel(UserDataManager.Instance.Options.MusicLevel);
+
+				MusicSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.MusicLevel);
+			});
+			SoundButton.onClick.AddListener(() =>
+			{
+				UserDataManager.Instance.Options.ToggleSound();
+
+				bool enabled = UserDataManager.Instance.Options.Sound;
+
+				SoundsManager.Instance.SetSoundsPause(!enabled);
+				SoundsManager.Instance.SetSoundLevel(UserDataManager.Instance.Options.SoundLevel);
+
+				SoundSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.SoundLevel);
+			});
             MusicSlider.onValueChanged.AddListener(value =>
             {
 	            UserDataManager.Instance.Options.MusicLevel = value;
@@ -104,10 +118,21 @@ namespace UI
 
 		public override void PreShow(CommonPayloadData payload)
 		{
+			SoundsManager.Instance.SyncFromUserData();
+
+			SoundSlider.maxValue = AudioLimits.MaxSoundVolume;
+			MusicSlider.maxValue = AudioLimits.MaxMusicVolume;
+
 			base.PreShow(payload);
-			MusicSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.MusicLevel);
-            SoundSlider.SetValueWithoutNotify(UserDataManager.Instance.Options.SoundLevel);
-        }
+
+			SoundSlider.SetValueWithoutNotify(
+				Mathf.Clamp(UserDataManager.Instance.Options.SoundLevel, 0f, AudioLimits.MaxSoundVolume)
+			);
+
+			MusicSlider.SetValueWithoutNotify(
+				Mathf.Clamp(UserDataManager.Instance.Options.MusicLevel, 0f, AudioLimits.MaxMusicVolume)
+			);
+		}
 
 		public override void SetSelectedGO()
 		{	

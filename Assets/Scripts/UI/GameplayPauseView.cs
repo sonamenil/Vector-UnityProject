@@ -4,6 +4,8 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+using Nekki.Vector.Core.Gadgets;
+
 namespace UI
 {
     public class GameplayPauseView : ScreenViewWithCommonPayload<GameplayPauseScreen>
@@ -107,7 +109,7 @@ namespace UI
 
             var storyInfo = UserDataManager.Instance.CurrentBalanceLocation.CurrentStoryModeStoryInfos[UserDataManager.RuntimeInfo.CurrentStory];
             Title.text = LocalizationManager.Instance.GetTranslationByID(storyInfo.Name);
-            GadgetIcon.SetActive(UserDataManager.Instance.ShopData.IsEquipped("GADGET_FORCEBLASTER"));
+            GadgetIcon.SetActive(GadgetUtils.HasAnyEquippedGadget());
             foreach (RectTransform obj in ScrollSnap._content)
             {
                 Destroy(obj.gameObject);

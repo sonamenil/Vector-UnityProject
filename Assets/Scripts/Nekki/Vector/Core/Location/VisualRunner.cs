@@ -133,7 +133,7 @@ namespace Nekki.Vector.Core.Location
             _SpriteRender = UnityObject.AddComponent<SpriteRenderer>();
             _SpriteRender.flipY = true;
             Sprite sprite = null;
-            string path = VectorPaths.Textures + "/" + _Name;
+            string path = System.IO.Path.Combine(VectorPaths.Textures, _Name);
 
             if (ResourceManager.FileExists(path, out string imagePath, ".png", ".jpg", ".jpeg"))
             {
@@ -169,7 +169,7 @@ namespace Nekki.Vector.Core.Location
             _SpriteRender = UnityObject.AddComponent<SpriteRenderer>();
             _SpriteRender.flipY = true;
             var Animator = UnityObject.AddComponent<AnimationSprite>();
-            var path = VectorPaths.AnimatedTextures + "/" + _Name;
+            var path = System.IO.Path.Combine(VectorPaths.AnimatedTextures, _Name);
             Animator.Init(path, _SpriteRender); 
             float width = _SpriteRender.sprite.rect.width;
             float height = _SpriteRender.sprite.rect.height;
@@ -297,7 +297,8 @@ namespace Nekki.Vector.Core.Location
 
         private bool IsAnimation(string name)
         {
-            _isAnimation = ResourceManager.FileExists(VectorPaths.AnimatedTextures + "/" + name, out string path, ".plist", ".json");
+			var asset = System.IO.Path.Combine(VectorPaths.AnimatedTextures, name);
+            _isAnimation = ResourceManager.FileExists(asset, out string path, ".plist", ".json");
             return _isAnimation;
         }
 

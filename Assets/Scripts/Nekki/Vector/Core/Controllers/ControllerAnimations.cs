@@ -450,27 +450,49 @@ namespace Nekki.Vector.Core.Controllers
             }
         }
 
-        public void PlaySounds(List<AnimationSound> sounds)
-        {
-            if (sounds != null)
-            {
-                float zoom = LocationCamera.Current.Zoom;
-                Vector3d start = LocationCamera.Current.Node.Start;
-                Vector3d start2 = _Model.GetNode("COM").Start;
-                double val = 1.5f - Math.Abs(start2.X - start.X) / 760f * zoom;
-                double val2 = 1.5f - Math.Abs(start2.Y - start.Y) / 760f * zoom;
-                double val3 = Math.Min(1f, Math.Min(val, val2));
-                double num = Math.Max(0f, val3);
-                if (_Model is ModelHuman && (_Model as ModelHuman).IsBot)
-                {
-                    num = !(num < 0.5f) ? num / 1.1f : num * 1.5f;
-                }
-                for (int i = 0; i < sounds.Count; i++)
-                {
-                    sounds[i].Play((float)num);
-                }
-            }
-        }
+		public void PlaySounds(List<AnimationSound> sounds)
+		{
+			if (sounds == null || sounds.Count == 0)
+				return;
+
+			Vector3d cameraStart = LocationCamera.Current.Node.Start;
+			Vector3d com = _Model.GetNode("COM").Start;
+
+			float zoom = LocationCamera.Current.Zoom;
+
+			// signed horizontal offset
+			float dx = (float)(com.X - cameraStart.X);
+
+			// world-visible half width
+			float halfWidth = (760f * 0.5f) / Mathf.Max(zoom, 0.0001f);
+
+			// normalize into [-1, 1]
+			float pan = dx / halfWidth;
+			pan = Mathf.Clamp(pan, -1f, 1f);
+
+			// bot tweak
+			if (_Model is ModelHuman human && human.IsBot)
+			{
+				pan = (pan < 0.5f) ? pan * 1.5f : pan / 1.1f;
+				pan = Mathf.Clamp(pan, -1f, 1f);
+			}
+
+			float volume = 1f - Mathf.Abs(pan) * 0.25f; // attenuation
+
+			// needs to be inverted as world is upside down
+			pan = -pan;
+
+			// quasi-clamp
+			pan *= 1f / 2;
+
+			for (int i = 0; i < sounds.Count; i++)
+			{
+				sounds[i].Play(
+					p_volume: volume,
+					panning: pan
+				);
+			}
+		}
 
         public void VelocityQuads()
         {

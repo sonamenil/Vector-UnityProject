@@ -19,7 +19,9 @@ public class Game
 
     public class SnailSettings
     {
-        public bool ShowUI = true;
+		public bool ShowUI = true;
+
+		public bool ShowStats = true;
 
         public string SnailLevel;
 

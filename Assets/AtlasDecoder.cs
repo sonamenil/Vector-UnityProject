@@ -9,8 +9,7 @@ using System.Xml;
 
 using UnityEngine;
 
-
-//MADE BY kubinka0505
+// MADE BY kubinka0505
 
 public static class AtlasDecoder
 {
@@ -204,13 +203,37 @@ public static class AtlasDecoder
             - startY
             - frame.Box.height;
 
-        result.SetPixels(
-            startX,
-            startY,
-            frame.Box.width,
-            frame.Box.height,
-            crop
-        );
+		int pasteWidth =
+			Mathf.Min(
+				frame.Box.width,
+				frame.RealSize.x - startX
+			);
+
+		int pasteHeight =
+			Mathf.Min(
+				frame.Box.height,
+				frame.RealSize.y - startY
+			);
+
+		Color[] clipped =
+			new Color[pasteWidth * pasteHeight];
+
+		for (int y = 0; y < pasteHeight; y++)
+		{
+			for (int x = 0; x < pasteWidth; x++)
+			{
+				clipped[y * pasteWidth + x] =
+					crop[y * frame.Box.width + x];
+			}
+		}
+
+		result.SetPixels(
+			startX,
+			startY,
+			pasteWidth,
+			pasteHeight,
+			clipped
+		);
 
         result.Apply();
 

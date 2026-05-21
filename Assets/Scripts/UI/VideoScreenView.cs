@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.IO;
 using UnityEngine.EventSystems;
 using UnityEngine.Video;
 
@@ -28,7 +29,8 @@ namespace UI
 			VideoPlayer.clip = Resources.Load<VideoClip>(payload.Video);
 #else
 			VideoPlayer.source = VideoSource.Url;
-			VideoPlayer.url = "file:///" + Application.streamingAssetsPath + "/" + payload.Video;
+			VideoPlayer.url = "file:///" + Path.Combine(Application.streamingAssetsPath, payload.Video);
+			VideoPlayer.url = VideoPlayer.url.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 #endif
             _lastPayload = payload;
             VideoPlayer.gameObject.SetActive(true);

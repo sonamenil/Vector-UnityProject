@@ -8,12 +8,23 @@ namespace Nekki.Vector.Core.Gadgets
 
 		public ControllerGadgets()
 		{
-			AddGadget(new GadgetKillBot());
+			foreach (var type in GadgetDatabase.All)
+			{
+				switch (type)
+				{
+					case GadgetType.KillBot:
+						AddGadget(new GadgetKillBot());
+						break;
+					case GadgetType.SlowTime:
+						AddGadget(new GadgetSlowTime());
+						break;
+				}
+			}
 		}
 
-		private void AddGadget(GadgetKillBot gadgetKillBot)
+		private void AddGadget(Gadget gadget)
 		{
-			_allGadgets.Add(gadgetKillBot.gadgetType, gadgetKillBot);
+			_allGadgets.Add(gadget.gadgetType, gadget);
 		}
 
 		public void ActivateGadget(GadgetType gadgetType)
@@ -45,12 +56,14 @@ namespace Nekki.Vector.Core.Gadgets
 
 		public int GetChargeCount(GadgetType gadgetType)
 		{
-			return UserDataManager.Instance.ShopData.GetCount("GADGET_FORCEBLASTER");
+			var id = GadgetDatabase.GetId(gadgetType);
+			return UserDataManager.Instance.ShopData.GetCount(id);
 		}
 
 		private void SpendCharge(GadgetType gadgetType)
 		{
-			UserDataManager.Instance.ShopData.Consume("GADGET_FORCEBLASTER");
+			var id = GadgetDatabase.GetId(gadgetType);
+			UserDataManager.Instance.ShopData.Consume(id);
 		}
 	}
 }

@@ -1,3 +1,4 @@
+using System.IO;
 using System.Xml;
 using Nekki.Vector.Core.Models;
 using UnityEngine;
@@ -55,7 +56,9 @@ namespace Nekki.Vector.Core.Location
 
         protected override void GenerateObject()
         {
-            var obj = Resources.Load<GameObject>("LevelContent/Prefabs/Trick");
+            var obj = Resources.Load<GameObject>(
+				Path.Combine("LevelContent", "Prefabs", "Trick")
+			);
             obj = Object.Instantiate(obj);
             _UnityObject = obj;
             _CachedTransform = obj.transform;

@@ -104,13 +104,17 @@ namespace UI
 
             StoreTricksScreenView.PutItemsIntoContent(ScrollSnap, StoreManager.Instance.GetItems(StoreItemType.Gadgets), StoreItemType.Gadgets, true, true);
             InsertDummies(10, true);
-            GadgetIcon.gameObject.SetActive(UserDataManager.Instance.ShopData.IsEquippedGadget());
+            GadgetIcon.gameObject.SetActive(GadgetUtils.HasAnyEquippedGadget());
 
-            ScrollSnap.StartIndex = 0;
-            ScrollSnap.EndIndex = 0;
+			var gadgets = StoreManager.Instance.GetItems(StoreItemType.Gadgets);
+
+			ScrollSnap.StartIndex = 0;
+			ScrollSnap.EndIndex = gadgets.Count - 1;
 
             ScrollSnap._childOffset = 10;
 
+			ScrollSnap.Recalculate();
+			ScrollSnap.Snap(0, true);
         }
 
         public override void PostShow(GadgetScreenPayloadData payload)

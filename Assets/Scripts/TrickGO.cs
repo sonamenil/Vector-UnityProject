@@ -23,19 +23,27 @@ public class TrickGO : MonoBehaviour
     private string _activateAnimation;
 
     private List<Sprite> idle;
-
     private List<Sprite> activate;
 
     public void Init(string itemName, bool isActive, float w, float h)
     {
-        idle = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _idleAnimation, 0.5f ,0.5f);
-        activate = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _activateAnimation, 0.5f ,0.5f);
+        idle = AnimationSprite.GetFramesSequence(
+            Path.Combine(VectorPaths.AnimatedTextures, _idleAnimation),
+            0.5f, 0.5f
+        );
+
+        activate = AnimationSprite.GetFramesSequence(
+            Path.Combine(VectorPaths.AnimatedTextures, _activateAnimation),
+            0.5f, 0.5f
+        );
 
         if (_animation != null)
         {
             _animation.gameObject.SetActive(true);
             _trickIcon.gameObject.SetActive(true);
+
             _animation.Init(idle, _animationSprite);
+
             if (isActive)
             {
                 InitActiveState(itemName);
@@ -44,12 +52,8 @@ public class TrickGO : MonoBehaviour
             {
                 InitDisableState();
             }
-            //if (Xml2PrefabRoot.UseOnlyXML)
-            {
-                UpdatePosition(w, h);
-                // UpdateScale(w, h);
-            }
 
+            UpdatePosition(w, h);
         }
     }
 
@@ -81,14 +85,24 @@ public class TrickGO : MonoBehaviour
     private void InitDisableState()
     {
         Sprite sprite = null;
-        if (ResourceManager.FileExists(Application.streamingAssetsPath + "/icons/tricks/lock", out string path, ".png", ".jpg", ".jpeg"))
+
+        var lockPath = Path.Combine(Application.streamingAssetsPath, "icons", "tricks", "lock");
+
+        if (ResourceManager.FileExists(lockPath, out string path, ".png", ".jpg", ".jpeg"))
         {
-            sprite = ResourceManager.LoadSpriteFromExternal(path, new Vector2(0.5f, 0.5f), 1);
+            sprite = ResourceManager.LoadSpriteFromExternal(
+                path,
+                new Vector2(0.5f, 0.5f),
+                1
+            );
         }
         else
         {
-            sprite = Resources.Load<Sprite>("LevelContent/Tricks/Icons/lock");
+            sprite = Resources.Load<Sprite>(
+                Path.Combine("LevelContent", "Tricks", "Icons", "lock")
+            );
         }
+
         _trickIcon.sprite = sprite;
     }
 
@@ -98,14 +112,29 @@ public class TrickGO : MonoBehaviour
         _animation.Iterations = -1;
 
         Sprite sprite = null;
-        if (ResourceManager.FileExists(Application.streamingAssetsPath + "/icons/tricks/TRACK_" + itemName, out string path, ".png", ".jpg", ".jpeg"))
+
+        var trackPath = Path.Combine(
+            Application.streamingAssetsPath,
+            "icons",
+            "tricks",
+            "TRACK_" + itemName
+        );
+
+        if (ResourceManager.FileExists(trackPath, out string path, ".png", ".jpg", ".jpeg"))
         {
-            sprite = ResourceManager.LoadSpriteFromExternal(path, new Vector2(0.5f, 0.5f), 1);
+            sprite = ResourceManager.LoadSpriteFromExternal(
+                path,
+                new Vector2(0.5f, 0.5f),
+                1
+            );
         }
         else
         {
-            sprite = Resources.Load<Sprite>("LevelContent/Tricks/Icons/TRACK_" + itemName);
+            sprite = Resources.Load<Sprite>(
+                Path.Combine("LevelContent", "Tricks", "Icons", "TRACK_" + itemName)
+            );
         }
+
         _trickIcon.sprite = sprite;
     }
 
@@ -113,11 +142,12 @@ public class TrickGO : MonoBehaviour
     {
         _animation.Init(activate, _animationSprite);
         _animation.Iterations = 1;
+
         _animation.OnIterationsEnd = () =>
         {
             _animation.gameObject.SetActive(false);
         };
-        _trickIcon.gameObject.SetActive(false);
 
+        _trickIcon.gameObject.SetActive(false);
     }
 }

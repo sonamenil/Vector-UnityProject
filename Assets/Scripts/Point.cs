@@ -95,7 +95,7 @@ public class Point
         Point vector3f = new Point(0f, 0f);
         try
         {
-            vector3f._X = float.Parse(Node.Attributes["X"].Value);
+            float.TryParse(Node.Attributes["X"]?.Value, out vector3f._X);
         }
         catch
         {
@@ -103,7 +103,7 @@ public class Point
         }
         try
         {
-            vector3f._Y = float.Parse(Node.Attributes["Y"].Value);
+            float.TryParse(Node.Attributes["Y"]?.Value, out vector3f._Y);;
             return vector3f;
         }
         catch
