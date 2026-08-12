@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using Xml2Prefab;
 
 namespace Nekki.Vector.Core.Location
@@ -63,6 +64,39 @@ namespace Nekki.Vector.Core.Location
         protected override void GenerateObject()
         {
             base.GenerateObject();
+            CreateObject();
+            ConfigureCollider();
+        }
+
+        public override void Generate(GameObject existRunner)
+        {
+            base.Generate(existRunner);
+            if (existRunner != null)
+            {
+                ConfigureCollider();
+            }
+        }
+
+        private void ConfigureCollider()
+        {
+            CalcPoints();
+
+            var minX = Math.Min(Math.Min(_Point1.X, _Point2.X), Math.Min(_Point3.X, _Point4.X));
+            var maxX = Math.Max(Math.Max(_Point1.X, _Point2.X), Math.Max(_Point3.X, _Point4.X));
+            var minY = Math.Min(Math.Min(_Point1.Y, _Point2.Y), Math.Min(_Point3.Y, _Point4.Y));
+            var maxY = Math.Max(Math.Max(_Point1.Y, _Point2.Y), Math.Max(_Point3.Y, _Point4.Y));
+            var localPosition = _CachedTransform.localPosition;
+
+            var collider = _UnityObject.GetComponent<BoxCollider2D>();
+            if (collider == null)
+            {
+                collider = _UnityObject.AddComponent<BoxCollider2D>();
+            }
+
+            collider.size = new Vector2((float)(maxX - minX), (float)(maxY - minY));
+            collider.offset = new Vector2(
+                (float)((minX + maxX) * 0.5 - localPosition.x),
+                (float)((minY + maxY) * 0.5 - localPosition.y));
         }
 
         protected override void SerializeData()
