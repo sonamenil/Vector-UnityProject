@@ -29,6 +29,10 @@ public class TrickGO : MonoBehaviour
 
     public void Init(string itemName, bool isActive, float w, float h)
     {
+        _animationSprite.sortingOrder = 1;
+        _animationSprite.sortingLayerName = "Items";
+        _trickIcon.sortingLayerName = "Items";
+
         idle = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _idleAnimation, 0.5f ,0.5f);
         activate = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _activateAnimation, 0.5f ,0.5f);
 

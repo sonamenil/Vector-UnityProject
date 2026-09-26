@@ -1,8 +1,10 @@
-using System.Xml;
 using Nekki.Vector.Core.Animation;
 using Nekki.Vector.Core.Controllers;
 using Nekki.Vector.Core.Models;
+using System.Xml;
+using UnityEngine;
 using Xml2Prefab;
+using AnimationInfo = Nekki.Vector.Core.Animation.AnimationInfo;
 
 namespace Nekki.Vector.Core.Location
 {
@@ -49,6 +51,19 @@ namespace Nekki.Vector.Core.Location
             _H = height;
             _TypeClass = RunnerType.Area;
             LoadBinaryIfTrick();
+        }
+
+        protected override void GenerateObject()
+        {
+            base.GenerateObject();
+
+            CreateObject();
+            var bc = UnityObject.AddComponent<BoxCollider2D>();
+            bc.size = new Vector2(_WidthQuad, _HeightQuad);
+            bc.offset = new Vector2(_WidthQuad / 2, _HeightQuad / 2);
+            bc.isTrigger = true;
+
+            UnityObject.name = _Name;
         }
 
         protected override void SerializeData()

@@ -66,7 +66,7 @@ namespace Nekki.Vector.Core.Detector
             GameObject gameObject = new GameObject("Line");
             Scripts.Geometry.Edge edge = gameObject.AddComponent<Scripts.Geometry.Edge>();
             edge.Base = line;
-            edge.SortingOrder = 0;
+            edge.SortingLayerName = "Debug";
             _lines.Add(gameObject);
             gameObject.transform.parent = gObject.transform;
         }

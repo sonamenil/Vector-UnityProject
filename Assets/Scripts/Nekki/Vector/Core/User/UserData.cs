@@ -187,16 +187,16 @@ namespace Nekki.Vector.Core.User
 				list.Add(skin + ".xml");
 			}
 
-			if (IsSelf)
-			{
-                foreach (var item in AbstractManager<StoreManager>.Instance.GetItems(StoreItemType.Gear))
-                {
-                    if (Game.IsItemEquipped(item.Id))
-                    {
-                        list.Add(item.Id + ".xml");
-                    }
-                }
-            }
+			//if (IsSelf)
+			//{
+   //             foreach (var item in AbstractManager<StoreManager>.Instance.GetItems(StoreItemType.Gear))
+   //             {
+   //                 if (Game.IsItemEquipped(item.Id))
+   //                 {
+   //                     list.Add(item.Id + ".xml");
+   //                 }
+   //             }
+   //         }
 
 			_Skins = list;
 		}

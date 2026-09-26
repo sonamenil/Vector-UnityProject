@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace UI
 {
@@ -86,6 +88,10 @@ namespace UI
 
 		private string _adsLink;
 
+		private const string StarsItemAddress = "Assets/UI/Prefabs/StarsItem.prefab";
+		private AsyncOperationHandle<GameObject> _starsPrefabHandle;
+		private GameObject _starsPrefab;
+
 		public override void Init(LobbyScreen lobbyScreen)
 		{
 			ADSButton.gameObject.SetActive(false);
@@ -138,6 +144,17 @@ namespace UI
 		public override void PreShow(CommonPayloadData payload)
 		{
 			var gameStats = UserDataManager.Instance.GameStats;
+			if (_starsPrefab == null)
+			{
+				_starsPrefabHandle = Addressables.LoadAssetAsync<GameObject>(StarsItemAddress);
+				_starsPrefab = _starsPrefabHandle.WaitForCompletion();
+				if (_starsPrefabHandle.Status != AsyncOperationStatus.Succeeded || _starsPrefab == null)
+				{
+					Addressables.Release(_starsPrefabHandle);
+					_starsPrefabHandle = default;
+					throw new InvalidOperationException($"Could not load {StarsItemAddress}");
+				}
+			}
 
             foreach (Transform child in StarsLobbyView.Content.transform)
             {
@@ -150,7 +167,9 @@ namespace UI
             {
                 foreach (var mode in LocationManager.Instance.locations[location].Keys)
                 {
-                    var starsView = Instantiate(Resources.Load<StarsLobbyItemView>("StarsItem"), StarsLobbyView.Content.transform);
+                    var go = Instantiate(_starsPrefab, StarsLobbyView.Content.transform);
+
+                    var starsView = go.GetComponent<StarsLobbyItemView>();
 
                     starsView.Gradient.SetActive(count % 2 == 0);
 
@@ -164,6 +183,12 @@ namespace UI
                 }
             }
         }
+
+		private void OnDestroy()
+		{
+			if (_starsPrefabHandle.IsValid())
+				Addressables.Release(_starsPrefabHandle);
+		}
 
 		public override void SetSelectedGO()
 		{

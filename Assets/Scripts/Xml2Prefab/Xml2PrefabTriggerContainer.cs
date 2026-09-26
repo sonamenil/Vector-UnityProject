@@ -34,22 +34,27 @@ namespace Xml2Prefab
 			set => _choice = value;
 		}
 
-		public void Init(string node, float h, float w, ChoiceContainer choice)
+		TriggerController _Controller;
+
+
+        public void Init(string node, float h, float w, ChoiceContainer choice)
 		{
 			_Node = node;
 			_h = h;
 			_w = w;
 			_choice = choice;
-			CreateInnerController();
+
+			if (Game.Instance.SnailSett.ShowTriggers)
+				CreateInnerController();
 		}
 
 		public void CreateInnerController()
 		{
-			if (Game.Instance.SnailSett.ShowTriggers)
+			if (_Controller == null)
 			{
-				var controller = new GameObject("Controller");
-				controller.transform.SetParent(transform, false);
-				controller.AddComponent<TriggerController>().Container = this;
+				_Controller = new GameObject("Controller").AddComponent<TriggerController>();
+                _Controller.transform.SetParent(transform, false);
+				_Controller.Container = this;
 			}
         }
 

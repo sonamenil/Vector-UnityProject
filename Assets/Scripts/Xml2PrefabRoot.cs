@@ -174,7 +174,8 @@ public class Xml2PrefabRoot
             VisualContainer visualContainer = null;
             if (!factorsDicto.ContainsKey(objectRunner.Factor))
             {
-                visualContainer = new VisualContainer(objectRunner.Factor, (factors.Count - factors.IndexOf(objectRunner.Factor)) * 10);
+                var index = factors.IndexOf(objectRunner.Factor);
+                visualContainer = new VisualContainer(objectRunner.Factor, (factors.Count - index) * 10, index);
                 factorsDicto[objectRunner.Factor] = visualContainer;
             }
             else
@@ -237,12 +238,14 @@ public class Xml2PrefabRoot
         return list.Max();
     }
 
-    public List<string> ParseModels(XmlNode nodes)
+    public List<ModelsContainer> ParseModels(XmlNode nodes)
     {
-        List<string> models = new List<string>();
+        List<ModelsContainer> models = new List<ModelsContainer>();
         foreach (XmlNode node in nodes.ChildNodes.Cast<XmlNode>().Where(node => node.Name == "Models"))
         {
-            models.Add(node.OuterXml);
+            var model = new ModelsContainer();
+            model.Init(node);
+            models.Add(model);
         }
         return models;
     }

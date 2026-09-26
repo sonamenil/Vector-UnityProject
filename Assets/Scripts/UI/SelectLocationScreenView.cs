@@ -1,6 +1,9 @@
+using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace UI
 {
@@ -21,6 +24,10 @@ namespace UI
         public UnityEngine.UI.Button LeftButton;
 
         public UnityEngine.UI.Button RightButton;
+
+        private const string TownItemAddress = "Assets/UI/Prefabs/TownItem.prefab";
+        private AsyncOperationHandle<GameObject> _townPrefabHandle;
+        private GameObject _townPrefab;
 
         public override void Init(SelectLocationScreen screen)
         {
@@ -72,6 +79,17 @@ namespace UI
 
         public override void PreShow(CommonPayloadData payload)
         {
+            if (_townPrefab == null)
+            {
+                _townPrefabHandle = Addressables.LoadAssetAsync<GameObject>(TownItemAddress);
+                _townPrefab = _townPrefabHandle.WaitForCompletion();
+                if (_townPrefabHandle.Status != AsyncOperationStatus.Succeeded || _townPrefab == null)
+                {
+                    Addressables.Release(_townPrefabHandle);
+                    _townPrefabHandle = default;
+                    throw new InvalidOperationException($"Could not load {TownItemAddress}");
+                }
+            }
             foreach (Transform child in ScrollSnap._content)
             {
                 Destroy(child.gameObject);
@@ -82,8 +100,7 @@ namespace UI
             {
                 count++;
                 var info = LocationManager.Instance.GetLocationInfo(type, UserDataManager.RuntimeInfo.LocationModeType);
-                var locationItem = Resources.Load<LocationItem>("TownItem");
-                locationItem = Instantiate(locationItem, ScrollSnap._content);
+                var locationItem = Instantiate(_townPrefab, ScrollSnap._content).GetComponent<LocationItem>();
                 if (IsItemLocked(UserDataManager.Instance, info.UnlockInfo, info.Name))
                 {
                     locationItem.Lock.gameObject.SetActive(true);
@@ -183,6 +200,12 @@ namespace UI
         {
             base.OnDisable();
             ScrollSnap.enabled = false;
+        }
+
+        private void OnDestroy()
+        {
+            if (_townPrefabHandle.IsValid())
+                Addressables.Release(_townPrefabHandle);
         }
 
         public static bool IsItemLocked(UserDataManager playerData, UnlockInfo unlockInfo, string itemName, StoryInfo currentStory = null)

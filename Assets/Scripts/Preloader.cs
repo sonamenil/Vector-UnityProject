@@ -78,14 +78,13 @@ public class Preloader : MonoBehaviour
         }
         //Game.Instance.SnailSett.HunterMode = true;
         //Game.Instance.Snail = true;
-        //Game.Instance.SnailSett.SnailLevel = "CONSTRUCTION_BONUS_01";
+        //Game.Instance.SnailSett.SnailLevel = "TECHPARK_STORY_01";
         //Game.Instance.SnailSett.ShowPlatforms = true;
         //Game.Instance.SnailSett.ShowAreas = true;
-        // Game.Instance.SnailSett.ShowTriggers = true;
+        //Game.Instance.SnailSett.ShowTriggers = true;
         //Game.Instance.SnailSett.ShowDetectors = true;
 
         //Game.Instance.SnailSett.UsePrefab = true;
-
         DontDestroyOnLoad(gameObject);
         //AbstractManager<ConfigManager>.Init(); AD RELATED
         LocalizationManager.Init();
@@ -127,15 +126,10 @@ public class Preloader : MonoBehaviour
     public IEnumerator LoadProcess()
     {
         yield return new WaitForEndOfFrame();
-        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            QualitySettings.vSyncCount = 1;
-            Application.targetFrameRate = -1;
-        }
-        else
-        {
-            Application.targetFrameRate = 60;
-        }
+        // Match high-refresh displays while gameplay remains on its fixed 60 Hz tick.
+        Application.targetFrameRate = Application.isMobilePlatform
+            ? Mathf.RoundToInt((float)UnityEngine.Screen.currentResolution.refreshRateRatio.value)
+            : -1;
         _progressBar.SetValue(0.10f);
         yield return null;
         StoreManager.Init();
@@ -168,6 +162,14 @@ public class Preloader : MonoBehaviour
         GC.Collect();
         yield return null;
         SoundsManager.Instance.Init();
+
+#if UNITY_EDITOR
+        if (Xml2Prefab.Xml2PrefabLevelContainer.LoadLevel)
+        {
+            Game.Instance.Snail = true;
+            Game.Instance.SnailSett.SnailLevel = "__EDITOR_LEVEL__";
+        }
+#endif
 
         if (Game.Instance.Snail)
         {

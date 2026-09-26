@@ -128,7 +128,7 @@ namespace Nekki.Vector.Core.Location
                 base.GenerateObject();
         }
 
-        protected void CreateObject()
+        public void CreateObject()
         {
             if (_UnityObject != null)
             {
@@ -520,7 +520,7 @@ namespace Nekki.Vector.Core.Location
 
         public virtual bool Hit(double x, double y, bool equality = false)
         {
-            return _rectangle.Contains(x, y);
+            return _rectangle.Contains(x, y, 0.01f);
         }
 
         public Vector3d Add(Vector3d point)

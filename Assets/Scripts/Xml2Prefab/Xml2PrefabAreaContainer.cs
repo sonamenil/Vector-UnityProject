@@ -48,6 +48,8 @@ namespace Xml2Prefab
 			set => _choice = value;
 		}
 
+		AreaController _Controller;
+
 		public void Init(string transformations, string type, string n, float x, float y, float w, float h, ChoiceContainer choice)
 		{
 			_transformations = transformations;
@@ -61,11 +63,19 @@ namespace Xml2Prefab
 
 			if (Game.Instance.SnailSett.ShowAreas)
 			{
-				var controller = new GameObject("Controller");
-				controller.transform.SetParent(transform, false);
-				controller.AddComponent<AreaController>().Container = this;
+				CreateInnerController();
 			}
 		}
+
+		public void CreateInnerController()
+		{
+            if (_Controller == null)
+            {
+                _Controller = new GameObject("Controller").AddComponent<AreaController>();
+                _Controller.transform.SetParent(transform, false);
+                _Controller.Container = this;
+            }
+        }
 
 		public void ChangeHW(float h, float w)
 		{

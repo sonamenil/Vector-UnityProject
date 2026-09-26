@@ -92,6 +92,7 @@ namespace Nekki.Vector.Core.Models
             _Type = type;
             _ModelObject = new ModelObject(skins);
             _ModelObject.IsAuxiliary = false;
+            _ModelObject.Parent = this;
         }
 
         public virtual void Init()
@@ -134,9 +135,9 @@ namespace Nekki.Vector.Core.Models
             _ModelObject.Reset();
         }
 
-        public void Position(Vector3d vector, string Name = "NPivot")
+        public void Position(Vector3d vector, string Name = "NPivot", bool snapRendering = true)
         {
-            _ModelObject.Position(vector, Name);
+            _ModelObject.Position(vector, Name, snapRendering);
         }
 
         public Vector3d Position(string name = "NPivot", bool isCurrent = true)

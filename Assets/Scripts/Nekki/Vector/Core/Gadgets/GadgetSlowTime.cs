@@ -11,9 +11,11 @@ namespace Nekki.Vector.Core.Gadgets
 {
     public class GadgetSlowTime : Gadget
     {
-        public const float Duration = 3;
+        public const float Duration = 3f;
 
-        public const float Cooldown = 5;
+        public const float Cooldown = 5f;
+
+        public const float SlowModeRampDuration = 1;
 
         public float CurrentCooldown = 0;
 
@@ -37,24 +39,44 @@ namespace Nekki.Vector.Core.Gadgets
         public IEnumerator SlowTime()
         {
             float time = Duration;
+            float rampTime = 0f;
+
+            float startSlowModeFrames = LevelMainController.current != null
+                ? LevelMainController.current.slowModeFrames
+                : 1;
+
             while (time > 0 && LevelMainController.current != null)
             {
                 if (!LevelMainController.current.pauseRender)
                 {
-                    
-                    LevelMainController.current.slowMode = true;
+                    if (rampTime < SlowModeRampDuration)
+                    {
+                        rampTime += Time.deltaTime;
+
+                        float rampProgress = Mathf.Clamp01(rampTime / SlowModeRampDuration);
+                        LevelMainController.current.slowModeFrames =
+                            Mathf.Lerp(startSlowModeFrames, 0.1f, rampProgress);
+                    }
+                    else
+                    {
+                        LevelMainController.current.slowModeFrames = 0.1f;
+                    }
+
                     time -= Time.deltaTime;
 
                     float progress = Mathf.Clamp01(1f - (time / Duration));
                     GameplayView.Current.GadgetCooldownIcon.fillAmount = progress;
                 }
+
                 yield return null;
             }
 
-            LevelMainController.current.slowMode = false;
-            Stop();
+            if (LevelMainController.current != null)
+            {
+                LevelMainController.current.slowModeFrames = 1;
+            }
 
-            yield break;
+            Stop();
         }
 
         public IEnumerator CooldownTime()

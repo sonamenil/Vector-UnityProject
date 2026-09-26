@@ -5,6 +5,7 @@ using Nekki.Vector.GUI.InputControllers;
 using System.ComponentModel;
 using UI;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Key = UnityEngine.InputSystem.Key;
 
 public class LevelSceneController : MonoBehaviour
@@ -44,8 +45,11 @@ public class LevelSceneController : MonoBehaviour
 
     private PlayerInputActions actions;
 
+    private readonly GameplayClock _gameplayClock = new GameplayClock();
+
     private void Awake()
     {
+        FixedRenderInterpolation.Clear();
         _debugMenu.Init();
         HideTutorialUIController();
         // _keyboardController.OnKeyDown.AddListener(OnKeyDown);
@@ -56,6 +60,12 @@ public class LevelSceneController : MonoBehaviour
 
     private void OnEnable()
     {
+        Camera.onPreCull += BeginCameraRender;
+        Camera.onPostRender += EndCameraRender;
+        RenderPipelineManager.beginCameraRendering += BeginPipelineCameraRender;
+        RenderPipelineManager.endCameraRendering += EndPipelineCameraRender;
+        FixedRenderInterpolation.IsRunning = CanInterpolate;
+        FixedRenderInterpolation.AlphaProvider = () => _gameplayClock.Alpha;
         actions.Gameplay.Up.performed += _ => OnKeyDown(Key.UpArrow);
         actions.Gameplay.Down.performed += _ => OnKeyDown(Key.DownArrow);
         actions.Gameplay.Left.performed += _ => OnKeyDown(Key.LeftArrow);
@@ -66,11 +76,20 @@ public class LevelSceneController : MonoBehaviour
 
     private void OnDisable()
     {
+        Camera.onPreCull -= BeginCameraRender;
+        Camera.onPostRender -= EndCameraRender;
+        RenderPipelineManager.beginCameraRendering -= BeginPipelineCameraRender;
+        RenderPipelineManager.endCameraRendering -= EndPipelineCameraRender;
+        FixedRenderInterpolation.ResetHistory();
+        FixedRenderInterpolation.IsRunning = () => false;
+        FixedRenderInterpolation.AlphaProvider = null;
+        _gameplayClock.Reset();
         actions.Disable();
     }
 
     private void OnDestroy()
     {
+        FixedRenderInterpolation.Clear();
         // _keyboardController.OnKeyDown.RemoveListener(OnKeyDown);
         _touchController.OnSlide -= OnSlide;
         RunnerRender.Reset();
@@ -106,19 +125,53 @@ public class LevelSceneController : MonoBehaviour
         if (Game.Instance.Snail)
         {
             var quadsRenderer = new GameObject("[QuadsRenderer]");
+            quadsRenderer.transform.SetParent(Sets.Current.Containers[1].Object.transform, false);
             quadsRenderer.AddComponent<MeshFilter>();
             quadsRenderer.AddComponent<MeshRenderer>();
             quadsRenderer.AddComponent<QuadsRenderer>();
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (!_debugPause && _canRender)
+        if (!CanInterpolate())
         {
-            LevelMainController.current.Render();
-            _botIcon.Render();
+            _gameplayClock.Reset();
+            return;
         }
+
+        int ticks = _gameplayClock.Advance(Time.deltaTime,
+            LevelMainController.current.slowModeFrames, Time.fixedDeltaTime);
+        for (int i = 0; i < ticks; i++)
+        {
+            FixedRenderInterpolation.BeginTick();
+            LevelMainController.current.Render();
+            FixedRenderInterpolation.EndTick();
+            if (!CanInterpolate() || LevelMainController.current.slowModeFrames == 0f)
+                break;
+        }
+    }
+
+    private bool CanInterpolate() => _canRender && !_debugPause &&
+        LevelMainController.current != null && !LevelMainController.current.pauseRender &&
+        !LevelMainController.current.tutorialPause;
+
+    private void BeginPipelineCameraRender(ScriptableRenderContext context, Camera camera) => BeginCameraRender(camera);
+
+    private void EndPipelineCameraRender(ScriptableRenderContext context, Camera camera) => EndCameraRender(camera);
+
+    private void BeginCameraRender(Camera camera)
+    {
+        if (!_canRender || camera != Camera.main)
+            return;
+        FixedRenderInterpolation.ApplyTransforms(FixedRenderInterpolation.Alpha);
+        _botIcon.Render();
+    }
+
+    private void EndCameraRender(Camera camera)
+    {
+        if (camera == Camera.main)
+            FixedRenderInterpolation.RestoreTransforms();
     }
 
     public void ShowTutorialUIController(KeyVariables key, string description)

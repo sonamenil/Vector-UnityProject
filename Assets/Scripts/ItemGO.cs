@@ -36,6 +36,8 @@ public class ItemGO : MonoBehaviour
 
     public void Init()
     {
+        _spriteRenderer.sortingLayerName = "Items";
+        _textMesh.GetComponent<MeshRenderer>().sortingLayerName = "Items";
         atlasSequence = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _atlas, 0.5f, 0.5f);
         endSequence = AnimationSprite.GetFramesSequence(VectorPaths.AnimatedTextures + "/" + _atlasEnd, 0.5f, 0.5f);
 

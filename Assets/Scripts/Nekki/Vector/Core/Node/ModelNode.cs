@@ -121,6 +121,7 @@ namespace Nekki.Vector.Core.Node
 
         public void Reset()
         {
+            FixedRenderInterpolation.Invalidate(this);
             Start.Set(_defaultPosition);
             End.Set(_defaultPosition);
             _Data = null;

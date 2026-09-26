@@ -32,7 +32,7 @@ namespace Nekki.Vector.Core.Controllers
 
 		public double SlowMode => _SlowMode;
 
-		public static double Gravity => _Gravity / LevelMainController.current.slowModeFrames;
+		public static double Gravity => _Gravity;
 
 		public ControllerPhysics(ModelObject Object)
 		{

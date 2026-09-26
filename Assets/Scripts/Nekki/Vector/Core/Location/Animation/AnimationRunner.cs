@@ -72,6 +72,8 @@ namespace Nekki.Vector.Core.Location.Animation
 
         public virtual void PlayAnimation()
         {
+            if (this is AnimationVectorRunner)
+                FixedRenderInterpolation.Register(_CachedTransform);
             _IsPlay = true;
             RunnerRender.AddRunner(this);
             PlayFrom(0);

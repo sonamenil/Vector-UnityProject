@@ -61,7 +61,6 @@ public class UserDataManager : AbstractManager<UserDataManager>
         _allHolder.Add(ShopData);
         _allHolder.Add(OldData);
 
-        Options.Update();
         MigrateFromMarmalade();
         MigrateFromBadFormat();
         InitDataFromScratch();
@@ -71,9 +70,14 @@ public class UserDataManager : AbstractManager<UserDataManager>
         if (newLocale == null)
         {
             newLocale = LocalizationManager.Instance.GetSystem();
+            Debug.Log(newLocale);
         }
 
         LocalizationManager.Instance.ChangeLocale(newLocale);
+        Options.Locale = newLocale;
+
+        Options.Update();
+        //Options.Update();
 
     }
 

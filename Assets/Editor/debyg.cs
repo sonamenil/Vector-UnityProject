@@ -14,7 +14,13 @@ public class debyg : MonoBehaviour
     [MenuItem("Debug/Test")]
     public static void Test()
     {
-        ResourceManager.ClearTextureCache();
+        LevelMainController.current.slowMode = LevelMainController.current.slowModeFrames != 10;
+    }
+
+    [MenuItem("Debug/Time scale")]
+    public static void TimeScale()
+    {
+        Time.timeScale = Time.timeScale == 1 ? 0.1f : 1;
     }
 
     [MenuItem("Debug/Add Coins")]
@@ -89,7 +95,7 @@ public class debyg : MonoBehaviour
     [MenuItem("Debug/Start Player Physics")]
     public static void ModelPhysics()
     {
-        LevelMainController.current.Location.GetUserModel().ControllerPhysics.Start();
+        LevelMainController.current.Location.GetUserModel().StartPhysics();
     }
 
     [MenuItem("Debug/Run Effect")]

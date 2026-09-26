@@ -378,27 +378,24 @@ public class Vector3d
 
     public static Vector3d Cross(Vector3d v1, Vector3d v2, Vector3d v3, Vector3d v4)
     {
-        var num = v2.Y - v1.Y;
-        var num2 = v2.X - v1.X;
-        var num3 = v3.X - v4.X;
-        var num4 = v3.Y - v4.Y;
-
-        var num5 = num * num3 - num4 * num2;
-        if (num5 == 0)
+        double num = (v2.Y - v1.Y) * (v3.X - v4.X) - (v3.Y - v4.Y) * (v2.X - v1.X);
+        double num2 = (v2.Y - v1.Y) * (v3.X - v1.X) - (v3.Y - v1.Y) * (v2.X - v1.X);
+        double num3 = (v3.Y - v1.Y) * (v3.X - v4.X) - (v3.Y - v4.Y) * (v3.X - v1.X);
+        if ((double)num == 0.0 && (double)num2 == 0.0 && (double)num3 == 0.0)
         {
             return null;
         }
-        var num6 = v3.X - v1.X;
-        var num7 = v3.Y - v1.Y;
-        var num8 = (num * num6 - num7 * num2) / num5;
-
-        if (num8 > 0 && num8 < 1)
+        if ((double)num == 0.0)
         {
-            var num9 = (num3 * num7 - num4 * num6) / num5;
-            if (num9 > 0 && num9 < 1)
-            {
-                return new Vector3d(v1.X + num2 * num9, v1.Y + num * num9, 0);
-            }
+            return null;
+        }
+        double num4 = num2 / num;
+        double num5 = num3 / num;
+        double p_x = v1.X + (v2.X - v1.X) * num5;
+        double p_y = v1.Y + (v2.Y - v1.Y) * num5;
+        if (0f < num4 && num4 < 1f && 0f < num5 && num5 < 1f)
+        {
+            return new Vector3d(p_x, p_y, 0f);
         }
         return null;
     }
@@ -471,16 +468,16 @@ public class Vector3d
 
     public static double Factor(Vector3d point, Vector3d start, Vector3d end)
     {
-        var a = new Vector3d(start.X, start.Y, 0);
-        var b = new Vector3d(end.X, end.Y, 0);
-        var p = new Vector3d(point.X, point.Y, 0);
+        start.Z = 0;
+        end.Z = 0;
+        point.Z = 0;
 
-        double length = Vector3d.Distance(a, b);
+        double length = Vector3d.Distance(start, end);
         if (length <= 1e-6)
             return 0.5;
 
-        double t = Vector3d.Distance(a, p) / length;
-        return System.Math.Max(0.0, System.Math.Min(1.0, t));
+        double t = Vector3d.Distance(start, point) / length;
+        return Math.Clamp(t, 0.0, 1.0);
     }
 
     public Vector3d Clone()

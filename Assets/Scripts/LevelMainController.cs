@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Core._Common;
 using DG.Tweening;
@@ -90,7 +91,7 @@ public class LevelMainController
     {
         set
         {
-            float num = 10;
+            float num = 0.1f;
             if (!value)
             {
                 num = 1;
@@ -99,10 +100,18 @@ public class LevelMainController
         }
     }
 
+    private float _gameplayTimeScale = 1f;
+
+    /// <summary>Gameplay speed: 0 stops, 0.5 is half speed, 1 is normal.</summary>
     public float slowModeFrames
     {
-        get;
-        private set;
+        get => _gameplayTimeScale;
+        set
+        {
+            if (float.IsNaN(value) || float.IsInfinity(value))
+                throw new ArgumentOutOfRangeException(nameof(value));
+            _gameplayTimeScale = Mathf.Max(0f, value);
+        }
     }
 
     public static bool IsHunterMode => _isHunterMode;
@@ -112,6 +121,8 @@ public class LevelMainController
         get => _pauseRender;
         set
         {
+            if (_pauseRender != value)
+                FixedRenderInterpolation.ResetHistory();
             _pauseRender = value;
             levelSceneController.SetVisibleTutorialOnPause(value);
         }
@@ -176,13 +187,23 @@ public class LevelMainController
 
     private Location CreateLocation()
     {
+#if UNITY_EDITOR
+        if (Xml2Prefab.Xml2PrefabLevelContainer.LoadLevel &&
+            Xml2Prefab.Xml2PrefabLevelContainer.Active != null)
+        {
+            return new Location(Xml2Prefab.Xml2PrefabLevelContainer.Active.gameObject);
+        }
+#endif
+
         var filePath = CurrentTrackInfo.Current.LocationFile;
         var prefabPath = VectorPaths.LevelsPrefab;
         var xmlPath = VectorPaths.XmlLevels;
+
         if (Game.Instance.Snail)
         {
             filePath = Game.Instance.SnailSett.SnailLevel;
         }
+
         return new Location(xmlPath, filePath, prefabPath);
     }
 
@@ -285,17 +306,19 @@ public class LevelMainController
 
     public void TutorialAreaActivate(TutorialAreaRunner area)
     {
-        slowModeFrames = 10;
+        CoroutineRunner.Instance.StartCoroutine(RampToSlowTime(0.25f, 0));
         levelSceneController.ShowTutorialUIController(area.Key, area.Description);
     }
 
     public void TutorialLockGame()
     {
+        FixedRenderInterpolation.ResetHistory();
         _tutorialPause = true;
     }
 
     public void TutorialUnLockGame()
     {
+        FixedRenderInterpolation.ResetHistory();
         levelSceneController.HideTutorialUIController();
         _tutorialPause = false;
         slowModeFrames = 1;
@@ -310,6 +333,38 @@ public class LevelMainController
             return stats.Stars > 0;
         }
         return false;
+    }
+
+    public IEnumerator RampToSlowTime(float rampDuration, float slowModeValue)
+    {
+        if (rampDuration <= 0f)
+        {
+            slowModeFrames = slowModeValue;
+            yield break;
+        }
+
+        float start = slowModeFrames;
+        float lastWritten = start;
+        float elapsed = 0f;
+
+        while (elapsed < rampDuration)
+        {
+            if (!pauseRender)
+            {
+                if (slowModeFrames != lastWritten)
+                    yield break;
+
+                elapsed += Time.deltaTime;
+                slowModeFrames = Mathf.Lerp(
+                    start,
+                    slowModeValue,
+                    Mathf.Clamp01(elapsed / rampDuration)
+                );
+                lastWritten = slowModeFrames;
+            }
+
+            yield return null;
+        }
     }
 
     public void RefreshTricks()
@@ -456,6 +511,7 @@ public class LevelMainController
 
     protected void Reload()
     {
+        FixedRenderInterpolation.ResetHistory();
         Debug.Log("Reload");
         _Location.Reload();
         TutorialUnLockGame();
@@ -474,7 +530,12 @@ public class LevelMainController
         if (_pauseAfterReload)
         {
             _pauseAfterReload = false;
-            Game.Instance.ScreenManager.Show<GameplayPauseScreen>(false, false);
+            _consecutiveLosses = 0;
+            if (!Game.Instance.Snail)
+            {
+                Game.Instance.ScreenManager.Show<GameplayPauseScreen>(false, false);
+
+            }
             pauseRender = true;
         }
     }

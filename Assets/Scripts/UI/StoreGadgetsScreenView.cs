@@ -62,7 +62,7 @@ namespace UI
         {
             for (int i = count; i > 0; i--)
             {
-                var obj = Instantiate(Resources.Load<LayoutElement>("HolderItemDummy"), ContentParent.transform);
+                var obj = Instantiate(StoreTricksScreenView.LoadPrefab(ref StoreTricksScreenView._holderItemDummyHandle, StoreTricksScreenView.HolderItemDummyAddress), ContentParent.transform).GetComponent<LayoutElement>();
                 if (right)
                 {
                     LayoutPosKeeper.right.Add(obj);

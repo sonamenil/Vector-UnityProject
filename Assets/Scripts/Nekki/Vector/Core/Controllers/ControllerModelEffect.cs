@@ -29,11 +29,11 @@ namespace Nekki.Vector.Core.Controllers
             {
                 _layer = value;
                 if (_antibotEffect != null)
-                    _antibotEffect.transform.SetParent(_layer.transform, true);
-                _taserExplosionEffect.transform.SetParent(_layer.transform, true);
+                    _antibotEffect.transform.SetParent(_layer.transform, false);
+                _taserExplosionEffect.transform.SetParent(_layer.transform, false);
                 foreach (var item in _taserEffect)
                 {
-                    item.Item2.transform.SetParent(_layer.transform, true);
+                    item.Item2.transform.SetParent(_layer.transform, false);
                 }
             }
         }
@@ -71,7 +71,7 @@ namespace Nekki.Vector.Core.Controllers
                 return;
             }
             var node = _modelHuman.GetNode("COM");
-            _antibotEffect.transform.localPosition = new Vector3((float)node.Start.X, (float)node.Start.Y, -20);
+            _antibotEffect.transform.localPosition = new Vector3((float)node.Start.X, (float)node.Start.Y, 0);
             _antibotEffect.gameObject.SetActive(true);
             _antibotEffect.Reset();
             _antibotEffect.IsWork = true;
@@ -97,7 +97,7 @@ namespace Nekki.Vector.Core.Controllers
                 return;
             }
             var node = _modelHuman.GetNode("COM");
-            _taserExplosionEffect.transform.localPosition = new Vector3((float)node.Start.X, (float)node.Start.Y, -20);
+            _taserExplosionEffect.transform.localPosition = new Vector3((float)node.Start.X, (float)node.Start.Y, 0);
             _taserExplosionEffect.gameObject.SetActive(true);
             _taserExplosionEffect.IsWork = true;
         }
@@ -136,7 +136,7 @@ namespace Nekki.Vector.Core.Controllers
             }
             foreach (var item in _taserEffect)
             {
-                item.Item2.transform.localPosition = new Vector3((float)item.Item1.Start.X, (float)item.Item1.Start.Y, -20);
+                item.Item2.transform.localPosition = new Vector3((float)item.Item1.Start.X, (float)item.Item1.Start.Y, 0);
                 item.Item2.IsWork = true;
             }
         }
@@ -158,7 +158,7 @@ namespace Nekki.Vector.Core.Controllers
                 var animation = CreateGO("Taser Paralyze " + nodeName, VectorPaths.AnimatedTextures + "/lightning_paraliz_v2", true);
                 animation.IsWork = true;
                 animation.transform.parent = _layer.transform;
-                animation.transform.localPosition = new Vector3((float)node.Start.X, (float)node.Start.Y, -20);
+                animation.transform.localPosition = new Vector3((float)node.Start.X, (float)node.Start.Y, 0);
                 animation.transform.Rotate(0, 0, Random.Range(0, 360));
                 _paralyzeEffect.Add(node, animation);
             }
@@ -168,7 +168,7 @@ namespace Nekki.Vector.Core.Controllers
         {
             foreach (var node in _paralyzeEffect.Keys)
             {
-                _paralyzeEffect[node].transform.localPosition = new Vector3((float)node.Start.X, (float)node.Start.Y, -20);
+                _paralyzeEffect[node].transform.localPosition = new Vector3((float)node.Start.X, (float)node.Start.Y, 0);
             }
         }
 
@@ -199,9 +199,11 @@ namespace Nekki.Vector.Core.Controllers
         private AnimationSprite CreateGO(string goName, string animationName, bool isActive = false)
         {
             var animationSprite = Object.Instantiate(Resources.Load<GameObject>("LevelContent/Prefabs/AnimationSprite")).GetComponent<AnimationSprite>();
+            FixedRenderInterpolation.Register(animationSprite.transform);
             animationSprite.Init(animationName, null, 0.5f, 0.5f);
             animationSprite.gameObject.SetActive(isActive);
             animationSprite.name = goName;
+            animationSprite._spriteRenderer.sortingLayerName = "Effect";
             return animationSprite;
         }
     }

@@ -5,6 +5,8 @@ namespace Nekki.Vector.Core.Camera
 {
     public class ZoomContainer
     {
+        private const float MinPerspectiveFactor = 0.0001f;
+        private const float MinPerspectiveScale = 0.0001f;
 
         private float _Factor;
 
@@ -21,6 +23,14 @@ namespace Nekki.Vector.Core.Camera
         private float _Time;
 
         private GameObject _Layer;
+
+        private Vector3 _BaseLocalScale;
+
+        private float _PerspectiveReferenceDistance;
+
+        private float _PerspectiveCameraZ;
+
+        private bool _IsPerspectiveConfigured;
 
         public float FrameScale
         {
@@ -41,22 +51,24 @@ namespace Nekki.Vector.Core.Camera
         {
             _Factor = p_factor;
             _Layer = p_object;
+            FixedRenderInterpolation.Register(_Layer.transform);
+            _BaseLocalScale = _Layer.transform.localScale;
             _ZoomValue = 1;
             _Scale = 4;
             _Time = 30;
         }
 
-        public void Move(Vector3d p_point)
+        public void ConfigurePerspective(float p_referenceDistance, float p_cameraZ)
         {
-            if (p_point == null)
-            {
-                return;
-            }
-            Play();
-            var vector = _Layer.transform.position;
-            vector.x = -(float)(p_point.X * _Factor * _Layer.transform.localScale.x);
-            vector.y = -(float)(p_point.Y * _Factor * _Layer.transform.localScale.x);
-            _Layer.transform.position = vector;
+            _PerspectiveReferenceDistance = p_referenceDistance;
+            _PerspectiveCameraZ = p_cameraZ;
+            _IsPerspectiveConfigured = true;
+
+
+            float factor = SafeFactor;
+            _Layer.transform.localScale = _BaseLocalScale / factor;
+
+            ApplyPerspectiveDepth(_ZoomValue);
         }
 
         public void Zooming(float p_value, bool p_isStart)
@@ -69,8 +81,9 @@ namespace Nekki.Vector.Core.Camera
                 _IsZoom = true;
                 return;
             }
+
             _Scale = _ZoomValue;
-            _Layer.transform.localScale = new Vector3(FrameScale, FrameScale, FrameScale);
+            ApplyVisualScale(_ZoomValue);
         }
 
         public void Play()
@@ -79,13 +92,69 @@ namespace Nekki.Vector.Core.Camera
             {
                 return;
             }
+
             _Frame++;
-            _Layer.transform.localScale = new Vector3(FrameScale, FrameScale, FrameScale);
+            ApplyVisualScale(FrameScale);
             if (_Frame < _Time)
             {
                 return;
             }
+
             _IsZoom = false;
+        }
+
+        public float MaxPerspectiveDistance(float p_minZoom, float p_maxZoom)
+        {
+            if (!_IsPerspectiveConfigured)
+            {
+                return 0;
+            }
+
+            float minScale = ZoomScale(p_minZoom);
+            float maxScale = ZoomScale(p_maxZoom);
+            float minDistance = PerspectiveDistance(minScale);
+            float maxDistance = PerspectiveDistance(maxScale);
+            return Mathf.Max(minDistance, maxDistance, _PerspectiveReferenceDistance);
+        }
+
+        private float SafeFactor => Mathf.Max(Mathf.Abs(_Factor), MinPerspectiveFactor);
+
+        private float ZoomScale(float p_zoom)
+        {
+            float denominator = p_zoom + _Factor * (1 - p_zoom);
+            if (Mathf.Abs(denominator) < MinPerspectiveScale)
+            {
+                denominator = denominator < 0 ? -MinPerspectiveScale : MinPerspectiveScale;
+            }
+            return p_zoom / denominator;
+        }
+
+        private float PerspectiveDistance(float p_visualScale)
+        {
+            float scale = Mathf.Max(Mathf.Abs(p_visualScale), MinPerspectiveScale);
+            return _PerspectiveReferenceDistance / (SafeFactor * scale);
+        }
+
+        private void ApplyVisualScale(float p_visualScale)
+        {
+            if (_IsPerspectiveConfigured)
+            {
+                ApplyPerspectiveDepth(p_visualScale);
+                return;
+            }
+
+            _Layer.transform.localScale = _BaseLocalScale * p_visualScale;
+        }
+
+        private void ApplyPerspectiveDepth(float p_visualScale)
+        {
+            float distance = PerspectiveDistance(p_visualScale);
+            var position = _Layer.transform.position;
+            position.z = _PerspectiveCameraZ + distance;
+            _Layer.transform.position = position;
+
+            float scaleSign = p_visualScale < 0 ? -1f : 1f;
+            _Layer.transform.localScale = (_BaseLocalScale / SafeFactor) * scaleSign;
         }
     }
 }

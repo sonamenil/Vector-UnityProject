@@ -235,7 +235,26 @@ namespace Nekki.Vector.Core.Models
             set;
         }
 
-        public Vector3d Velocity => CenterOfMassNode == null ? new Vector3d() : CenterOfMassNode.Start - CenterOfMassNode.End;
+        public Vector3d Velocity
+        {
+            get
+            {
+                if (CenterOfMassNode == null)
+                {
+                    return new Vector3d();
+                }
+
+                if (Parent is ModelHuman human && human.ControllerAnimations != null)
+                {
+                    var node = CenterOfMassNode;
+
+                    Vector3 renderedDelta = node.Start - node.End;
+                    return renderedDelta * human.ControllerAnimations.VelocityScale;
+                }
+
+                return CenterOfMassNode.Start - CenterOfMassNode.End;
+            }
+        }
 
         public List<int[]> BothNodeList => _BothNodeList;
 
@@ -258,13 +277,15 @@ namespace Nekki.Vector.Core.Models
             IsAuxiliary = true;
             Parse(skins);
             CreateBothNodeList();
-            var vector = _Container.transform.localPosition;
-            vector.z = -15;
-            _Container.transform.localPosition = vector;
+            //var vector = _Container.transform.localPosition;
+            //vector.z = -15;
+            //_Container.transform.localPosition = vector;
         }
 
         public void Parse(List<string> skins)
         {
+            foreach (var node in _NodesAll)
+                FixedRenderInterpolation.Unregister(node);
             _NodesAll.Clear();
             _Renders.Clear();
             CenterOfMass.Clear();
@@ -404,6 +425,7 @@ namespace Nekki.Vector.Core.Models
                 }
                 modelNode.Id = _NodesAll.Count;
                 _NodesAll.Add(modelNode);
+                FixedRenderInterpolation.Register(modelNode);
                 render.Add(modelNode);
             }
         }
@@ -546,7 +568,7 @@ namespace Nekki.Vector.Core.Models
             }
         }
 
-        public void Position(Vector3d vector, string name = "NPivot")
+        public void Position(Vector3d vector, string name = "NPivot", bool snapRendering = true)
         {
             ModelNode node = GetNode(name);
             if (node == null)
@@ -559,6 +581,8 @@ namespace Nekki.Vector.Core.Models
             {
                 item.Start.Add(p_vector2);
                 item.End.Add(p_vector3);
+                if (snapRendering)
+                    FixedRenderInterpolation.Invalidate(item);
             }
             if (DetectorHorizontalLine != null)
             {

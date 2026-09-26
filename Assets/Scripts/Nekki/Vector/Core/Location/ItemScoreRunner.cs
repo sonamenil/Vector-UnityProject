@@ -80,7 +80,7 @@ namespace Nekki.Vector.Core.Location
 
         protected override void UpdateUnityObjectPosition(Vector3 position)
         {
-            _UnityObject.transform.localPosition = new Vector3(position.x, position.y, -10);
+            _UnityObject.transform.localPosition = new Vector3(position.x, position.y, 0);
         }
 
         public override void Reset()

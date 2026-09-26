@@ -92,12 +92,20 @@ namespace UI
             if (storyInfo.CutsceneStart != null)
             {
                 var payload = new VideoScreenPayloadData(storyInfo.CutsceneStart, null);
-                sm.Show<VideoScreen, VideoScreenPayloadData>(payload, true, false);
-                while (payload.IsPlaying)
-                {
-                    yield return null;
-                }
 
+                yield return sm.FadeInCoroutine();
+
+                sm.Show<VideoScreen, VideoScreenPayloadData>(payload, false, false);
+
+                yield return sm.FadeOutCoroutine();
+
+                yield return new WaitUntil(() => payload.IsPlaying == false);
+
+                sm.Show<GameplayScreen>(false, false);
+
+                LevelMainController.current.pauseRender = false;
+
+                yield break;
             }
 
             yield return sm.FadeInCoroutine();

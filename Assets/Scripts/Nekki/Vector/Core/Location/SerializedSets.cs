@@ -19,11 +19,7 @@ namespace Nekki.Vector.Core.Location
         {
             ParseChoices(_model.Choices);
             TotalCoins = _model.Coins;
-            var nodes = _model.Models.Select<string, XmlNode>(xmlString =>
-            {
-                return XmlUtils.OpenXMLElementFromString(xmlString);
-            });
-            ParseModels(nodes);
+            ParseModels(_model.Models);
             _music = _model.Music;
             CreateObjects();
             GetElements(_Objects);

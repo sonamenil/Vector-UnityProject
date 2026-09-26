@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 namespace UI
@@ -38,6 +41,14 @@ namespace UI
         private Dictionary<StoryItem, bool> _dummies = new Dictionary<StoryItem, bool>();
 
         private List<StoryItem> _storiesItem = new List<StoryItem>();
+
+        private const string StoryItemAddress = "Assets/UI/Prefabs/StoryHolder.prefab";
+        private AsyncOperationHandle<GameObject> _storyPrefabHandle;
+        private GameObject _storyPrefab;
+
+        private const string StoryItemDummyAddress = "Assets/UI/Prefabs/StoryHolderDummy.prefab";
+        private AsyncOperationHandle<GameObject> _storyDummyPrefabHandle;
+        private GameObject _storyDummyPrefab;
 
         public override void Init(SelectStoryScreen screen)
         {
@@ -101,8 +112,7 @@ namespace UI
                 }
                 if (dummy == null)
                 {
-                    var prefab = Resources.Load<StoryItem>("StoryHolderDummy");
-                    dummy = Instantiate(prefab, ContentParent.transform);
+                    dummy = Instantiate(_storyDummyPrefab, ContentParent.transform).GetComponent<StoryItem>();
                     _dummies[dummy] = true;
                 }
 
@@ -160,6 +170,28 @@ namespace UI
 
         public override void PreShow(CommonPayloadData payload)
         {
+            if (_storyPrefab == null)
+            {
+                _storyPrefabHandle = Addressables.LoadAssetAsync<GameObject>(StoryItemAddress);
+                _storyPrefab = _storyPrefabHandle.WaitForCompletion();
+                if (_storyPrefab == null)
+                {
+                    Addressables.Release(_storyPrefabHandle);
+                    _storyPrefabHandle = default;
+                    throw new InvalidOperationException($"Could not load {StoryItemAddress}");
+                }
+            }
+            if (_storyDummyPrefab == null)
+            {
+                _storyDummyPrefabHandle = Addressables.LoadAssetAsync<GameObject>(StoryItemDummyAddress);
+                _storyDummyPrefab = _storyDummyPrefabHandle.WaitForCompletion();
+                if (_storyDummyPrefab == null)
+                {
+                    Addressables.Release(_storyDummyPrefabHandle);
+                    _storyDummyPrefabHandle = default;
+                    throw new InvalidOperationException($"Could not load {StoryItemDummyAddress}");
+                }
+            }
             Title.text = LocalizationManager.Instance.GetTranslationByID(UserDataManager.Instance.CurrentBalanceLocation.Name);
             ScrollSnap.enabled = true;
             FillWithContent(UserDataManager.Instance, payload);
@@ -170,8 +202,7 @@ namespace UI
             var item = _storiesItem.ElementAtOrDefault(index);
             if (item == null)
             {
-                var obj = Resources.Load<StoryItem>("StoryHolder");
-                item = Instantiate(obj, ContentParent.transform);
+                item = Instantiate(_storyPrefab, ContentParent.transform).GetComponent<StoryItem>();
                 _storiesItem.Add(item);
             }
             item.gameObject.SetActive(true);
@@ -304,6 +335,15 @@ namespace UI
         {
             base.OnDisable();
             ScrollSnap.enabled = false;
+        }
+
+        private void OnDestroy()
+        {
+            if (_storyPrefabHandle.IsValid())
+                Addressables.Release(_storyPrefabHandle);
+
+            if (_storyDummyPrefabHandle.IsValid())
+                Addressables.Release(_storyDummyPrefabHandle);
         }
 
         public override void Back()

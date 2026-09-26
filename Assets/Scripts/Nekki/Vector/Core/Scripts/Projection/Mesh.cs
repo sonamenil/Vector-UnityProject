@@ -35,7 +35,7 @@ namespace Nekki.Vector.Core.Scripts.Projection
 			{
 				if (_Shader == null)
 				{
-					_Shader = Shader.Find("Mesh/Colored");
+					_Shader = Shader.Find("Sprites/Default");
 				}
 				return _Shader;
 			}
@@ -45,6 +45,7 @@ namespace Nekki.Vector.Core.Scripts.Projection
 		{
 			_Mesh = new UnityEngine.Mesh();
 			var renderer = gameObject.AddComponent<MeshRenderer>();
+			renderer.sortingLayerName = "Model";
 			var filter = gameObject.AddComponent<MeshFilter>();
 			filter.mesh = _Mesh;
 			_Material = renderer.material;
@@ -61,9 +62,9 @@ namespace Nekki.Vector.Core.Scripts.Projection
 			{
 				var i = t * 3;
 				var tri = _Base[t];
-				_vertices[i + 0] = new Vector3((float)tri.Node0.Start.X, (float)tri.Node0.Start.Y, 0);
-				_vertices[i + 1] = new Vector3((float)tri.Node1.Start.X, (float)tri.Node1.Start.Y, 0);
-                _vertices[i + 2] = new Vector3((float)tri.Node2.Start.X, (float)tri.Node2.Start.Y, 0);
+				_vertices[i + 0] = RenderPosition(tri.Node0);
+				_vertices[i + 1] = RenderPosition(tri.Node1);
+                _vertices[i + 2] = RenderPosition(tri.Node2);
 
                 triangles[i + 0] = i + 0;
                 triangles[i + 1] = i + 1;
@@ -74,15 +75,23 @@ namespace Nekki.Vector.Core.Scripts.Projection
 			_Mesh.RecalculateBounds();
 		}
 
-		private void Update()
+		private static Vector3 RenderPosition(Nekki.Vector.Core.Node.ModelNode node)
+		{
+			var position = FixedRenderInterpolation.Position(node);
+			position.z = 0;
+			return position;
+		}
+
+		// Gameplay advances in Update; sample its completed presentation state.
+		private void LateUpdate()
 		{
             for (int t = 0; t < _Base.Count; t++)
             {
                 var i = t * 3;
                 var tri = _Base[t];
-                _vertices[i + 0] = new Vector3((float)tri.Node0.Start.X, (float)tri.Node0.Start.Y, 0);
-                _vertices[i + 1] = new Vector3((float)tri.Node1.Start.X, (float)tri.Node1.Start.Y, 0);
-                _vertices[i + 2] = new Vector3((float)tri.Node2.Start.X, (float)tri.Node2.Start.Y, 0);
+                _vertices[i + 0] = RenderPosition(tri.Node0);
+                _vertices[i + 1] = RenderPosition(tri.Node1);
+                _vertices[i + 2] = RenderPosition(tri.Node2);
             }
             _Mesh.vertices = _vertices;
 			_Mesh.RecalculateBounds();

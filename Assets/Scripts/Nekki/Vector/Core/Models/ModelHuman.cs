@@ -25,6 +25,8 @@ namespace Nekki.Vector.Core.Models
 
         private ControllerModelEffect _controllerModelEffect;
 
+        private AIController _ControllerAI;
+
         private UserData _userData;
 
         private bool _IsGadget;
@@ -235,6 +237,11 @@ namespace Nekki.Vector.Core.Models
             _controllerTrigger = new ControllerTrigger(this);
             _controllerModelEffect = new ControllerModelEffect(this);
             _controllerStatistics = new ControllerStatistics();
+            //if (IsBot)
+            //{
+            //    _ControllerAI = _ModelObject._Container.AddComponent<AIController>();
+            //    _ControllerAI.Init(this);
+            //}
             _ModelObject.IsVisible = false;
         }
 
@@ -447,13 +454,17 @@ namespace Nekki.Vector.Core.Models
             }
             if (!_isDelayEnd)
             {
-                if (_TimeOut < _userData.StartTime * 60 * LevelMainController.current.slowModeFrames)
+                if (_TimeOut < _userData.StartTime * 60)
                 {
                     _TimeOut++;
                     return;
                 }
                 _isDelayEnd = true;
                 _ModelObject.IsVisible = true;
+            }
+            if (_ControllerAI != null)
+            {
+                _ControllerAI.Render();
             }
             _ControllerPhysics.Render();
             _controllerTrigger.Render();
@@ -562,6 +573,10 @@ namespace Nekki.Vector.Core.Models
 
         public override void Reset()
         {
+            if (_ControllerAI != null)
+            {
+                _ControllerAI.Reset();
+            }
             _ControllerPhysics.Stop();
             _controllerAnimations.Clear();
             _ControllerCollisions.Reset();

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Models;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
@@ -22,6 +23,8 @@ public class BotIcon : MonoBehaviour
 
     private bool _isVisible;
 
+    Transform modelLayer;
+
     public void Init(List<ModelHuman> botModels)
     {
         _botModel = null;
@@ -38,11 +41,13 @@ public class BotIcon : MonoBehaviour
         {
             SetBotIconVisible(false);
         }
+
+        modelLayer = Sets.Current.Containers[1].Object.transform;
     }
 
     public void Render()
     {
-        if (_botModel == null)
+        if (_botModel == null || _camera == null || modelLayer == null)
             return;
 
         if (!_botModel.IsEnabled)
@@ -51,7 +56,7 @@ public class BotIcon : MonoBehaviour
             return;
         }
         Vector2 iconWorldPos = _botModel.GetPositionForIcon();
-        Vector3 viewportPos = _camera.WorldToViewportPoint(new Vector3(iconWorldPos.x, iconWorldPos.y, 0));
+        Vector3 viewportPos = _camera.WorldToViewportPoint(new Vector3(iconWorldPos.x, iconWorldPos.y, modelLayer.position.z));
         Vector2 viewportXY = new Vector2(viewportPos.x, viewportPos.y);
 
         if (!(viewportXY.x <= 0f || viewportXY.x >= 1f))

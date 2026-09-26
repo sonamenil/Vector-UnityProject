@@ -17,7 +17,7 @@ public class ResolutionManager : AbstractManager<ResolutionManager>
 
     protected override void InitInternal()
     {
-        if (Application.platform == RuntimePlatform.Android)
+        if (Application.isMobilePlatform)
         {
             CurrentResolution = Screen.currentResolution;
             FullScreenMode = FullScreenMode.FullScreenWindow;
@@ -30,6 +30,9 @@ public class ResolutionManager : AbstractManager<ResolutionManager>
             );
 
             OnResolutionChanged?.Invoke(CurrentResolution);
+
+            QualitySettings.vSyncCount = 0;
+            PlayerPrefs.SetInt("VSyncCount", 0);
             return;
         }
 
@@ -72,6 +75,8 @@ public class ResolutionManager : AbstractManager<ResolutionManager>
         }
 
         ChangeResolution(startIndex);
+
+        QualitySettings.vSyncCount = PlayerPrefs.GetInt("VSyncCount", 0);
     }
 
     public void ChangeFullScreenMode(int index)

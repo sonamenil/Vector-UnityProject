@@ -195,11 +195,38 @@ namespace Nekki.Vector.Core.Location
             }
         }
 
+        protected void ParseModels(IEnumerable<ModelsContainer> models)
+        {
+            foreach (ModelsContainer modelsContainer in models)
+            {
+                if (modelsContainer.Choice == null || string.IsNullOrEmpty(modelsContainer.Choice.Name))
+                {
+                    AddModels(modelsContainer);
+                    return;
+                }
+                string choice = modelsContainer.Choice.Name;
+                string variant = modelsContainer.Choice.Variant;
+
+                if (_ChoisesDictionary[choice] == variant)
+                {
+                    AddModels(modelsContainer);
+                }
+            }
+        }
+
         public void AddModels(XmlNode Nodes)
         {
             foreach (XmlNode node in Nodes.ChildNodes)
             {
                 _UserData.Add(Xml2PrefabUtils.GetUserData(node));
+            }
+        }
+
+        public void AddModels(ModelsContainer Models)
+        {
+            foreach (ModelContainer model in Models.Models)
+            {
+                _UserData.Add(Xml2PrefabUtils.GetUserData(model));
             }
         }
 

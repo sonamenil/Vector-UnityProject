@@ -47,12 +47,14 @@ namespace Nekki.Vector.Core.Location
 			if (Animator._spriteRenderer != null)
 			{
                 Animator._spriteRenderer.color = Color.black;
+				Animator._spriteRenderer.sortingLayerName = "Overlay";
 
             }
         }
 
 		public void PlayAnimation(ModelNode p_node)
 		{
+            FixedRenderInterpolation.Register(_CachedTransform);
 			RunnerRender.AddRunner(this);
 			_liveCount = 0;
 			_IsPlay = true;
@@ -81,7 +83,7 @@ namespace Nekki.Vector.Core.Location
 			var vector2 = end + vector;
 			vector2 = nodeStart - vector2;
 			vector2.Normalize();
-			vector2.Multiply(10 / Mathf.Sqrt(LevelMainController.current.slowModeFrames));
+			vector2.Multiply(10);
 			vector2 += nodeStart;
 
 			var vector3 = new Vector3f(Random.Range(-5, 5), Random.Range(-5, 5));
@@ -91,7 +93,7 @@ namespace Nekki.Vector.Core.Location
 
 		private void MoveParticle()
 		{
-			_CachedTransform.localPosition = new Vector3((float)_node.Start.X, (float)_node.Start.Y, -11);
+			_CachedTransform.localPosition = new Vector3((float)_node.Start.X, (float)_node.Start.Y, 0);
 		}
 
 		public override bool Render()

@@ -47,6 +47,12 @@ namespace Nekki.Vector.Core.Location.Animation
 			Animator.Init(path, render, pivotX, pivotY);
             _TotalFrames = Animator.TotalFrames;
 			IsEnabled = false;
+
+			var pos = _CachedTransform.localPosition;
+			pos.z = 0;
+			_CachedTransform.localPosition = pos;
+
+			render.sortingOrder = (int)Index;
 		}
 
 		public override bool Render()

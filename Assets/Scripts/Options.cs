@@ -65,8 +65,8 @@ public class Options : BaseUserHolder<Options>
     {
         SoundLevel = _userjObject.GetFloat("SoundLevel", 1);
         MusicLevel = _userjObject.GetFloat("MusicLevel", 1);
-        LastUsedSetSoundValue = _userjObject.GetFloat("LastUsedSetSoundValue");
-        LastUsedSetMusicValue = _userjObject.GetFloat("LastUsedSetMusicValue");
+        LastUsedSetSoundValue = _userjObject.GetFloat("LastUsedSetSoundValue", 1);
+        LastUsedSetMusicValue = _userjObject.GetFloat("LastUsedSetMusicValue", 1);
         Sound = _userjObject.GetBool("Sound", true);
         Music = _userjObject.GetBool("Music", true);
         GDPR = _userjObject.GetBool("GDPR", false);
@@ -102,30 +102,20 @@ public class Options : BaseUserHolder<Options>
 
     public void ToggleMusic()
     {
-        MusicLevel = 0;
-        if (!Music)
-        {
-            MusicLevel = LastUsedSetMusicValue;
-        }
+        MusicLevel = Music ? 0 : LastUsedSetMusicValue;
         Music = !Music;
         SoundsManager.Instance.SetMusicPause(!Music);
         ToggleMusicEvent?.Invoke(MusicLevel);
         Update();
-        SaveData();
     }
 
     public void ToggleSound()
     {
-        SoundLevel = 0;
-        if (!Sound)
-        {
-            SoundLevel = LastUsedSetSoundValue;
-        }
+        SoundLevel = Sound ? 0 : LastUsedSetSoundValue;
         Sound = !Sound;
         SoundsManager.Instance.SetSoundsPause(!Sound);
         ToggleSoundEvent?.Invoke(SoundLevel);
         Update();
-        SaveData();
     }
 
     public void ToggleValue(ref bool status, ref float value, float userSetValue)

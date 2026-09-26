@@ -25,6 +25,7 @@ namespace Nekki.Vector.Core.Trigger.Actions
             ModelHuman model = GetModel(_ModelVar.ValueString);
             if (model != null)
             {
+                model.Death(GameEndType.GE_DEATH);
                 model.StartPhysics();
             }
         }

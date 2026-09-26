@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 namespace UI
@@ -24,6 +27,10 @@ namespace UI
                 ScreenView = screenView;
             }
         }
+
+        private AsyncOperationHandle<GameObject> _uiRootHandle;
+
+        private readonly List<AsyncOperationHandle<GameObject>> _viewHandles = new();
 
         private readonly Dictionary<Type, object> _screens = new Dictionary<Type, object>();
 
@@ -49,8 +56,26 @@ namespace UI
             //God bless the poor soul who thought that this was the only way to do this
             //Sadly, I couldn't care less about rewriting UI code
 
-            uiRoot = Object.Instantiate(Resources.Load<UiRoot>("UIROOT"));
-            Object.DontDestroyOnLoad(uiRoot);
+            _uiRootHandle = Addressables.LoadAssetAsync<GameObject>(
+                "Assets/UI/Prefabs/UIROOT.prefab");
+
+            GameObject prefab = _uiRootHandle.WaitForCompletion();
+            if (_uiRootHandle.Status != AsyncOperationStatus.Succeeded || prefab == null)
+            {
+                Addressables.Release(_uiRootHandle);
+                throw new InvalidOperationException("Could not load UIRoot");
+            }
+
+            GameObject instance = Object.Instantiate(prefab);
+            uiRoot = instance.GetComponent<UiRoot>();
+            if (uiRoot == null)
+            {
+                Object.Destroy(instance);
+                Addressables.Release(_uiRootHandle);
+                throw new InvalidOperationException("UIROOT prefab has no UiRoot component");
+            }
+
+            Object.DontDestroyOnLoad(instance);
 
             _screens[typeof(LobbyScreen)] = InitAndCreateCacheRecord(new LobbyScreen(this), LoadScreenView<LobbyScreen, CommonPayloadData>());
             _screens[typeof(OptionsScreen)] = InitAndCreateCacheRecord(new OptionsScreen(this), LoadScreenView<OptionsScreen, CommonPayloadData>());
@@ -102,12 +127,36 @@ namespace UI
             return LoadView<T, TPayload>(uiRoot.PopupParent.transform);
         }
 
-        private ScreenView<T, TPayload> LoadView<T, TPayload>(Transform parent) where T : Screen
+        private ScreenView<T, TPayload> LoadView<T, TPayload>(Transform parent)
+            where T : Screen
         {
             var attribute = typeof(T).GetCustomAttribute<ViewAttribute>();
-            var obj = Object.Instantiate(Resources.Load<GameObject>(attribute.Path), parent);
+            if (attribute == null)
+                throw new InvalidOperationException($"{typeof(T).Name} has no ViewAttribute");
+
+            string address = $"Assets/UI/Prefabs/{attribute.Path}.prefab";
+            var handle = Addressables.LoadAssetAsync<GameObject>(address);
+            GameObject prefab = handle.WaitForCompletion();
+
+            if (handle.Status != AsyncOperationStatus.Succeeded || prefab == null)
+            {
+                Addressables.Release(handle);
+                throw new InvalidOperationException($"Could not load view: {address}");
+            }
+
+            var obj = Object.Instantiate(prefab, parent);
+            var view = obj.GetComponent<ScreenView<T, TPayload>>();
+            if (view == null)
+            {
+                Object.Destroy(obj);
+                Addressables.Release(handle);
+                throw new InvalidOperationException(
+                    $"{address} has no ScreenView<{typeof(T).Name}, {typeof(TPayload).Name}>");
+            }
+
             obj.SetActive(false);
-            return obj.GetComponent<ScreenView<T, TPayload>>();
+            _viewHandles.Add(handle);
+            return view;
         }
 
         public void Refresh(Action postRefresh = null, bool keepPopUp = false)

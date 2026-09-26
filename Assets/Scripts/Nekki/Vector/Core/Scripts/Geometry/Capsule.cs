@@ -8,6 +8,8 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 {
     public class Capsule : MonoBehaviour
     {
+        private Color _Color = Color.black;
+
         private double _Stroke = 1;
 
         protected ModelLine _Base;
@@ -16,13 +18,19 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
         private LineRenderer _LineRenderer;
 
+        public Color Color
+        {
+            get => _Color;
+            set => _Color = value;
+        }
+
         private static Material SharedMaterial
         {
             get
             {
                 if (_SharedMaterial == null)
                 {
-                    _SharedMaterial = new Material(Shader.Find("Sprites/Colored"));
+                    _SharedMaterial = new Material(Shader.Find("Sprites/Default"));
                 }
                 return _SharedMaterial;
             }
@@ -47,9 +55,13 @@ namespace Nekki.Vector.Core.Scripts.Geometry
             _LineRenderer.receiveShadows = false;
             _LineRenderer.alignment = LineAlignment.TransformZ;
             _LineRenderer.allowOcclusionWhenDynamic = false;
+            _LineRenderer.sortingLayerName = "Model";
+            _LineRenderer.startColor = _Color;
+            _LineRenderer.endColor = _Color;
         }
 
-        public void Update()
+        // Gameplay advances in Update; sample its completed presentation state.
+        public void LateUpdate()
         {
             if (_Stroke != _Base.Stroke)
             {
@@ -60,17 +72,20 @@ namespace Nekki.Vector.Core.Scripts.Geometry
 
             if (_Base != null && _Base.Start != null && _Base.Start.End != null && _Base.End != null && _Base.End.End != null && _LineRenderer != null)
             {
-                Vector3d start = _Base.Start.Start;
-                Vector3d start2 = _Base.End.Start;
-                double num = start.X - start2.X;
-                double num2 = start.Y - start2.Y;
-                double num3 = start.X - num * _Base.Margin1;
-                double num4 = start.Y - num2 * _Base.Margin1;
-                double num5 = start2.X + num * _Base.Margin2;
-                double num6 = start2.Y + num2 * _Base.Margin2;
+                Vector3 start = FixedRenderInterpolation.Position(_Base.Start);
+                Vector3 start2 = FixedRenderInterpolation.Position(_Base.End);
+                double dx = start.x - start2.x;
+                double dy = start.y - start2.y;
+                //double dz = start.Z - start2.Z;
+                double x1 = start.x - dx * _Base.Margin1;
+                double y1 = start.y - dy * _Base.Margin1;
+                //double z1 = start.Z - dz * _Base.Margin1;
+                double x2 = start2.x + dx * _Base.Margin2;
+                double y2 = start2.y + dy * _Base.Margin2;
+                //double z2 = start2.Z + dz * _Base.Margin2;
 
-                var pos1 = new Vector3((float)num3, (float)num4, 0);
-                var pos2 = new Vector3((float)num5, (float)num6, 0);
+                var pos1 = new Vector3((float)x1, (float)y1, 0);
+                var pos2 = new Vector3((float)x2, (float)y2, 0);
 
                 _LineRenderer.SetPosition(0, pos1);
                 _LineRenderer.SetPosition(1, pos2);

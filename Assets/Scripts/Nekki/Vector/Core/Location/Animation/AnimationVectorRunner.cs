@@ -67,7 +67,7 @@ namespace Nekki.Vector.Core.Location.Animation
 			_DirectionResult.Add(_AccelerationResult);
 			_UnityObject.transform.localPosition = new Vector3(_DirectionResult.X, _DirectionResult.Y, -11);
 			base.Render();
-			if (LevelMainController.current.slowModeFrames * _Life < _Count)
+			if (_Life < _Count)
 			{
 				Stop(true);
 				return true;

@@ -98,6 +98,12 @@ public class Rectangle
     {
         return x >= MinX && x <= MaxX && y >= MinY && y <= MaxY;
     }
+
+    public bool Contains(double x, double y, float epsilon)
+    {
+        return x >= MinX - epsilon && x <= MaxX + epsilon && y >= MinY - epsilon && y <= MaxY + epsilon;
+    }
+
     public bool Contains(Vector3d point)
     {
         return point.X >= MinX && point.X <= MaxX && point.Y >= MinY && point.Y <= MaxY;

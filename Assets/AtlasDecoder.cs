@@ -9,8 +9,7 @@ using System.Xml;
 
 using UnityEngine;
 
-
-//MADE BY kubinka0505
+// MADE BY kubinka0505
 
 public static class AtlasDecoder
 {
@@ -49,8 +48,8 @@ public static class AtlasDecoder
     // PUBLIC API
     public static List<Sprite> Decode(
         string atlasAssetPath,
-        string imageAssetPath, 
-        float pivotX = 0, 
+        string imageAssetPath,
+        float pivotX = 0,
         float pivotY = 1
     )
     {
@@ -79,11 +78,19 @@ public static class AtlasDecoder
 
     public static List<DecodedSprite> DecodeDetailed(
         string atlasAssetPath,
-        string imageAssetPath, 
-        float pivotX = 0, 
+        string imageAssetPath,
+        float pivotX = 0,
         float pivotY = 1
     )
     {
+        if (atlasAssetPath.StartsWith(Application.streamingAssetsPath) && !File.Exists(atlasAssetPath))
+        {
+            throw new FileNotFoundException(
+                "Atlas file not found",
+                atlasAssetPath
+            );
+        }
+
         string atlasText =
     ResourcesLoader.LoadText(atlasAssetPath);
 
@@ -95,7 +102,7 @@ public static class AtlasDecoder
             );
         }
 
-            
+
         Texture2D atlasTexture =
             ResourcesLoader.LoadTexture2D(imageAssetPath);
 
@@ -134,9 +141,7 @@ public static class AtlasDecoder
                     tex.height
                 ),
                 new Vector2(pivotX, pivotY),
-                1,
-                0,
-                SpriteMeshType.FullRect
+                1
             );
 
             sprite.name = kv.Key;
@@ -202,41 +207,48 @@ public static class AtlasDecoder
         result.SetPixels(empty);
 
         int startX = frame.ResultBox.x;
+        int startY = frame.ResultBox.y;
 
-        int startY =
+        // unity has bottom-left origin
+        // python has top-left origin
+        // = flip Y properly
+
+        startY =
             frame.RealSize.y
-            - frame.ResultBox.y
+            - startY
             - frame.Box.height;
 
-        if (
-            startX < 0 ||
-            startY < 0 ||
-            startX + frame.Box.width > result.width ||
-            startY + frame.Box.height > result.height
-        )
-        {
-            Debug.LogError(
-                $"Sprite outside bounds: {frame.Name}\n" +
-                $"Result texture: {result.width}x{result.height}\n" +
-                $"SetPixels: x={startX}, y={startY}, w={frame.Box.width}, h={frame.Box.height}\n" +
-                $"ResultBox: {frame.ResultBox}\n" +
-                $"RealSize: {frame.RealSize}\n" +
-                $"Rotated: {frame.Rotated}"
+        int pasteWidth =
+            Mathf.Min(
+                frame.Box.width,
+                frame.RealSize.x - startX
             );
 
-            return result;
+        int pasteHeight =
+            Mathf.Min(
+                frame.Box.height,
+                frame.RealSize.y - startY
+            );
+
+        Color[] clipped =
+            new Color[pasteWidth * pasteHeight];
+
+        for (int y = 0; y < pasteHeight; y++)
+        {
+            for (int x = 0; x < pasteWidth; x++)
+            {
+                clipped[y * pasteWidth + x] =
+                    crop[y * frame.Box.width + x];
+            }
         }
 
         result.SetPixels(
             startX,
             startY,
-            frame.Box.width,
-            frame.Box.height,
-            crop
+            pasteWidth,
+            pasteHeight,
+            clipped
         );
-
-        result.wrapMode = TextureWrapMode.Clamp;
-        result.filterMode = FilterMode.Trilinear;
 
         result.Apply();
 

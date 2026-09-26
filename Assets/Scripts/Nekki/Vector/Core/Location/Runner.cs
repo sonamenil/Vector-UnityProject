@@ -254,6 +254,7 @@ namespace Nekki.Vector.Core.Location
 
         public virtual void Reset()
         {
+            FixedRenderInterpolation.Invalidate(_CachedTransform);
             ResetPosition();
             UpdateUnityObjectPosition((Vector3)_DefautPosition);
             if (_CachedTransform != null)
@@ -275,6 +276,8 @@ namespace Nekki.Vector.Core.Location
             }
             if (_ActiveMoveSystem != null)
                 _ActiveMoveSystem.Clear();
+
+            TransformationEnd();
         }
 
         public virtual void UpdatePosition(Point point)

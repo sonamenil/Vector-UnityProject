@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using Nekki.Vector.Core.User;
 using Nekki.Vector.Core.Utilites;
+using NUnit.Framework;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -47,6 +50,42 @@ namespace Xml2Prefab
             userData.AI = int.Parse(node.Attributes["AI"].Value);
             userData.StartTime = node.Attributes["Time"].ParseFloat();
             userData.LiveTime = node.Attributes["LifeTime"].ParseFloat(2);
+            if (userData.Skins.Count == 0)
+            {
+                userData.Skins.Add("1");
+                foreach (var item in AbstractManager<StoreManager>.Instance.GetItems(StoreItemType.Gear))
+                {
+                    if (Game.IsItemEquipped(item.Id))
+                    {
+                        userData.Skins.Add(item.Id);
+                    }
+                }
+            }
+            userData.Init();
+            return userData;
+        }
+
+        public static UserData GetUserData(ModelContainer model)
+        {
+            var userData = new UserData("");
+            userData.Name = model.Name;
+            userData.BirthSpawn = model.BirthSpawn;
+            userData.isIcon = model.IsIcon;
+            userData.Color = model.Color;
+            userData.Skins = model.Skins.ToList();
+            userData.Stocks = model.Stocks.ToList();
+            userData.Arrests = model.Arrests.ToList();
+            userData.Murders = model.Murders.ToList();
+            userData.Respawns = model.Respawns.ToList();
+            userData.Births = model.AllowedSpawns.ToList();
+            userData.IsSelf = model.IsPlayer;
+            userData.IsTrick = model.IsTrick;
+            userData.IsItem = model.IsItem;
+            userData.IsVictory = model.IsVictory;
+            userData.IsLost = model.IsLost;
+            userData.AI = model.AI;
+            userData.StartTime = model.SpawnTime;
+            userData.LiveTime = model.LifeTime;
             if (userData.Skins.Count == 0)
             {
                 userData.Skins.Add("1");

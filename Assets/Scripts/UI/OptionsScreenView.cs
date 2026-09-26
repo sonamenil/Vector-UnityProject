@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -14,11 +15,15 @@ namespace UI
 
         public UnityEngine.UI.Button FullScreenButton;
 
+		public UnityEngine.UI.Button VSyncButton;
+
         public Text LanguageButtonText;
         
         public Text ResolutionButtonText;
         
         public Text FullScreenButtonText;
+
+		public Text VSyncButtonText;
         
 		public UnityEngine.UI.Button MusicButton;
 
@@ -66,6 +71,13 @@ namespace UI
                 ResolutionManager.Instance.ChangeFullScreenMode(ResolutionManager.Instance.GetNextFullScreenMode());
                 FullScreenButtonText.text = ResolutionManager.Instance.GetFullScreenModeName();
                 SoundsManager.Instance.PlaySounds(SoundType.ui_click);
+            });
+			VSyncButtonText.text = PlayerPrefs.GetInt("VSyncCount", 0) == 0 ? "Off" : "On";
+			VSyncButton.onClick.AddListener(() =>
+			{
+				QualitySettings.vSyncCount = QualitySettings.vSyncCount == 0 ? 1 : 0;
+				VSyncButtonText.text = QualitySettings.vSyncCount == 0 ? "Off" : "On";
+				PlayerPrefs.SetInt("VSyncCount", QualitySettings.vSyncCount);
             });
             MusicButton.onClick.AddListener(() =>
             {

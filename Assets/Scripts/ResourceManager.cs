@@ -197,7 +197,10 @@ public static class ResourceManager
         }
 
         var audioClip = DownloadHandlerAudioClip.GetContent(request);
-        audioCache.Add(p_fileName, audioClip);
+        if (!audioCache.ContainsKey(p_fileName))
+        {
+            audioCache.Add(p_fileName, audioClip);
+        }
         onLoaded?.Invoke(audioClip);
     }
 
@@ -280,8 +283,10 @@ public static class ResourceManager
         if (!uri.Contains("://"))
             uri = "file://" + uri;
 
+        var param = new DownloadedTextureParams();
+        param.flags = DownloadedTextureFlags.None;
         using UnityWebRequest request =
-            UnityWebRequestTexture.GetTexture(uri, nonReadable: true);
+            UnityWebRequestTexture.GetTexture(uri, param);
 
         yield return request.SendWebRequest();
 

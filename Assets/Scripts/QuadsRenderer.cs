@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class QuadsRenderer : MonoBehaviour
 {
+    public static QuadsRenderer Instance;
+
     [SerializeField] private bool overrideShowPlatforms;
     [SerializeField] private bool overrideShowTriggers;
     [SerializeField] private bool overrideShowAreas;
@@ -16,6 +18,10 @@ public class QuadsRenderer : MonoBehaviour
     private readonly List<Vector3> vertices = new();
     private readonly List<int> triangles = new();
     private readonly List<Color> colors = new();
+
+    private List<TextMesh> labels = new();
+
+    int TransformationQuads = 0;
 
     private void Awake()
     {
@@ -34,20 +40,42 @@ public class QuadsRenderer : MonoBehaviour
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         meshRenderer.sharedMaterial = material;
         meshRenderer.sortingOrder = 1;
+        meshRenderer.sortingLayerName = "Debug";
+
+        Instance = this;
+
+        foreach (var quad in Sets.Current.QuadsAll)
+        {
+            quad.OnTransformationStart += OnTransformationStart;
+            quad.OnTransformationEnd += OnTransformationEnd;
+        }
+
+        BuildMesh();
+    }
+
+    public void OnTransformationStart(QuadRunner quad)
+    {
+        TransformationQuads++;
+    }
+
+    public void OnTransformationEnd(QuadRunner quad)
+    {
+        TransformationQuads--;
     }
 
     private void LateUpdate()
     {
-        RebuildMesh();
+        if (TransformationQuads > 0)
+        {
+            BuildMesh();
+        }
     }
 
-    private void RebuildMesh()
+    private void BuildMesh()
     {
         vertices.Clear();
         triangles.Clear();
         colors.Clear();
-
-        Transform containerTransform = Sets.Current.Containers[1].Object.transform;
 
         foreach (var quad in Sets.Current.QuadsAll)
         {
@@ -56,10 +84,10 @@ public class QuadsRenderer : MonoBehaviour
 
             int startIndex = vertices.Count;
 
-            Vector3 bl = containerTransform.TransformPoint(quad.Point4);
-            Vector3 tl = containerTransform.TransformPoint(quad.Point1);
-            Vector3 tr = containerTransform.TransformPoint(quad.Point2);
-            Vector3 br = containerTransform.TransformPoint(quad.Point3);
+            Vector3 bl = quad.Point4;
+            Vector3 tl = quad.Point1;
+            Vector3 tr = quad.Point2;
+            Vector3 br = quad.Point3;
 
             Color color = GetQuadColor(quad);
 
@@ -134,5 +162,26 @@ public class QuadsRenderer : MonoBehaviour
             default:
                 return Color.green;
         }
+    }
+
+    public TextMesh AddLabel(Vector3 position, string text)
+    {
+        var label = new GameObject("Label").AddComponent<TextMesh>();
+        label.transform.SetParent(transform, false);
+        label.transform.localPosition = position;
+        label.text = text;
+        label.fontSize = 500;
+        label.transform.localScale = new Vector3(1, -1);
+        label.anchor = TextAnchor.MiddleCenter;
+
+        labels.Add(label);
+
+        return label;
+    }
+
+    public void RemoveLabel(TextMesh label)
+    {
+        labels.Remove(label);
+        Destroy(label.gameObject);
     }
 }

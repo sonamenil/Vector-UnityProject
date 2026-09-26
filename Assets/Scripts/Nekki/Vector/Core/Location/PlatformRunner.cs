@@ -1,3 +1,4 @@
+using UnityEngine;
 using Xml2Prefab;
 
 namespace Nekki.Vector.Core.Location
@@ -30,6 +31,11 @@ namespace Nekki.Vector.Core.Location
 		protected override void GenerateObject()
 		{
 			base.GenerateObject();
+
+			CreateObject();
+			var bc = UnityObject.AddComponent<BoxCollider2D>();
+			bc.size = new Vector2(_WidthQuad, _HeightQuad);
+			bc.offset = new Vector2(_WidthQuad / 2, _HeightQuad / 2);
 		}
 
         protected override void SerializeData()

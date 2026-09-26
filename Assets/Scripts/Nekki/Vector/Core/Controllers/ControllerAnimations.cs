@@ -84,7 +84,17 @@ namespace Nekki.Vector.Core.Controllers
             private set;
         }
 
-        private List<AnimationInterval> Intervals => Animation.Interval(CurrentFrame);
+        private List<AnimationInterval> Intervals
+        {
+            get
+            {
+                if (Animation == null)
+                {
+                    return new List<AnimationInterval>();
+                }
+                return Animation.Interval(CurrentFrame);
+            }
+        }
 
         private bool IsBuffer => _Buffer != null && !_Buffer.IsBufferEmpty;
 
@@ -196,6 +206,15 @@ namespace Nekki.Vector.Core.Controllers
                     }
                 }
                 return null;
+            }
+        }
+
+        public float VelocityScale
+        {
+            get
+            {
+                int normalPointFrames = (int)Math.Max(Animation.MidFrames, 1);
+                return (_PointFrame + 1f) / (normalPointFrames + 1f);
             }
         }
 
@@ -392,7 +411,7 @@ namespace Nekki.Vector.Core.Controllers
 
         private void SetBufferFrame()
         {
-            _PointFrame = (int)(Math.Max(Animation.MidFrames, 1) * LevelMainController.current.slowModeFrames);
+            _PointFrame = Math.Max(Animation.MidFrames, 1);
             _Buffer.InitBuffer(_PointFrame + 1);
             List<Vector3d> activeFrame = _Frames.GetActiveFrame(0);
             List<Vector3d> activeFrame2 = _Frames.GetActiveFrame(1);
@@ -429,6 +448,7 @@ namespace Nekki.Vector.Core.Controllers
         {
             List<Vector3d> activeFrame = _Buffer.GetActiveFrame(0);
             _Buffer.NextActiveFrame();
+
             for (int i = 0; i < activeFrame.Count; i++)
             {
                 ModelNode node = _ModelObject.GetNode(i);

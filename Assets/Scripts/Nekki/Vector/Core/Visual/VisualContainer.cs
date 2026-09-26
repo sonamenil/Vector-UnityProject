@@ -3,6 +3,7 @@ using Nekki.Vector.Core.Camera;
 using Nekki.Vector.Core.Location;
 using Nekki.Vector.Core.Utilites;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Nekki.Vector.Core.Visual
 {
@@ -28,13 +29,14 @@ namespace Nekki.Vector.Core.Visual
 
 		public float Factor => _Factor;
 
-		public VisualContainer(float factor, float z)
+		public VisualContainer(float factor, float z, int index)
 		{
 			_Factor = factor;
 			_Object = new GameObject("[Visual Container] " + _Factor);
-			var vector = _Object.transform.localPosition;
-			vector.z = z;
-			_Object.transform.localPosition = vector;
+			_Object.AddComponent<SortingGroup>().sortingOrder = index;
+   //         var vector = _Object.transform.localPosition;
+			//vector.z = z;
+			//_Object.transform.localPosition = vector;
 		}
 
 		public VisualContainer(float factor, GameObject container)

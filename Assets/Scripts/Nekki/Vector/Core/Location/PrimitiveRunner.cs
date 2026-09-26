@@ -142,7 +142,7 @@ namespace Nekki.Vector.Core.Location
             }
             Position = new Vector3f(point);
             if (_Model != null)
-                _Model.Position(new Vector3d(Position.X, Position.Y, 0));
+                _Model.Position(new Vector3d(Position.X, Position.Y, 0), snapRendering: false);
         }
 
         public void CollisitionPlatform(List<QuadRunner> quads)

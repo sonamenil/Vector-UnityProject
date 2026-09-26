@@ -181,11 +181,10 @@ namespace Nekki.Vector.Core.Location
             var y = node.Attributes["Y"].ParseFloat();
             var width = node.Attributes["Width"].ParseFloat(float.NaN);
             var height = node.Attributes["Height"].ParseFloat(float.NaN);
-            if (node.Attributes["TrMatrix"] != null)
-            {
-                width = node.Attributes["NativeX"].ParseFloat(float.NaN);
-                height = node.Attributes["NativeY"].ParseFloat(float.NaN);
-            }
+
+            var nativeX = node.Attributes["NativeX"].ParseFloat(float.NaN);
+            var nativeY = node.Attributes["NativeY"].ParseFloat(float.NaN);
+
             Color color = Color.white;
             if (node.Attributes["Color"] != null)
             {
@@ -205,7 +204,7 @@ namespace Nekki.Vector.Core.Location
                 x += tX;
                 y += tY;
             }
-            var visual = new VisualRunner(type, name, new Pointd(x, y), width, height, color, depth, matrixNode);
+            var visual = new VisualRunner(type, name, new Pointd(x, y), width, height, color, depth, matrixNode, nativeX, nativeY);
             visual.Layer = _Parent.Layer;
             visual.SetXmlList(Xml2PrefabUtils.GetTransformationNode(node));
             return visual;

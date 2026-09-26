@@ -24,6 +24,10 @@ namespace Nekki.Vector.Core.Transformation
             {
                 foreach (var t in system.Storage)
                 {
+                    // Static level art needs no snapshots. Enlist a runner only
+                    // when a positional transformation actually starts (including rotation).
+                    if (t.Type != Type.Color && t.Runner.ComponentHolder != null)
+                        FixedRenderInterpolation.Register(t.Runner.ComponentHolder.transform);
                     if (t.Type == Type.Move)
                     {
                         t.Runner.AddMoveSystem((MoveTransform)t);

@@ -18,7 +18,7 @@ public class MessageOnScreen : MonoBehaviour
     public void Show(string text, int timeInFrame, Color color, TA_MessageOnScreen.Animation appearAnimation, TA_MessageOnScreen.Animation disappearAnimation)
     {
         _text.gameObject.SetActive(true);
-        _text.text = LocalizationManager.Instance.GetTranslation(text);
+        _text.text = LocalizationManager.Instance.GetTranslationOrKey(text);
         _text.color = color;
 
         _sequence = DOTween.Sequence();

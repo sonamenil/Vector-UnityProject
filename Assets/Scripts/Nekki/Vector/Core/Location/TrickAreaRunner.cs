@@ -103,7 +103,7 @@ namespace Nekki.Vector.Core.Location
 
         protected override void UpdateUnityObjectPosition(Vector3 position)
         {
-            position.z = -10;
+            position.z = 0;
             _CachedTransform.localPosition = position;
         }
 

@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 using Utils;
 
@@ -9,6 +12,30 @@ namespace UI
 {
 	public class StoreTricksScreenView : ScreenViewWithCommonPayload<StoreTricksScreen>
 	{
+        public const string HolderItemAddress = "Assets/UI/Prefabs/HolderItem.prefab";
+        public const string HolderItemDummyAddress = "Assets/UI/Prefabs/HolderItemDummy.prefab";
+        public const string HolderItemDummyEmptyAddress = "Assets/UI/Prefabs/HolderItemDummyEmpty.prefab";
+
+        // These shared UI prefabs stay loaded for the application's lifetime.
+        public static AsyncOperationHandle<GameObject> _holderItemHandle;
+        public static AsyncOperationHandle<GameObject> _holderItemDummyHandle;
+        public static AsyncOperationHandle<GameObject> _holderItemDummyEmptyHandle;
+
+		public static GameObject LoadPrefab(ref AsyncOperationHandle<GameObject> handle, string address)
+		{
+			if (handle.IsValid())
+				return handle.Result;
+
+			handle = Addressables.LoadAssetAsync<GameObject>(address);
+			var prefab = handle.WaitForCompletion();
+			if (handle.Status == AsyncOperationStatus.Succeeded && prefab != null)
+				return prefab;
+
+			Addressables.Release(handle);
+			handle = default;
+			throw new InvalidOperationException($"Could not load {address}");
+		}
+
 		public UnityEngine.UI.Button BackToLobbyButton;
 
 		public UnityEngine.UI.Button BuyCoinsButton;
@@ -72,9 +99,10 @@ namespace UI
 		{
             if (count > 0)
             {
+				var prefab = LoadPrefab(ref _holderItemDummyHandle, HolderItemDummyAddress);
                 for (int i = count; i > 0; i--)
                 {
-                    var obj = Instantiate(Resources.Load<LayoutElement>("HolderItemDummy"), content);
+					var obj = Instantiate(prefab, content).GetComponent<LayoutElement>();
                     if (right)
                     {
 						if (layoutPosKeeper != null)
@@ -93,9 +121,10 @@ namespace UI
 		{
 			if (count > 0)
 			{
+				var prefab = LoadPrefab(ref _holderItemDummyEmptyHandle, HolderItemDummyEmptyAddress);
 				for (int i = count; i > 0; i--)
 				{
-					Instantiate(Resources.Load<ScrollSnapItem>("HolderItemDummyEmpty"), content);
+					Instantiate(prefab, content);
 				}
 			}
 		}
@@ -106,6 +135,7 @@ namespace UI
 
 		public static void PutItemsIntoContent(ScrollSnap scrollSnap, List<Item> items, StoreItemType itemType, bool canEquip, bool buySeveralTimes = false)
 		{
+			var prefab = items.Count > 0 ? LoadPrefab(ref _holderItemHandle, HolderItemAddress) : null;
 			scrollSnap.SnapEvent += i =>
 			{
 				switch (itemType)
@@ -126,7 +156,7 @@ namespace UI
 				var isBought = UserDataManager.Instance.ShopData.IsBought(item.Id);
 
                 int index = i;
-				var obj = Instantiate(Resources.Load<HolderItem>("HolderItem"), scrollSnap._content);
+				var obj = Instantiate(prefab, scrollSnap._content).GetComponent<HolderItem>();
 				obj.Button.onClick.AddListener(() =>
 				{
 					var scrollItem = obj.GetComponent<ScrollSnapItem>();

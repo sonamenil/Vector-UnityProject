@@ -84,7 +84,6 @@ public class LocalizationManager : AbstractManager<LocalizationManager>
         if (CurrentLocale == null)
         {
             CurrentLocale = _locales[0];
-            return;
         }
         if (_currentFontFile != CurrentLocale.fontFile)
         {
@@ -93,6 +92,20 @@ public class LocalizationManager : AbstractManager<LocalizationManager>
             flag = true;
         }
         UpdateEvent?.Invoke(flag);
+    }
+
+    public string GetTranslationOrKey(string key)
+    {
+        var translation = GetTranslation(key, CurrentLocale.index);
+        if (translation == string.Empty)
+        {
+            translation = GetTranslation(key, "eng");
+        }
+        if (translation != string.Empty)
+        {
+            return translation;
+        }
+        return key;
     }
 
     public string GetTranslation(string key)

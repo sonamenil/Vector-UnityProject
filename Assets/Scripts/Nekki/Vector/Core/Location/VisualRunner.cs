@@ -1,6 +1,7 @@
 using Core._Common;
 using DG.Tweening.Plugins.Core.PathCore;
 using Nekki.Vector.Core.Scripts;
+using Nekki.Vector.Core.Scripts.Primitive;
 using Nekki.Vector.Core.Utilites;
 using System;
 using System.IO;
@@ -24,6 +25,10 @@ namespace Nekki.Vector.Core.Location
         private float _OriginalWidth;
 
         private float _OriginalHeight;
+
+        private float _NativeWidth;
+
+        private float _NativeHeight;
 
         public bool _isAnimation;
 
@@ -81,7 +86,7 @@ namespace Nekki.Vector.Core.Location
 
         public bool IsVanishing => _Type == 2;
 
-        public VisualRunner(int type, string name, Pointd position, float width, float height, Color color, int depth, XmlNode node)
+        public VisualRunner(int type, string name, Pointd position, float width, float height, Color color, int depth, XmlNode node, float nativeX = float.NaN, float nativeY = float.NaN)
             : base((float)position.X, (float)position.Y, node)
         {
             _Type = type;
@@ -92,6 +97,8 @@ namespace Nekki.Vector.Core.Location
             _ImageWidth = width;
             _OriginalHeight = height;
             _OriginalWidth = width;
+            _NativeWidth = nativeX;
+            _NativeHeight = nativeY;
             _Color = color;
             _DefaultColor = color;
             _TypeClass = RunnerType.Visual;
@@ -182,25 +189,33 @@ namespace Nekki.Vector.Core.Location
             _SpriteRender.flipY = true;
             var Animator = UnityObject.AddComponent<AnimationSprite>();
             var path = VectorPaths.AnimatedTextures + "/" + _Name;
-            Animator.Init(path, _SpriteRender); 
-            float width = _SpriteRender.sprite.rect.width;
-            float height = _SpriteRender.sprite.rect.height;
+            Animator.Init(path, _SpriteRender);
+
+            if (float.IsNaN(_NativeWidth))
+            {
+                _NativeWidth = _SpriteRender.sprite.rect.width;
+            }
+            if (float.IsNaN(_NativeHeight))
+            {
+                _NativeHeight = _SpriteRender.sprite.rect.height;
+            }
+
             if (_Support != null)
             {
-                _Transformation[0, 0] = _Transformation[0, 0] / width;
-                _Transformation[0, 1] = _Transformation[0, 1] / width;
-                _Transformation[1, 0] = _Transformation[1, 0] / height;
-                _Transformation[1, 1] = _Transformation[1, 1] / height;
+                _Transformation[0, 0] = _Transformation[0, 0] / _NativeWidth;
+                _Transformation[0, 1] = _Transformation[0, 1] / _NativeWidth;
+                _Transformation[1, 0] = _Transformation[1, 0] / _NativeHeight;
+                _Transformation[1, 1] = _Transformation[1, 1] / _NativeHeight;
             }
             else
             {
                 if (Matrix.IsIdentity(_Transformation))
                 {
-                    _CachedTransform.localScale = new Vector3(_OriginalWidth / width, _OriginalHeight / height);
+                    _CachedTransform.localScale = new Vector3(_OriginalWidth / _NativeWidth, _OriginalHeight / _NativeHeight);
                 }
                 else
                 {
-                    _CachedTransform.localScale = new Vector3(_CachedTransform.localScale.x / width, _CachedTransform.localScale.y / height, 1f);
+                    _CachedTransform.localScale = new Vector3(_CachedTransform.localScale.x / _NativeWidth, _CachedTransform.localScale.y / _NativeHeight, 1f);
                 }
             }
 
@@ -244,16 +259,25 @@ namespace Nekki.Vector.Core.Location
 
         protected override void UpdateUnityObjectPosition(Vector3 position)
         {
-            var z = position.z;
+            //var z = position.z;
+
+            _SpriteRender.sortingOrder = (int)Index;
+
             if (_Depth == 1)
             {
-                z += 3;
+                if (_SpriteRender != null)
+                {
+                    _SpriteRender.sortingLayerName = "Back";
+                }
             }
             if (_Depth == 0)
             {
-                z -= 3;
+                if (_SpriteRender != null)
+                {
+                    _SpriteRender.sortingLayerName = "Front";
+                }
             }
-            _CachedTransform.localPosition = new Vector3(position.x, position.y, z);
+            _CachedTransform.localPosition = new Vector3(position.x, position.y, 0);
         }
 
         private void UpdatePositionSprite()

@@ -200,7 +200,8 @@ namespace Nekki.Vector.Core.Location
                 VisualContainer visualContainer = null;
                 if (!_Containers.ContainsKey(objectRunner.Factor))
                 {
-                    visualContainer = new VisualContainer(objectRunner.Factor, (factors.Count - factors.IndexOf(objectRunner.Factor)) * 10);
+                    var index = factors.IndexOf(objectRunner.Factor);
+                    visualContainer = new VisualContainer(objectRunner.Factor, (factors.Count - index) * 10, index);
                     visualContainer.Object.transform.SetParent(levelObject.transform);
                     _Containers[objectRunner.Factor] = visualContainer;
                 }

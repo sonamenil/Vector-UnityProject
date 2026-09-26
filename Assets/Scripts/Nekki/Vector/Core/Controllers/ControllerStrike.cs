@@ -35,17 +35,16 @@ namespace Nekki.Vector.Core.Controllers
                 double num = Vector3d.Factor(point, start2, start3);
                 Vector3d vector3d = new Vector3d(1f - num, 1f - num, 0f);
                 Vector3d vector3d2 = new Vector3d(num, num, 0f);
-                double slowModeValue = LevelMainController.current.slowModeFrames;
                 if (!start.IsFixed)
                 {
-                    double p_x = start2.X + vector3d.X * impulse.X / Math.Sqrt(slowModeValue) / start.Weight;
-                    double p_y = start2.Y + vector3d.Y * impulse.Y / Math.Sqrt(slowModeValue) / start.Weight;
+                    double p_x = start2.X + vector3d.X * impulse.X / start.Weight;
+                    double p_y = start2.Y + vector3d.Y * impulse.Y / start.Weight;
                     start2.Set(p_x, p_y, start2.Z);
                 }
                 if (!end.IsFixed)
                 {
-                    double p_x2 = start3.X + vector3d2.X * impulse.X / Math.Sqrt(slowModeValue) / end.Weight;
-                    double p_y2 = start3.Y + vector3d2.Y * impulse.Y / Math.Sqrt(slowModeValue) / end.Weight;
+                    double p_x2 = start3.X + vector3d2.X * impulse.X / end.Weight;
+                    double p_y2 = start3.Y + vector3d2.Y * impulse.Y / end.Weight;
                     start3.Set(p_x2, p_y2, start3.Z);
                 }
             }
