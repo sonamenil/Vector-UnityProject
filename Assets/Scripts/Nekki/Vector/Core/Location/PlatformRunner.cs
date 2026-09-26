@@ -32,10 +32,10 @@ namespace Nekki.Vector.Core.Location
 		{
 			base.GenerateObject();
 
-			CreateObject();
-			var bc = UnityObject.AddComponent<BoxCollider2D>();
-			bc.size = new Vector2(_WidthQuad, _HeightQuad);
-			bc.offset = new Vector2(_WidthQuad / 2, _HeightQuad / 2);
+			//CreateObject();
+			//var bc = UnityObject.AddComponent<BoxCollider2D>();
+			//bc.size = new Vector2(_WidthQuad, _HeightQuad);
+			//bc.offset = new Vector2(_WidthQuad / 2, _HeightQuad / 2);
 		}
 
         protected override void SerializeData()

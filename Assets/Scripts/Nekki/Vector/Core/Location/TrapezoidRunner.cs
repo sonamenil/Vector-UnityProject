@@ -64,8 +64,8 @@ namespace Nekki.Vector.Core.Location
         protected override void GenerateObject()
         {
             base.GenerateObject();
-            CreateObject();
-            ConfigureCollider();
+            //CreateObject();
+            //ConfigureCollider();
         }
 
         public override void Generate(GameObject existRunner)
